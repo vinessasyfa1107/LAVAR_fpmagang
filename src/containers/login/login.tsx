@@ -74,7 +74,7 @@ const Login: Component = () => {
         <div class='login-content'>
             <h1>Selamat Datang</h1>
             <p>Temukan ribuan resep lezat dan inspirasi kuliner di Lavar. Mari mulai menjelajahi dunia rasa yang memikat!</p>
-            <img src="/src/assets/img/nasi-ayam-bakar.png" alt="" width="400" style={{margin: "auto", display: "block", "margin-top":"20px"}}/>
+            <img src="/src/assets/img/NasiAyamBakar.PNG" alt="" width="400" style={{margin: "auto", display: "block"}}/>
         </div>
         <div class='login-card'>
             <div>

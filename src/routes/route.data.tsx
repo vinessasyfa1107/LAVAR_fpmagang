@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate, Router } from '@solidjs/router';
 // import { AsyncResource } from 'async_hooks';
 import { Component, lazy } from 'solid-js';
+import Navbar from '../containers/navbar/navbar';
 
 
 
@@ -19,6 +20,7 @@ const RouteData: Component = () => {
             <Route path="/" element={<Navigate href={getPath} />} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={SignUp} />
+            <Route path="/navbar" component={Navbar} />
 
         </Routes>
         </Router>
