@@ -46,6 +46,8 @@
     height: 100vh;
     position: fixed;
     box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
+    z-index: 2;
+    position: absolute;
 }
 
 .navbar-container .head {
@@ -138,4 +140,15 @@
     font-size: 17px;
     gap: 3vh;
     /* font-weight: 1000; */
+}
+
+.main-content {
+    margin-top: 10px;
+    margin-left: 10px;
+    flex: 1;
+}
+
+.page-component {
+    display: flex;
+    flex-direction: row;
 }

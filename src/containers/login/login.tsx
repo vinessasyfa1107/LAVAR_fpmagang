@@ -14,7 +14,7 @@ const Login: Component = () => {
 
     const ActionLogin = () => {
     console.log('hallo login button clicked');
-    const dataUser = { username: "erp-last", email: "erp-last@gmail.com" };
+    const dataUser = { username: "bubbles", email: "bubbles_puff@gmail.com" };
     sessionStorage.setItem('userData', JSON.stringify(dataUser));
     window.location.assign('/');
     }
@@ -98,7 +98,7 @@ const Login: Component = () => {
 
 
                 <div>
-                    <button>MASUK</button>
+                    <button onClick={ActionLogin}>MASUK</button>
                 </div>
 
                 <div class="buat-akun">
