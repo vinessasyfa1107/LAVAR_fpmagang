@@ -4,6 +4,7 @@ import { useNavigate } from '@solidjs/router';
 import { useStore } from './store';
 import Navbar from './containers/navbar/navbar';
 import Login from './containers/login/login';
+import NavbarOut from './containers/navbar/navbar-visit/navbar-out';
 
 
 const App: Component = () => {
@@ -21,10 +22,21 @@ const App: Component = () => {
       navigate('/dashboard/admin', { replace: true });
     }
   });
+
+  const [currentPath, setCurrentPath] = createSignal(window.location.pathname);
+  const [hiddenNavbar, setHiddenNavbar] = createSignal(true);
+
+  onMount(() => {
+    console.log('current path: ' + currentPath());
+    console.log('hidden navbar '+ hiddenNavbar());
+
+    if (currentPath() === "/login" || currentPath() === "/signup" ) {
+      setHiddenNavbar(false);
+    }
+  })
   return (
-      // <RouteData/>
     <>
-      {!needLogin() ? <Navbar><RouteData /></Navbar> : <Login />}
+      {!needLogin() ? <Navbar><RouteData /></Navbar> : <NavbarOut><RouteData/></NavbarOut>}
     </>
   );
 };

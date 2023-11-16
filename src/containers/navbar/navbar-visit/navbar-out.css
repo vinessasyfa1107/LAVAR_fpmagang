@@ -1,4 +1,4 @@
-.sidebar {
+.navbar-2 .sidebar {
     display: flex;
     flex-direction: column;
     gap: 2vh;
@@ -8,22 +8,23 @@
     align-items: center;
     padding: 0;
     position: fixed;
+    /* background-color: #FFBE1A; */
     /* z-index: 2; */
 }
 
-.sidebar .logo {
+.navbar-2 .sidebar .logo {
     border-bottom: 1px solid rgba(0, 0, 0, 0.37);
     padding: 8px;
 }
 
-.sidebar .content-side {
+.navbar-2 .sidebar .content-side {
     display: flex;
     align-items: center;
     flex-direction: column;
     gap: 5vh;
 }
 
-.sidebar .profile-pic {
+.navbar-2 .sidebar .profile-pic {
     border-radius: 10px;
     background: #FFF;
     box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.25);
@@ -35,28 +36,29 @@
     justify-content: center; 
 }
 
-.sidebar .page-menu.active svg path {
+.navbar-2 .sidebar .page-menu.active svg path {
     fill: #FFBE1A;
 }
 
-.sidebar .profile-pic img {
+.navbar-2 .sidebar .profile-pic img {
     width: 45px;
     height: 45px;
     border-radius: 50%;
     margin: auto;
 }
 
-.navbar-container {
+.navbar-2 .navbar-container {
     background-color: #FFF;
     width: 280px;
     height: 100vh;
     position: fixed;
     box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
     z-index: 3;
-    /* position: absolute; */
+    /* background-color: #FFBE1A; */
+    position: absolute;
 }
 
-.navbar-container .head {
+.navbar-2 .navbar-container .head {
     padding: 10px 15px;
     display: flex;
     /* justify-content: space-between; */
@@ -64,14 +66,14 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.37);;
 }
 
-.navbar-container .head img {
+.navbar-2 .navbar-container .head img {
     width: 65px; /* Set a fixed width */
     height: 65px; /* Set a fixed height */
     object-fit: contain; /* Maintain the aspect ratio without stretching */
     margin: auto;
 }
 
-.navbar-container .head h1 {
+.navbar-2 .navbar-container .head h1 {
     color: #000;
     font-family: 'Poppins';
     font-size: 22px;
@@ -79,36 +81,41 @@
     margin-bottom: 0;
 }
 
-.navbar-container .head p {
+.navbar-2 .navbar-container .head p {
     width: 170px;
     font-size: 16px;
     font-family: 'Poppins-Light';
     font-weight: 600;
 }
 
-.navbar-container .profile {
+.navbar-2 .navbar-container .login-btn {
     width: 240px;
     height: 66px;
-    flex-shrink: 0;
     border-radius: 10px;
-    background: #FFF;
+    background-color: #4F48ED;
+    color: #FFF;
+    font-family: 'Poppins';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;;
     box-shadow: 0px 3px 17px 0px rgba(0, 0, 0, 0.25);
-    justify-content: left;
+    justify-content: center;
     align-items: center;
     margin: 25px auto;
     padding: 0 15px;
     display: flex;
     /* justify-content: space-between; */
     gap: 2vh;
+
 }
 
-.navbar-container .profile img {
+.navbar-2 .navbar-container .profile img {
     width: 48px;
     height: 48px;
     border-radius: 50%;
 }
 
-.navbar-container .profile h1 {
+.navbar-2 .navbar-container .profile h1 {
     color: #000;
     font-size: 18px;
     font-style: normal;
@@ -116,7 +123,7 @@
     font-family: 'Poppins';
 }
 
-.navbar-container .profile p {
+.navbar-2 .navbar-container .profile p {
     width: 145px;
     color: #000;
     font-size: 15px;
@@ -128,7 +135,7 @@
     text-overflow: ellipsis; 
 }
 
-.navbar-container .menu {
+.navbar-2 .navbar-container .menu {
     margin-top: 10px;
     display: flex;
     flex-direction: column;
@@ -137,7 +144,7 @@
     padding: 0 32px;
 }
 
-.navbar-container .menu .menu-container {
+.navbar-2 .navbar-container .menu .menu-container {
     align-items: center;
     display: inline-flex;
     padding: 10px;
@@ -148,18 +155,18 @@
     /* font-weight: 1000; */
 }
 
-.navbar-container .menu A.active .menu-container svg path {
+.navbar-2 .navbar-container .menu A.active .menu-container svg path {
     fill: #FFBE1A;
 }
 
-.main-content {
+.navbar-2 .main-content {
     /* margin-top: 10px; */
     z-index: -2;
     margin-left: 80px;
     flex: 1;
 }
 
-.page-component {
+.navbar-2 .page-component {
     display: flex;
     flex-direction: row;
 }

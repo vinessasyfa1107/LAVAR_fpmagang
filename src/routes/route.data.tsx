@@ -1,6 +1,9 @@
 import { Routes, Route, Navigate, Router } from '@solidjs/router';
 // import { AsyncResource } from 'async_hooks';
 import { Component, lazy } from 'solid-js';
+import Logout from '../containers/logout/logout';
+import Profile from '../containers/profile/profile';
+import NavbarOut from '../containers/navbar/navbar-visit/navbar-out';
 
 
 
@@ -21,6 +24,8 @@ const RouteData: Component = () => {
             <Route path="/login" component={Login} />
             <Route path="/signup" component={SignUp} />
             <Route path="/about-us" component={AboutUs} />
+            <Route path="/logout" component={Logout}/>
+            <Route path="/profile" component={Profile}/>
 
         </Routes>
         // </Router>

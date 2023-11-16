@@ -88,7 +88,7 @@ const Login: Component = () => {
                 <br />
                 <input type="text" placeholder='Masukkan email Anda' name='email'/>
 
-                <div style={{position:"relative"}}>
+                <div class="password-ct">
                     <label for="password">Password</label>
                     <br />
                     <input type={showPassword() ? 'text' : 'password'} placeholder='Masukkan Password Anda' name="password"/>

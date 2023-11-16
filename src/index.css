@@ -7,6 +7,13 @@ body {
   min-width: 200vh;
   min-height: 100vh;
 }
+body ul {
+  list-style-type: circle!important; /* Untuk tanda bullet pada unordered list */
+}
+
+body ol {
+  list-style-type: decimal!important; /* Untuk nomor pada ordered list */
+}
 
 @font-face {
   font-family: 'Poppins';
@@ -21,6 +28,11 @@ body {
 @font-face {
   font-family: 'Poppins-Light';
   src: url('./assets/font/Poppins-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('./assets/font/Inter-Medium.ttf') format('truetype');
 }
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
