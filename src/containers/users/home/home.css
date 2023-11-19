@@ -1,0 +1,218 @@
+.home-page {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center;
+    align-items: center; */
+}
+
+.home-page .home-1 {
+    /* width: 200vh; */
+    height: 190px;
+    /* background-color: #FFBE1A; */
+    padding-top: 58px;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    align-items: center;
+    /* padding-bottom: 20px; */
+    position: relative;
+    z-index: -1;
+    border-radius: 0px 0px 45px 45px;
+    background: url(/src/assets/img/home-header.png), lightgray 50% / cover no-repeat;
+} 
+
+.home-page .home-1 h1 {
+    color: #000;
+    text-align: center;
+    text-shadow: 0px 4px 20px #FFF;
+    font-family: 'Poppins';
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+.home-page .search-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 700px;
+    height: 55px;
+    border-radius: 35px;
+    overflow: hidden;
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
+    background: #FFF;
+    margin-top: auto;
+    margin-bottom: 0;
+    z-index: 0;
+    position: relative;
+    top: 27px;
+}
+.home-page .search-container input {
+    width: 672px;
+    height: 79px;
+    color: rgba(0, 0, 0, 0.60);
+    font-family: 'Poppins-Light';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    padding: 0 12px;
+    border: none;
+    outline: none;
+
+
+}
+.home-page .search-container .search-sort-btn {
+    display: flex;
+    width: 70px;
+    background: #FFF;
+    height: 79px;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid rgba(0, 0, 0, 0.24);
+}
+
+.home-page .search-container .search-icon-btn {
+    display: flex;
+    width: 73px;
+    height: 65px;
+    border-radius: 35px;
+    background: #FFBE1A;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
+}
+
+.home-page .home-2 {
+    display: flex;
+    flex-direction: column;
+    padding: 65px 30px;
+    gap: 4vh;
+    /* position: relative;
+    z-index: -2; */
+}
+
+.home-page .home-2 h2 {
+    color: rgba(0, 0, 0, 0.80);
+    font-family: 'Poppins';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-transform: capitalize;
+    margin-bottom: 20px;
+}
+
+.home-page .home-2 .box-home-1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    gap: 2.5vh;
+}
+
+.home-page .home-2 .box-home-1 .cmp-1-item {
+    width: 24vh;
+    height: 12vh;
+    border-radius: 20px;
+    background-color: antiquewhite;
+}
+
+.home-page .home-2 .box-home-2, .box-home-3 {
+    display: flex;
+    flex-wrap: wrap; /* Memungkinkan elemen-elemen untuk melanjutkan ke baris berikutnya jika tidak muat di dalam satu baris */
+    justify-content: left; 
+}
+
+.home-page .home-2 .box-home-2 {
+    gap: 3vh;
+}
+
+.home-page .home-2 .box-home-3 {
+    gap: 4vh;
+}
+
+/* Contoh gaya untuk elemen-elemen di dalam .box-home-2 */
+.home-page .home-2 .box-home-2 .item-box {
+    width: 25vh; /* Atur lebar elemen sesuai kebutuhan */
+    height: 40px; /* Atur tinggi elemen sesuai kebutuhan */
+    background-color: #FFF;
+    border-radius: 10px;
+    box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: capitalize;
+    font-family: 'Poppins-Light';
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.home-page .home-2 .box-home-3 .home-rcp {
+    width: 90vh;
+    height: 250px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
+    display: flex;
+    padding: 15px;
+    gap: 2vh;
+}  
+
+.home-page .home-2 .box-home-3 .home-rcp .rcp-content {
+    flex: 1;
+    /* background-color: #FFBE1A; */
+    /* overflow: hidden; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: 'Inter';
+    font-size: 14px;
+    font-size: 100;
+}
+
+.home-page .home-2 .box-home-3 .home-rcp .rcp-content h1 {
+    font-size: 20px;
+    font-family: 'Inter';
+    font-weight: bolder;
+    margin-bottom: 5px;
+}
+
+.home-page .home-2 .box-home-3 .home-rcp .rcp-content h2 {
+    font-size: 15px;
+    font-family: 'Inter';
+    margin: 0;
+    font-weight: 1000;
+}
+
+.home-page .home-2 .box-home-3 .home-rcp .rcp-content li {
+    font-family: 'Inter';
+    font-weight: 100;
+    padding: 0 5px;
+    margin-left: 20px;
+}
+
+.home-page .rencana-masak {
+    position: relative;
+    z-index: -1;
+    cursor: pointer;
+}
+
+.home-page .rencana-masak button {
+    position: fixed;
+    background-color: #FFBE1A;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 19px;
+    right: 19px;
+}
+
+
+
