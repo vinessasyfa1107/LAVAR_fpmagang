@@ -37,14 +37,14 @@ const Navbar: Component<NavbarProps> = (props) => {
   return (
     <div >
 
-        <div class=" fixed z-3 top-0">
-            <div class="drawer">
+        <div class=" fixed z-2 top-0 absolute">
+            <div class="drawer" >
                 <input id="my-drawer" type="checkbox" class="drawer-toggle" 
                    checked={drawerOpen()}
                    onChange={() => setDrawerOpen(!drawerOpen())}
                 />
-                <div class="drawer-content z-1"  > 
-                    <label for="my-drawer" class="sidebar">
+                <div class="drawer-content"> 
+                    <label for="my-drawer" class="sidebar" style={{ "z-index":"2"}}>
                     <div class="logo">
                         <img src="/src/assets/img/laver.png" alt="" width="55" height="55" style={{display:"block", margin:"auto"}}/>
                     </div>
@@ -80,8 +80,8 @@ const Navbar: Component<NavbarProps> = (props) => {
                     </label>
                 </div> 
                 
-                <div class="drawer-side" >
-                <label for="my-drawer" aria-label="close sidebar" class="drawer z-3" ></label>
+                <div class="drawer-side" style={{"z-index":"5"}}>
+                <label for="my-drawer" aria-label="close sidebar" class="drawer z-5" ></label>
                 <div class="navbar-container">
                     <div class="head">
                         <img src="/src/assets/img/laver.png" alt="" width="65" height="65" style={{display:"block"}}/>
