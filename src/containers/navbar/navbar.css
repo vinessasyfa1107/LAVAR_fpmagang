@@ -43,6 +43,7 @@
 
 .sidebar .page-menu.active svg path {
     fill: #FFBE1A;
+    stroke: #FFBE1A;
 }
 
 .sidebar .profile-pic img {
@@ -106,6 +107,7 @@
     display: flex;
     /* justify-content: space-between; */
     gap: 2vh;
+    text-transform: capitalize;
 }
 
 .navbar-container A.active .profile {
@@ -161,6 +163,8 @@
 .navbar-container .menu A.active .menu-container svg path {
     fill: #FFBE1A;
 }
+
+
 
 .navbar-container .menu A.active .menu-container p {
     color: #FFBE1A;

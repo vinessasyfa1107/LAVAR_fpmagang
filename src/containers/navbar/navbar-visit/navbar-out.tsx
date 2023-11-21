@@ -56,7 +56,7 @@ const NavbarOut: Component<NavbarProps> = (props) => {
                 onChange={() => setDrawerOpen(!drawerOpen())}
                 />
                 <div class="drawer-content z-1"  > 
-                    <label for="my-drawer-2" class="sidebar">
+                    <label for="my-drawer-2" class="sidebar" style={{ "z-index":"2"}}>
 
                     <div class="logo">
                         <img src="/src/assets/img/laver.png" alt="" width="55" height="55" style={{display:"block", margin:"auto"}}/>
@@ -88,7 +88,7 @@ const NavbarOut: Component<NavbarProps> = (props) => {
                     </label>
                 </div> 
                 
-                <div class="drawer-side">
+                <div class="drawer-side" style={{"z-index":"5"}} onClick={handleNavLinkClick}>
                 <label for="my-drawer-2" aria-label="close sidebar" class="drawer z-2"></label>
                 <ul class="navbar-container">
                     <div class="head">

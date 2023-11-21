@@ -1,17 +1,26 @@
-import type { Component } from 'solid-js';
+import { createSignal, type Component } from 'solid-js';
 import './home.css'
 import { Icon } from '@iconify-icon/solid';
+import { classList } from 'solid-js/web';
 
 const Home: Component = () => {
-    const kategori = [
+    const bahan = [
         'buah', 'sayur', 'melati', 'kuskus', 'bonbon', 'buah', 'buah', 'sayur-mayur', 'biji-bijian'
     ];
 
-    const renderKategoriItems = () => {
-        return kategori.map((kategoriItem, index) => (
-          <div class={`item-box ${kategoriItem}`}>
+    const [clicked, setClicked] = createSignal(false);
+
+    function cobaja(){
+        setClicked(true);
+        classList: {{}};
+        console.log("ppp ya");
+    };
+
+    const renderbahanItems = () => {
+        return bahan.map((bahanItem, index) => (
+          <div class={`item-box ${bahanItem}`}>
             {/* Isi elemen sesuai kebutuhan */}
-            {kategoriItem}
+            {bahanItem}
           </div>
         ));
       };
@@ -45,36 +54,42 @@ const Home: Component = () => {
             <div>
                 <h2>Jelajahi resep-resep lezat yang disesuaikan dengan bahan di dapur anda</h2>
                 <div class="box-home-1">
-                    <div class="cmp-1-item">
+                    <div  classList={{
+                        'cmp-1-item': true,
+                        'bumbu': true,
+                        'active': clicked()
+                        }}
+                        onClick={cobaja}>
+                        Bumbu Dapur
+                    </div>
+                    <div class="cmp-1-item sayur">
+                        Sayur Mayur
+                    </div>
+                    <div class="cmp-1-item daging">
+                        Hewani dan Nabati
+                    </div>
+                    <div class="cmp-1-item buah">
                         Buah
                     </div>
-                    <div class="cmp-1-item">
-                        Sayur
+                    <div class="cmp-1-item kacang">
+                        Kacang dan Biji-bijian
                     </div>
-                    <div class="cmp-1-item">
-                        Kacang
+                    <div class="cmp-1-item susu">
+                        Olah Susu
                     </div>
-                    <div class="cmp-1-item">
-
+                    <div class="cmp-1-item karbo">
+                        Karbohidrat
                     </div>
-                    <div class="cmp-1-item">
-
+                    <div class="cmp-1-item dessert">
+                        Bahan Makanan Penutup
                     </div>
-                    <div class="cmp-1-item">
-
-                    </div>
-                    <div class="cmp-1-item">
-
-                    </div>
-                    <div class="cmp-1-item">
-
-                    </div>
+                        
                 </div>
             </div>
             <div>
                 <h2>Bumbu Dapur</h2>
                 <div class="box-home-2">
-                    {renderKategoriItems()}
+                    {renderbahanItems()}
                 </div>
             </div>
             <div>

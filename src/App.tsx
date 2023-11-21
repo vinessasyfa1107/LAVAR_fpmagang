@@ -23,17 +23,17 @@ const App: Component = () => {
     }
   });
 
-  const [currentPath, setCurrentPath] = createSignal(window.location.pathname);
-  const [hiddenNavbar, setHiddenNavbar] = createSignal(true);
+  // const [currentPath, setCurrentPath] = createSignal(window.location.pathname);
+  // const [hiddenNavbar, setHiddenNavbar] = createSignal(true);
 
-  onMount(() => {
-    console.log('current path: ' + currentPath());
-    console.log('hidden navbar '+ hiddenNavbar());
+  // onMount(() => {
+  //   console.log('current path: ' + currentPath());
+  //   console.log('hidden navbar '+ hiddenNavbar());
 
-    if (currentPath() === "/login" || currentPath() === "/signup" ) {
-      setHiddenNavbar(false);
-    }
-  })
+  //   if (currentPath() === "/login" || currentPath() === "/signup" ) {
+  //     setHiddenNavbar(false);
+  //   }
+  // })
   return (
     <>
       {!needLogin() ? <Navbar><RouteData /></Navbar> : <NavbarOut><RouteData/></NavbarOut>}

@@ -2,6 +2,7 @@ import { createSignal, type Component, onMount } from 'solid-js';
 import './login.css'
 import { A } from '@solidjs/router';
 import { Icon } from '@iconify-icon/solid';
+import { HOST_URL } from '../../config/app';
 
 interface LoginProps {
     OnClose?: () => void;
@@ -82,6 +83,43 @@ const Login: Component<LoginProps> = (props) => {
         modal.close();
     };
 
+    const [username2, setUsername2] = createSignal("");
+    const [password2, setPassword2] = createSignal("");
+    const [email, setEmail] = createSignal("");
+    const [desc, setDesc] = createSignal("");
+
+
+    const SendSignUp = async () => {
+        const dataSignUp = {
+            id_akun: 0,
+            username: username2(),
+            email: email(),
+            password: password2(),
+            deskripsi_profil: desc()
+        }
+
+        console.log('Buat Akun ', dataSignUp);
+
+        try {
+            const response = await fetch('/api/account/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataSignUp),
+            });
+
+            if(response.ok){
+                alert("Akun berhasil dibuat. Silakan login");
+            } else {
+                const errorMessage = await response.text();
+                alert(`Gagal mengubah data. Pesan kesalahan: ${errorMessage}`);
+                console.error('Gagal mengubah data:', errorMessage);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
   return (
     <div>
         <div>
@@ -106,12 +144,18 @@ const Login: Component<LoginProps> = (props) => {
 
                             <label for="email">Email</label>
                             <br />
-                            <input type="text" placeholder='Masukkan email Anda' name='email'/>
+                            <input type="text" placeholder='Masukkan email Anda' name='email'
+                            value={username()}
+                            onInput={(e) => setUsername(e.currentTarget.value)}
+                            />
 
                             <div class="password-ct">
                                 <label for="password">Password</label>
                                 <br />
-                                <input type={showPassword() ? 'text' : 'password'} placeholder='Masukkan Password Anda' name="password"/>
+                                <input type={showPassword() ? 'text' : 'password'} placeholder='Masukkan Password Anda' name="password"
+                                value={password()}
+                                onInput={(e) => setPassword(e.currentTarget.value)}
+                                />
                                 <Icon onClick={PasswordVisibility} class="pass-icon" icon="mdi:eye" color="rgba(187, 187, 187, 0.7333333333333333)" width="28" />
                             </div>
                             <br />
@@ -142,39 +186,51 @@ const Login: Component<LoginProps> = (props) => {
                     <div class='signup-card'>
                         <div>
                     
-                        <h1>Buat Akun</h1>
-                        <p>Untuk memulai petualan anda, silahkan buat akun terlebih dahulu.</p>
-                    
-                        <label for="nama">Nama</label>
-                        <br />
-                        <input type="text" placeholder='Masukkan nama Anda' name='nama'/>
+                            <h1>Buat Akun</h1>
+                            <p>Untuk memulai petualan anda, silahkan buat akun terlebih dahulu.</p>
+                        
+                            <label for="nama">Username</label>
+                            <br />
+                            <input type="text" placeholder='Masukkan username Anda' name='nama'
+                            value={username2()}
+                            onInput={(e) => setUsername2(e.currentTarget.value)}
+                            />
 
-                        <br />
-                        <label for="email">Email</label>
-                        <br />
-                        <input type="text" placeholder='Masukkan email Anda' name='email'/>
+                            <br />
+                            <label for="email">Email</label>
+                            <br />
+                            <input type="text" placeholder='Masukkan email Anda' name='email'
+                            value={email()}
+                            onInput={(e) => setEmail(e.currentTarget.value)}
+                            />
 
-                        <br />
-                        <label for="deskripsi">Deskripsi</label>
-                        <br />
-                        <input type="text" placeholder='Misalnya “Seorang anak kosan yang tinggal sendiri"' name="deskripsi"/>
+                            <br />
+                            <label for="deskripsi">Deskripsi</label>
+                            <br />
+                            <input type="text" placeholder='Misalnya “Seorang anak kosan yang tinggal sendiri"' name="deskripsi"
+                            value={desc()}
+                            onInput={(e) => setDesc(e.currentTarget.value)}
+                            />
 
 
                             <div class="password-ct">
                                 <label for="password">Password</label>
                                 <br />
-                                <input type={showPassword() ? 'text' : 'password'} placeholder='Masukkan Password Anda' name="password"/>
+                                <input type={showPassword() ? 'text' : 'password'} placeholder='Masukkan Password Anda' name="password"
+                                value={password2()}
+                                onInput={(e) => setPassword2(e.currentTarget.value)}
+                                />
                                 <Icon onClick={PasswordVisibility} class="pass-icon" icon="mdi:eye" color="rgba(187, 187, 187, 0.7333333333333333)" width="28" />
                             </div>
 
                             <div class="login-btn-masuk">
-                                <button onClick={ActionLogin}>BUAT AKUN</button>
+                                <button onClick={SendSignUp}>BUAT AKUN</button>
                             </div>
 
-                        <div class="buat-akun">
-                            Apakah anda sudah punya akun? 
-                            <button onClick={() => (document.getElementById('form_modal_1') as HTMLDialogElement).showModal()} style={{color:"#4F48ED"}}>Masuk</button>
-                        </div>
+                            <div class="buat-akun">
+                                Apakah anda sudah punya akun? 
+                                <button onClick={() => (document.getElementById('form_modal_1') as HTMLDialogElement).showModal()} style={{color:"#4F48ED"}}>Masuk</button>
+                            </div>
 
                         </div>
                     </div>

@@ -3,7 +3,6 @@ import { Routes, Route, Navigate, Router } from '@solidjs/router';
 import { Component, lazy } from 'solid-js';
 import Logout from '../containers/logout/logout';
 import Profile from '../containers/profile/profile';
-import NavbarOut from '../containers/navbar/navbar-visit/navbar-out';
 
 
 
@@ -14,7 +13,7 @@ const AboutUs = lazy(() => import('../containers/aboutus/aboutus'));
 const Home = lazy(() => import('../containers/users/home/home'));
 
 const getPath = () => {
-    return "/home";
+    return "/about-us";
 }
 
 const RouteData: Component = () => {
@@ -26,7 +25,6 @@ const RouteData: Component = () => {
             <Route path="/login" component={Login} />
             <Route path="/signup" component={SignUp} />
             <Route path="/about-us" component={AboutUs} />
-            <Route path="/logout" component={Logout}/>
             <Route path="/profile" component={Profile}/>
             <Route path="/home" component={Home} />
         </Routes>
