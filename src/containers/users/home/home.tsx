@@ -1,29 +1,102 @@
-import { createSignal, type Component } from 'solid-js';
+import {onMount, createSignal, type Component } from 'solid-js';
 import './home.css'
 import { Icon } from '@iconify-icon/solid';
 import { classList } from 'solid-js/web';
 
+type resultdata = {
+    "id_resep": number,
+    "username" : string,
+    "nama_resep" : string,
+    "nama_kategori" : string,
+    "total_bahan" : number,
+    "waktu_masak" : number,
+    "bahan_masak" : Array<string>,
+    "cara_buat" : string,
+    "id_kategori" : number,
+    "id_akun" : number
+}
+
+
+
+
+type BahanType = 'buah' | 'sayur' | 'melati' | 'kuskus' | 'bonbon' | 'sayur-mayur' | 'biji-bijian';
 const Home: Component = () => {
-    const bahan = [
-        'buah', 'sayur', 'melati', 'kuskus', 'bonbon', 'buah', 'buah', 'sayur-mayur', 'biji-bijian'
-    ];
+    const [bahan, setBahan] = createSignal<BahanType[]>([
+        'buah', 'sayur', 'melati', 'kuskus', 'bonbon', 'sayur-mayur', 'biji-bijian'
+    ]);
+    const [resepData, setResepData] = createSignal([{}]);
 
-    const [clicked, setClicked] = createSignal(false);
-
-    function cobaja(){
-        setClicked(true);
-        classList: {{}};
-        console.log("ppp ya");
+    async function DataResep(query: string): Promise<resultdata[]>{
+        if (query.trim() === "") return [];
+        // /?q=${encodeURI(query)}
+        
+                 
+        const response = await fetch(
+          `/api/resep/show`
+        );
+        // http://localhost:8001
+        
+        const results = await response.json();
+        // console.log("response ", results)
+        const documents = results as resultdata[];
+        console.log(documents);
+    
+        return documents.slice(0, documents.length).map(({ id_resep,username,nama_resep,nama_kategori,total_bahan,waktu_masak,bahan_masak,cara_buat,id_kategori,id_akun    }) => ({
+            id_resep,username,nama_resep,nama_kategori,total_bahan,waktu_masak,bahan_masak,cara_buat,id_kategori,id_akun  
+          }));
+      }
+      onMount(async () => {
+        const data_resep = await DataResep("resep")
+          setResepData(data_resep);
+    });
+    
+    const renderResepNames = () => {
+        return (
+            <ul>
+                {(resepData() as resultdata[]).map((resep) => (
+                    <li>{resep.nama_resep}</li>
+                ))}
+            </ul>
+        );
     };
 
+    const [clickedFilters, setClickedFilters] = createSignal<BahanType[]>([]);
+    
     const renderbahanItems = () => {
-        return bahan.map((bahanItem, index) => (
-          <div class={`item-box ${bahanItem}`}>
-            {/* Isi elemen sesuai kebutuhan */}
-            {bahanItem}
-          </div>
-        ));
-      };
+        return (
+            <span>
+                {bahan().map((bahanItem: BahanType, index: number) => (
+                    <div
+                        class={`item-box ${bahanItem}`}
+                        data-key={index} // Pindahkan key ke dalam data-key
+                        onClick={() => handleItemClick(bahanItem)}
+                    >
+                        {bahanItem}
+                    </div>
+                ))}
+            </span>
+        );
+    };
+    
+            
+
+    const handleRemoveFilter = (filter: BahanType) => {
+        const updatedFilters = clickedFilters().filter((f) => f !== filter);
+        setClickedFilters(updatedFilters);
+    }
+
+    const handleItemClick = (bahanItem: BahanType) => {
+        const updatedFilters = [...clickedFilters()];
+        if (!updatedFilters.includes(bahanItem)) {
+            updatedFilters.push(bahanItem);
+            setClickedFilters(updatedFilters);
+        }
+    };
+
+    const clearFilters = () => {
+        setClickedFilters([]);
+    };
+
 
 
   return (
@@ -42,6 +115,22 @@ const Home: Component = () => {
                     </svg>
                 </button>
                 <input type="text" placeholder='Mulai eksplorasi kuliner anda'/>
+                <div class="selected-filters">
+                {clickedFilters().map((filter, index) => (
+    <span data-key={index} class="selected-filter">
+        {filter}
+        <button onClick={() => handleRemoveFilter(filter)}>X</button>
+    </span>
+))}
+
+
+
+            {clickedFilters().length > 0 && (
+                <button class="clear-filters-btn" onClick={() => setClickedFilters([])}>
+                    Clear Filters
+                </button>
+            )}
+        </div>
                 <button class="search-icon-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 35 35" fill="none">
                 <path d="M32.2778 35L20.0278 22.75C19.0556 23.5278 17.9375 24.1435 16.6736 24.5972C15.4097 25.0509 14.0648 25.2778 12.6389 25.2778C9.10648 25.2778 6.11722 24.0541 3.67111 21.6067C1.225 19.1593 0.0012963 16.17 0 12.6389C0 9.10648 1.2237 6.11722 3.67111 3.67111C6.11852 1.225 9.10778 0.0012963 12.6389 0C16.1713 0 19.1606 1.2237 21.6067 3.67111C24.0528 6.11852 25.2765 9.10778 25.2778 12.6389C25.2778 14.0648 25.0509 15.4097 24.5972 16.6736C24.1435 17.9375 23.5278 19.0556 22.75 20.0278L35 32.2778L32.2778 35ZM12.6389 21.3889C15.0694 21.3889 17.1357 20.5379 18.8378 18.8358C20.5398 17.1338 21.3902 15.0681 21.3889 12.6389C21.3889 10.2083 20.5379 8.14204 18.8358 6.44C17.1338 4.73796 15.0681 3.88759 12.6389 3.88889C10.2083 3.88889 8.14204 4.73991 6.44 6.44194C4.73796 8.14398 3.88759 10.2096 3.88889 12.6389C3.88889 15.0694 4.73991 17.1357 6.44194 18.8378C8.14398 20.5398 10.2096 21.3902 12.6389 21.3889Z" fill="black" fill-opacity="0.8"/>
@@ -54,13 +143,7 @@ const Home: Component = () => {
             <div>
                 <h2>Jelajahi resep-resep lezat yang disesuaikan dengan bahan di dapur anda</h2>
                 <div class="box-home-1">
-                    <div  classList={{
-                        'cmp-1-item': true,
-                        'bumbu': true,
-                        'active': clicked()
-                        }}
-                        onClick={cobaja}>
-                        Bumbu Dapur
+                    <div>
                     </div>
                     <div class="cmp-1-item sayur">
                         Sayur Mayur
@@ -99,7 +182,7 @@ const Home: Component = () => {
                         <img src="/src/assets/img/jamur_enoki.png" alt="" />
                         <div class='rcp-content'>
                             <div>
-                            <h1>Cah Brokoli</h1>
+                            <h1>{renderResepNames()}</h1>
                             <h2>Bahan</h2>
                             <ul>
                                 <li>betul</li>
