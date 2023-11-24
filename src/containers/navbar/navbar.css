@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: column;
     gap: 2vh;
-    width: 80px;
+    width: 85px;
     height: 100vh;
     box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
     align-items: center;
@@ -14,15 +14,19 @@
 }
 
 .sidebar .logo {
+    height: 102px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.37);
-    padding: 8px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
 }
 
 .sidebar .content-side {
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: 5vh;
+    gap: 3vh;
 }
 
 .sidebar .profile-pic {
@@ -31,7 +35,7 @@
     box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.25);
     width: 58px;
     height: 58px;
-    margin: 0 auto;
+    margin: 20px auto;
     display: flex;
     align-items: center; /* Center vertically */
     justify-content: center; 
@@ -40,6 +44,10 @@
 .sidebar .profile-pic.active {
     box-shadow: 1px 2px 1px 3px #ffbe1ab3;
 } 
+
+.sidebar .page-menu {
+    height: 52px;
+}
 
 .sidebar .page-menu.active svg path {
     fill: #FFBE1A;
@@ -64,6 +72,7 @@
 }
 
 .navbar-container .head {
+    height: 102px;
     padding: 10px 15px;
     display: flex;
     /* justify-content: space-between; */
@@ -144,7 +153,6 @@
     margin-top: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     gap: 3vh;
     padding: 0 32px;
 }
@@ -160,10 +168,18 @@
     /* font-weight: 1000; */
 }
 
+.navbar-container .menu .menu-container:hover {
+    fill: #FFBE1A;
+    color: #FFBE1A;
+}
+
 .navbar-container .menu A.active .menu-container svg path {
     fill: #FFBE1A;
 }
 
+.navbar-container .menu .menu-container:hover svg path {
+    fill: #FFBE1A;
+}
 
 
 .navbar-container .menu A.active .menu-container p {
