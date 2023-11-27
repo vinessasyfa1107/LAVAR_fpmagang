@@ -1,14 +1,42 @@
-import { createSignal, type Component, createEffect, JSX, onCleanup } from 'solid-js';
+import { createSignal, type Component, createEffect, JSX, onCleanup, onMount } from 'solid-js';
 import './navbar.css'
 import { A, useLocation } from '@solidjs/router';
 import { useStore } from '../../store';
 import { UserData } from '../profile/profile';
+import { DataAccount } from '../../api/account';
+import { dataProfile, handleImageProfileError, pictureUrl, profilePic, setDataProfile, setPictureUrl } from '../../store/navbar/profile/ProfileStore';
 
 interface NavbarProps { 
     children: JSX.Element
   }
 
 const Navbar: Component<NavbarProps> = (props) => {
+
+    onMount(async () => {
+        const dataprofile = await DataAccount("akun");
+        console.log("Data akun", dataprofile);
+        dataprofile.forEach((account) => {
+            const ID = account.id_akun;
+            // const Username = account.username;
+            setDataProfile({
+                id: account.id_akun,
+                username: account.username,
+                email: account.email,
+                password: account.password,
+                desc: account.deskripsi_profil,
+            });
+            const Email = account.email;
+            const Password = account.password;
+            const Desc = account.deskripsi_profil;
+            const Profpic = account.foto_profil;  
+            console.log(account.foto_profil);
+            setPictureUrl(`/api/account/profile-picture/${account.foto_profil}`);    
+            // Lakukan sesuatu dengan setiap nilai kolom
+            // console.log(`ID Akun: ${id_akun}, Username: ${username}, Email: ${email}, Password: ${password}, Deskripsi Profil: ${deskripsi_profil}`);
+          });
+        //   UserProfile();
+    });
+    
     const [{ sessionStore }] = useStore();
 
     const userDataString = sessionStore.sessionData as unknown as string; // Ensure sessionData is a string
@@ -56,7 +84,8 @@ const Navbar: Component<NavbarProps> = (props) => {
                     </div>
                     <div class="content-side">
                     <div class="profile-pic" classList={{ active: location.pathname === '/profile' }}>
-                        <img src="/src/assets/img/profile.jpg" alt=""/>
+                        {profilePic()}
+                        {/* <img src={pictureUrl()} alt="" onError={handleImageProfileError}/> */}
                     </div>
                     <div class="page-menu" classList={{ active: location.pathname === '/home' }}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 36 36" fill="none">
@@ -100,10 +129,10 @@ const Navbar: Component<NavbarProps> = (props) => {
                     {/* classList={{ active: location.pathname.startsWith('/kontak') }} */}
                     <A href="/profile" classList={{ active: location.pathname === '/profile' }} onClick={handleNavLinkClick}>
                     <div class="profile">
-                        <img src="/src/assets/img/profile.jpg" alt="" width="48" height="48"/>
+                        {profilePic()}
                         <div class="flex-col">
-                            <h1>{userData.username}</h1>
-                            <p>{userData.deskripsi_profil}</p>
+                            <h1>{dataProfile().username}</h1>
+                            <p>{dataProfile().desc}</p>
                         </div>
                     </div>           
                     </A>

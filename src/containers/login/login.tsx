@@ -112,6 +112,13 @@ const Login: Component<LoginProps> = (props) => {
             if(response.ok){
                 alert("Akun berhasil dibuat. Silakan login");
             } else {
+                if (response.status === 401) {
+                    alert('Invalid email or password');
+                } else if (response.status === 400) {
+                    alert('Please fill in both username and password');
+                } else {
+                    throw new Error('Failed to login');
+                }
                 const errorMessage = await response.text();
                 alert(`Gagal mengubah data. Pesan kesalahan: ${errorMessage}`);
                 console.error('Gagal mengubah data:', errorMessage);
@@ -120,6 +127,7 @@ const Login: Component<LoginProps> = (props) => {
             console.error('Error:', error);
         }
     };
+    
   return (
     <div>
         <div>
@@ -156,12 +164,12 @@ const Login: Component<LoginProps> = (props) => {
                                 value={password()}
                                 onInput={(e) => setPassword(e.currentTarget.value)}
                                 />
-                                <Icon onClick={PasswordVisibility} class="pass-icon" icon="mdi:eye" color="rgba(187, 187, 187, 0.7333333333333333)" width="28" />
+                                <Icon onClick={PasswordVisibility} class="pass-icon" icon={showPassword() ? "mdi:eye":"mdi:eye-off"} color="rgba(187, 187, 187, 0.7333333333333333)" width="28" />
                             </div>
                             <br />
 
                             <div class="login-btn-masuk">
-                                <button onClick={ActionLogin1}>MASUK</button>
+                                <button onClick={ActionLogin}>MASUK</button>
                             </div>
 
                         <div class="buat-akun">
@@ -220,7 +228,7 @@ const Login: Component<LoginProps> = (props) => {
                                 value={password2()}
                                 onInput={(e) => setPassword2(e.currentTarget.value)}
                                 />
-                                <Icon onClick={PasswordVisibility} class="pass-icon" icon="mdi:eye" color="rgba(187, 187, 187, 0.7333333333333333)" width="28" />
+                                <Icon onClick={PasswordVisibility} class="pass-icon" icon={showPassword() ? "mdi:eye":"mdi:eye-off"} color="rgba(187, 187, 187, 0.7333333333333333)" width="28" />
                             </div>
 
                             <div class="login-btn-masuk">
