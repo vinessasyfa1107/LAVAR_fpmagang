@@ -1,9 +1,11 @@
 import { onMount, type Component, createSignal } from 'solid-js';
 import './profile.css'
 import { Icon } from '@iconify-icon/solid';
-import { DataAccount, resultdata } from '../../api/account';
+import { DataAccount, dataaccount } from '../../api/account';
 import { useStore } from '../../store';
 import Logout from '../logout/logout';
+import { A } from '@solidjs/router';
+import { dataProfile, profilePic } from '../../store/navbar/profile/ProfileStore';
 
 export interface UserData {
     id_akun: number;
@@ -19,7 +21,8 @@ const Profile: Component = () => {
 
     const userDataString = sessionStore.sessionData as unknown as string; // Ensure sessionData is a string
     const userData = JSON.parse(userDataString) as UserData; // Parse the JSON string to an object
-    // const UserID = userData.username;
+    // setUserId(userData.username);
+    // console.log("ini", userID())
 
     onMount(async () => {
         const response = await fetch(
@@ -28,8 +31,8 @@ const Profile: Component = () => {
           
           const results = await response.json();
           // console.log("response ", results)
-          const documents = results as resultdata[];
-          console.log(documents);
+          const documents = results as dataaccount[];
+          console.log("dari profile", documents);
       
           return documents.slice(0, documents.length).map(({ id_akun, username, email, password, deskripsi_profil  }) => ({
               id_akun, username, email, password, deskripsi_profil
@@ -53,9 +56,10 @@ const Profile: Component = () => {
         <div>
             <div class="profile-card">
                 <div class="component-1">
-                    <img src="/src/assets/img/profile.jpg" alt="" />
-                    <h1>{userData?.username}</h1>
-                    <p>{userData?.deskripsi_profil}</p>
+                    {profilePic()}
+                    {/* <img src="/src/assets/img/profile.jpg" alt="" /> */}
+                    <h1>{dataProfile().username}</h1>
+                    <p>{dataProfile().desc}</p>
                 </div>
                 <div class="component-2">
                     <h2>Jumlah Koleksi Resep</h2>
@@ -65,7 +69,7 @@ const Profile: Component = () => {
                     <form>
                         <label>Email</label>
                         <input type="text" readonly
-                        value={userData?.email}
+                        value={dataProfile().email}
                         />
                         {/* <label>Kata Sandi</label>
                         <input type="password" readonly
@@ -74,7 +78,7 @@ const Profile: Component = () => {
                     </form>
                 </div>
                 <div class="component-4">
-                    <button>Edit</button>
+                    <A href="/editprofile"><button>Edit</button></A>
                 </div>
                 <div class="component-5">
                     <button onClick={showPopUp}><Icon icon="humbleicons:logout" color="red" width="28"/><p>KELUAR</p></button>
