@@ -3,6 +3,7 @@ import './home.css'
 import { Icon } from '@iconify-icon/solid';
 import { classList } from 'solid-js/web';
 import { DataResep, resultresep } from '../../../api/resep/dataresep';
+import { useNavigate } from '@solidjs/router';
 
 
 
@@ -11,6 +12,7 @@ const Home: Component = () => {
     const [bahan, setBahan] = createSignal<BahanType[]>([
         'gula', 'garam', 'tomat', 'bawang putih', 'biji-bijian', 'minyak zaitun', 'susu', 'tepung', 'kacang', 'kayu manis'
     ]);
+    const navigate = useNavigate();
 
 
     const [resepData, setResepData] = createSignal([{}]);
@@ -126,12 +128,15 @@ const Home: Component = () => {
         setClickedFilters([]);
     };
 
+    const handleButtonUnggahResep = () => {
+        navigate('/unggah_resep'); // Replace '/path-to-unggah-resep' with the actual path
+      };
 
 
   return (
     <div class="home-page">
         <div class="rencana-masak">
-            <button><Icon icon="icon-park-outline:upload-logs" width='32'/></button>     
+            <button onClick={handleButtonUnggahResep}><Icon icon="icon-park-outline:upload-logs" width='32'/></button>     
         </div>
         <div class="home-1">
             <div>
