@@ -149,7 +149,7 @@
     height: 40px; /* Atur tinggi elemen sesuai kebutuhan */
     background-color: #FFF;
     border-radius: 10px;
-    box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 1px 15px 0px rgba(0, 0, 0, 0.2);
     text-align: center;
     display: flex;
     align-items: center;
@@ -264,6 +264,37 @@
 .home-page .rencana-masak {
     position: relative;
     cursor: pointer;
+}
+
+.home-page .bm-meal {
+    position: relative;
+    cursor: pointer;
+}
+
+.home-page .bm-meal .bookmark {
+    right: -120px;
+    top: 50%;
+    position: fixed;
+
+}
+
+.home-page .bm-meal .bookmark .tooltip {
+    position: relative;
+    left: -123px;
+    top: 26px;
+    padding: 5px;
+    background-color: #f1f1f1;
+    border: 1px solid #c5c5c5;
+    border-radius: 5px;
+    opacity: 0;
+    width: 120px;
+    font-size: 11px;
+    font-family: 'Poppins-Light';
+    transition: opacity 0.3s ease;
+}
+
+.home-page .bm-meal .bookmark:hover .tooltip {
+    opacity: 0.8;
 }
 
 .home-page .rencana-masak button {

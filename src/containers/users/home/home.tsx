@@ -1,8 +1,9 @@
-import {onMount, createSignal, type Component } from 'solid-js';
+import {onMount, createSignal, type Component, createEffect, createMemo } from 'solid-js';
 import './home.css'
 import { Icon } from '@iconify-icon/solid';
 import { classList } from 'solid-js/web';
 import { DataResep, resultresep } from '../../../api/resep/dataresep';
+import RencanaMasak from './popup/rencana-masak';
 
 
 
@@ -13,14 +14,44 @@ const Home: Component = () => {
     ]);
 
 
-    const [resepData, setResepData] = createSignal([{}]);
+    // const [resepData, setResepData] = createSignal([{}]);
+    const [resepData, setResepData] = createSignal<resultresep[]>([]);
 
 
     onMount(async () => {
         const data_resep = await DataResep("resep")
-    setResepData(data_resep);
+        setResepData(data_resep);
     })
 
+    // const fetchAndRenderUlasan = async (resep: resultresep) => {
+    //     try {
+    //         const response = await fetch(`/api/ulasan/${resep.id_resep}`);
+    //         const ulasanData = await response.json();
+    //         const jumlahUlasan = ulasanData.length;
+    //         const result = `${jumlahUlasan} Ulasan`;
+    //         setResepData((prev) =>
+    //             prev.map((prevResep) =>
+    //                 prevResep.id_resep === resep.id_resep ? { ...prevResep, ulasan: result } : prevResep
+    //             )
+    //         );
+    //         console.log('result', result);
+    //     } catch (error) {
+    //         console.error("Error fetching ulasan:", error);
+    //         setResepData((prev) =>
+    //             prev.map((prevResep) =>
+    //                 prevResep.id_resep === resep.id_resep ? { ...prevResep, ulasan: "0 Ulasan" } : prevResep
+    //             )
+    //         );
+    //     }
+    // };
+
+    // createEffect(() => {
+    //     resepData().forEach((resep) => {
+    //         fetchAndRenderUlasan(resep);
+    //     });
+    // });
+
+    const combinedData = createMemo(() => resepData());
 
     const renderResepNames = () => {
       const recipes = resepData() as resultresep[];
@@ -61,7 +92,7 @@ const Home: Component = () => {
                 </div> */}
     
                 <div>
-                  Ulasan
+                  {resep.ulasan}
                 </div>
               </div>
             </div>
@@ -126,10 +157,47 @@ const Home: Component = () => {
         setClickedFilters([]);
     };
 
+    const [isTooltipVisible, setTooltipVisible] = createSignal(false);
+
+
+    const handleMealHover = () => {
+      // Saat mouse masuk, tampilkan tooltip
+      setTooltipVisible(true);
+    };
+  
+    const handleMealHoverOut = () => {
+      // Saat mouse keluar, sembunyikan tooltip
+      setTooltipVisible(false);
+    };
+
+    const [mealPlan, setMealPlan] = createSignal(false);
+
+    function handleMealPlan() {
+        setMealPlan(true);
+    }
+    
+    function handleCloseMealPlan(){
+        setMealPlan(false);
+    }
 
 
   return (
     <div class="home-page">
+        <div class="bm-meal" onMouseOver={handleMealHover} onMouseOut={handleMealHoverOut}>
+            <div class="bookmark">
+            <button onClick={handleMealPlan}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 20 20">
+                    <g transform="rotate(90 12 12)">
+                    <path fill="#4f48ed" d="M19 3H5v18l7-3l7 3z"/>
+                    </g>
+                </svg>
+            </button>
+            <span class="tooltip">
+                Rencana Masak
+            </span>
+            </div>
+        </div>
+      
         <div class="rencana-masak">
             <button><Icon icon="icon-park-outline:upload-logs" width='32'/></button>     
         </div>
@@ -176,11 +244,9 @@ const Home: Component = () => {
                 </button>
             )}
             </div>
-            <div>
+            {/* <div>
                 <h2>Jelajahi resep-resep lezat yang disesuaikan dengan bahan di dapur anda</h2>
                 <div class="box-home-1">
-                    {/* <div>
-                    </div> */}
                     <div class="cmp-1-item sayur">
                         Sayur Mayur
                     </div>
@@ -204,7 +270,7 @@ const Home: Component = () => {
                     </div>
                         
                 </div>
-            </div>
+            </div> */}
             <div>
                 <h2>Bahan Masakan</h2>
                 {renderbahanItems()}
@@ -246,6 +312,7 @@ const Home: Component = () => {
                 </div>
             </div>
         </div>
+        {mealPlan() && <RencanaMasak onClose={handleCloseMealPlan}/>}
     </div>
   );
 };

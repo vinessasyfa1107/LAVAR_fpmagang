@@ -4,16 +4,27 @@
     align-items: center;
     display: flex;
     flex-direction: column;
+    gap: 1.5vw;
 }
 
-.edit-profile h1 {
+.edit-profile .title-edit A {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    width: 185vh;
+    color: black;
+    cursor: pointer;
+}
+
+
+.edit-profile .title-edit h1 {
     color: #000;
     font-size: 23px;
     font-style: normal;
     font-weight: 500;
     font-family: 'Poppins';
     text-align: left;
-    margin-bottom: 25px;
 }
 
 .edit-profile-card {
@@ -44,7 +55,7 @@
     margin: auto;
 }
 
-.edit-profile-card .edit-profile-img button {
+/* .edit-profile-card .edit-profile-img button {
     border-radius: 50%;
     width: 35px;
     height: 35px;
@@ -54,8 +65,8 @@
     left: 92px;
     bottom: 38px;
     border: 2px solid white;
-}
-.edit-profile-card .edit-profile-img label {
+} */
+/* .edit-profile-card .edit-profile-img label {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -68,7 +79,7 @@
     left: 92px;
     bottom: 38px;
     border: 2px solid white;
-}
+} */
 .edit-profile-card .edit-profile-1 {
     /* justify-content: space-between; */
     gap: 7vh;

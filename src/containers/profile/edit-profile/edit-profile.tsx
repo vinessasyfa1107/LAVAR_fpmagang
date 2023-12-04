@@ -3,8 +3,9 @@ import './edit-profile.css'
 import Profile from '../profile';
 import { Icon } from '@iconify-icon/solid';
 import { DataAccount } from '../../../api/account';
-import { useNavigate } from '@solidjs/router';
-import { profilePic } from '../../../store/navbar/profile/ProfileStore';
+import { A, useNavigate } from '@solidjs/router';
+import { profilePic } from '../../../store/profile/ProfileStore';
+import ProfilePicture from './profile-picture';
 
 const EditProfile: Component = () => {
     const navigate = useNavigate()
@@ -60,6 +61,14 @@ const EditProfile: Component = () => {
             setFileProfile(null);
         }
     };
+    const onSaveFile = (file: File | null) => {
+        setFileProfile(() => file);
+    };
+
+    const handleDeleteFile = () => {
+        // Tangani penghapusan file di EditProfile
+        setFileProfile(null);
+    };
 
     const SendEdit = async () => {
         const editedData = {
@@ -82,7 +91,7 @@ const EditProfile: Component = () => {
         if (fileProfile()) {
             edited.append('foto_profil', fileProfile()!);
         }
-        console.log('Buat Akun ', editedData);
+        console.log('Edit Akun ', editedData);
 
         try {
             const response = await fetch('/api/account/update', {
@@ -128,21 +137,30 @@ const EditProfile: Component = () => {
 //     setPictureUrl(defaultImage);
 //     }
 
-
-
   return (
     <div class="edit-profile">
-        <div style={{display:"flex","align-items":"left", width:"185vh"}}>
+        <div class="title-edit">
+            <A href='/profile'>
+            <svg style={{"margin-right":"15px"}} class="" xmlns="http://www.w3.org/2000/svg" width="15" height="29" viewBox="0 0 17 29" fill="none">
+                <path d="M14.8281 1.84375L2.17188 14.5L14.8281 27.1562" stroke="black" stroke-width="3.28125" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
             <h1>Edit Profile</h1>
+            </A>
         </div>
         <div class="edit-profile-card">
             <div class="edit-profile-img">
+            {fileProfile() && fileProfile() instanceof File && (
+            <div>
+                {fileProfile() && <img src={URL.createObjectURL(fileProfile() as Blob)} alt="Selected Profile" />}
+            </div>
+            )}
+            {!fileProfile() && profilePic()}
                 {/* {profilePic()} */}
-                <img src={profpic()} alt="" />
-                <label for="fileInput"><Icon icon="bi:camera-fill" color="white" width="15" /></label>
+                <ProfilePicture onSaveFile={onSaveFile} onDeleteFile={handleDeleteFile}/>
+                {/* <label for="fileInput"><Icon icon="bi:camera-fill" color="white" width="15" /></label>
                 <input type="file" id="fileInput" accept=".png, .jpg" style="display: none;" 
                 onChange={handleFileChange}
-                />
+                /> */}
                 {/* <button onClick={handleButtonClick}><Icon icon="bi:camera-fill" color="white" width="15" /></button> */}
             </div>
             <div class="edit-profile-1">

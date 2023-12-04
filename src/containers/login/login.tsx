@@ -87,7 +87,28 @@ const Login: Component<LoginProps> = (props) => {
     const [password2, setPassword2] = createSignal("");
     const [email, setEmail] = createSignal("");
     const [desc, setDesc] = createSignal("");
+    const [profile, setProfile] = createSignal<File | null>(null);
 
+    const setProfileFromFile = (filePath: string) => {
+        // Mengambil file dari path lokal
+        fetch(filePath)
+          .then(response => response.blob())
+          .then(blob => {
+            // Membuat objek File dari blob
+            const file = new File([blob], "profile3.png", { type: "image/png" });
+    
+            // Set variabel state dengan objek File
+            setProfile(file);
+            console.log("pp", profile())
+          })
+          .catch(error => {
+            console.error("Error loading file:", error);
+          });
+      };
+    
+      // Panggil fungsi setProfileFromFile dengan path file lokal
+      setProfileFromFile("/src/assets/img/profile3.png");
+    //   console.log("p", profile())
 
     const SendSignUp = async () => {
         const dataSignUp = {
@@ -98,15 +119,29 @@ const Login: Component<LoginProps> = (props) => {
             deskripsi_profil: desc()
         }
 
+        const sendNewAccount = new FormData();
+        sendNewAccount.append('id_akun', "0" );
+        sendNewAccount.append('username',`${username2()}`);
+        sendNewAccount.append('email',`${email()}`);
+        sendNewAccount.append('password',`${password2()}`);
+        sendNewAccount.append('deskripsi_profil',`${desc()}`);
+        // sendNewAccount.append('foto_profil', fileProfile());
+        if (profile()) {
+            sendNewAccount.append('foto_profil', profile()!);
+        }
+        console.log("p", profile())
+
+        console.log('Edit Akun ', sendNewAccount);
+
         console.log('Buat Akun ', dataSignUp);
 
         try {
             const response = await fetch('/api/account/', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(dataSignUp),
+                // headers: {
+                //     'Content-Type': 'application/json'
+                // },
+                body: sendNewAccount,
             });
 
             if(response.ok){
@@ -169,7 +204,7 @@ const Login: Component<LoginProps> = (props) => {
                             <br />
 
                             <div class="login-btn-masuk">
-                                <button onClick={ActionLogin}>MASUK</button>
+                                <button onClick={ActionLogin1}>MASUK</button>
                             </div>
 
                         <div class="buat-akun">
