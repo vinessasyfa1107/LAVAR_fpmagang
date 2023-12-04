@@ -1,17 +1,17 @@
-import { useStore } from ".."
+import { use } from ".."
 
 
-export const useSessionStore = () => {
-    const [{sessionStore}, setState] = useStore();
+export const useSession = () => {
+    const [{session}, setState] = use();
 
-    const changeSessionStore = (userData: object) => {
-        setState("sessionStore", { sessionData: userData });
+    const changeSession = (userData: object) => {
+        setState("session", { sessionData: userData });
     }
 
     return [
-        sessionStore,
+        session,
         {
-            changeSessionStore
+            changeSession
         }
     ]
 }

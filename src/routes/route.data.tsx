@@ -12,6 +12,7 @@ const EditProfile = lazy(() => import('../containers/profile/edit-profile/edit-p
 const Home = lazy(() => import('../containers/users/home/home'));
 const KoleksiResep = lazy(() => import('../containers/users/koleksi-resep/koleksi-resep'));
 const DetailResep = lazy(() => import('../containers/users/detail-resep/detail-resep'));
+const Unggah_resep = lazy(() => import('../containers/unggah_resep/unggah_resep'));
 
 const getPath = () => {
     return "/about-us";
@@ -31,6 +32,7 @@ const RouteData: Component = () => {
             <Route path="/koleksi_resep" component={KoleksiResep} />
             <Route path="/detail_resep" component={DetailResep} />
 
+            <Route path="/unggah_resep" component={Unggah_resep} />
         </Routes>
         // </Router>
     )
