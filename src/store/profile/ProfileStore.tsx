@@ -3,7 +3,7 @@ import { createSignal } from "solid-js";
 export const [pictureUrl, setPictureUrl] = createSignal("");
 
 export function handleImageProfileError() {
-    const defaultImage = "/src/assets/img/profile.jpg"; // Ganti dengan jalur gambar default Anda
+    const defaultImage = "/src/assets/img/profile3.png"; // Ganti dengan jalur gambar default Anda
     setPictureUrl(defaultImage);
     }
 

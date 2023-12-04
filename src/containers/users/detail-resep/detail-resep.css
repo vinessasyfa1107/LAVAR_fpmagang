@@ -1,0 +1,51 @@
+.detail-resep-page {
+    padding: 40px 50px;
+    background-color: antiquewhite;
+    display: flex;
+    flex-direction: column;
+}
+
+.head-detail-resep {
+    display: flex;
+    align-items: center;
+    gap: 5vh;
+}
+
+.head-detail-resep img {
+    width: 384px;
+    height: 292px;
+}
+
+.head-detail-resep h1 {
+    font-family: 'Poppins';
+    font-size: 34px;
+}
+
+.head-detail-resep h2 {
+    font-family: 'Poppins-Medium';
+    font-size: 22px;
+}
+
+.head-detail-resep h3 {
+    font-family: 'Poppins-Light';
+    font-size: 16px;
+    font-weight: 900;
+}
+
+.head-detail-resep button {
+    width: 236px;
+    height: 43px;
+    border-radius: 16px;
+    background: #4F48ED;
+    color: white;
+    font-family: 'Poppins-Medium';
+    font-size: 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.detail-resep-ctn {
+    background-color: aquamarine;
+
+}

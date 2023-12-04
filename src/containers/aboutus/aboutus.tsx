@@ -33,20 +33,22 @@ const AboutUs: Component = () => {
           <p>Ketika kami memulai <b>Laver</b>, kami mengidentifikasi peluang bisnis yang sangat menarik dalam pasar kuliner Indonesia. Kami menyadari bahwa banyak orang, termasuk remaja yang tinggal sendiri, ibu muda, dan ibu-ibu di seluruh Indonesia, seringkali harus memasak dengan bahan terbatas di dapur mereka sendiri. Itulah sebabnya kami membuat <b>Laver</b> sebagai alat yang dapat membantu Anda dalam menghadapi tantangan tersebut.</p>
           <p style={{"line-height":"3"}}><b>Laver</b> memiliki fitur-fitur unik yang menjadikannya alat yang tak tergantikan dalam dunia kuliner Anda:</p>
         </div>
+
         <div class="info-card" style={{"margin-bottom":"40px"}}>
-          <div>
+          <div class="info-card-1">
             <img src="/src/assets/img/aboutus1.jpg" alt="" />
             <div class="desc"><p>Mencari resep berdasarkan bahan yang ada di dapur Anda</p></div>
           </div>
-          <div>
+          <div class="info-card-1">
             <img src="/src/assets/img/aboutus2.jpg" alt="" />
             <div class="desc"><p>Nikmati menjelajahi resep berdasarkan kategori bahan</p></div>
           </div>
-          <div>
+          <div class="info-card-1">
             <img src="/src/assets/img/aboutus3.jpg" alt="" />       
             <div class="desc"><p>Rencanakan makanan anda dengan Lavar </p></div> 
           </div>
         </div>
+        
         <div>
           <p>Anda dapat mengakses <b>Laver</b> melalui browser Anda secara gratis. Untuk menggunakan fitur-fitur lengkap, Anda dapat mendaftarkan diri dan membuat profil pengguna Anda. Setelah itu, mulailah menjelajahi dunia kuliner yang lebih seru dan praktis bersama <b>Laver</b>.</p>
           <br />
@@ -54,7 +56,6 @@ const AboutUs: Component = () => {
           <br />
           <p>Terima kasih telah bergabung dengan kami, dan selamat memasak!</p>
         </div>
-        {logout() && <Logout/>}
     </div>
   );
 };

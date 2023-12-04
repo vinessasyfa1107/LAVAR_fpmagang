@@ -1,11 +1,14 @@
-import { onMount, type Component, createSignal } from 'solid-js';
+import { onMount, type Component, createSignal, JSX, createEffect, createMemo } from 'solid-js';
 import './profile.css'
 import { Icon } from '@iconify-icon/solid';
 import { DataAccount, dataaccount } from '../../api/account';
 import { useStore } from '../../store';
 import Logout from '../logout/logout';
 import { A } from '@solidjs/router';
-import { dataProfile, profilePic } from '../../store/navbar/profile/ProfileStore';
+import { dataProfile, profilePic } from '../../store/profile/ProfileStore';
+import { DataResepUSer, resepuser } from '../../api/resep/dataresepuser';
+import { resepUser, setResepUser } from '../../store/ResepUser/resep-user-data';
+import { DataUlasan } from '../../api/ulasan';
 
 export interface UserData {
     id_akun: number;
@@ -17,29 +20,64 @@ export interface UserData {
 
 
 const Profile: Component = () => {
-    const [{ sessionStore }] = useStore();
-
-    const userDataString = sessionStore.sessionData as unknown as string; // Ensure sessionData is a string
-    const userData = JSON.parse(userDataString) as UserData; // Parse the JSON string to an object
-    // setUserId(userData.username);
-    // console.log("ini", userID())
+    const [resepUser, setResepUser] = createSignal<resepuser[]>([])
+    const [jumlahUlasan, setJumlahUlasan] = createSignal(0)
 
     onMount(async () => {
-        const response = await fetch(
-            `/api/account/${userData?.username}`
-          );
-          
-          const results = await response.json();
-          // console.log("response ", results)
-          const documents = results as dataaccount[];
-          console.log("dari profile", documents);
-      
-          return documents.slice(0, documents.length).map(({ id_akun, username, email, password, deskripsi_profil  }) => ({
-              id_akun, username, email, password, deskripsi_profil
-            })
-          );
-    });
+        const resepsaya = await DataResepUSer("resepsaya");
+        console.log("resep saya, ", resepsaya)
+        setResepUser(resepsaya)
+        setJumlahUlasan(resepsaya.length)
+    })
+    
+    const ulasanStates = new Map<resepuser, string>();
+    const [jmlUlasan, setJmlUlasan] = createSignal('')
 
+    // const fetchAndRenderUlasan = async (resep: resepuser) => {
+    //     try {
+    //         const response = await fetch(`/api/ulasan/${resep.id_resep}`);
+    //         const ulasanData = await response.json();
+    //         const jumlahUlasan = ulasanData.length;
+    //         const result = `${jumlahUlasan} Ulasan`;
+    //         setResepUser((prev) =>
+    //             prev.map((prevResep) =>
+    //                 prevResep.id_resep === resep.id_resep ? { ...prevResep, ulasan: result } : prevResep
+    //             )
+    //         );
+    //         console.log('result', result);
+    //     } catch (error) {
+    //         console.error("Error fetching ulasan:", error);
+    //         setResepUser((prev) =>
+    //             prev.map((prevResep) =>
+    //                 prevResep.id_resep === resep.id_resep ? { ...prevResep, ulasan: "0 Ulasan" } : prevResep
+    //             )
+    //         );
+    //     }
+    // };
+    
+    // createEffect(() => {
+    //     resepUser().forEach((resep) => {
+    //         fetchAndRenderUlasan(resep);
+    //     });
+    // });
+    
+
+    // createEffect(async () => {
+    //     for (const resep of resepUser()) {
+    //         await fetchAndRenderUlasan(resep);
+    //     }
+    // });
+    
+
+    
+    // const combinedData = createMemo(() =>
+    //     resepUser().map((resep) => ({
+    //         ...resep,
+    //         ulasan: ulasanStates.get(resep),
+    //     }))
+    // );
+
+    const combinedData = createMemo(() => resepUser());
 
     const [popUp, setPopUp] = createSignal(false);
 
@@ -63,7 +101,7 @@ const Profile: Component = () => {
                 </div>
                 <div class="component-2">
                     <h2>Jumlah Koleksi Resep</h2>
-                    <h1 style={{color:"#FFBE1A","font-size":"25px"}}>2</h1>
+                    <h1 style={{color:"#FFBE1A","font-size":"25px"}}>{jumlahUlasan()}</h1>
                 </div>
                 <div class="component-3">
                     <form>
@@ -71,10 +109,6 @@ const Profile: Component = () => {
                         <input type="text" readonly
                         value={dataProfile().email}
                         />
-                        {/* <label>Kata Sandi</label>
-                        <input type="password" readonly
-                        value="huangrenjun@gmail.com"
-                        /> */}
                     </form>
                 </div>
                 <div class="component-4">
@@ -89,7 +123,51 @@ const Profile: Component = () => {
         <div class="profile-my-recipes">
             <h1>Koleksi Resep</h1>
             <div class="recipes-group">
+
+                {resepUser().map((resep)=> (
                 <div class="recipe-card">
+                    <img src="/src/assets/img/jamur_enoki.png" alt="" />
+                    <div class="recipe-desc">
+                        <div>
+                            <div class="head">
+                                <h1>{resep.nama_resep}</h1>
+                                <button><Icon icon="bx:edit" width="24" height="24" /></button>
+                            </div>
+                            <div class="ct-recipe">
+                                <h2>Bahan</h2>
+                                <ul class='list-disc'>
+                                    {resep.bahan_masak.map((bahan, index) => (
+                                        <li>{bahan}</li>
+                                    ))}
+                                </ul>
+                                <h2>Langkah</h2>
+                                <ol class="list-decimal">
+                                    {resep.cara_buat.map((langkah: number | boolean | Node | JSX.ArrayElement | (string & {}) | null | undefined, index: any) => (
+                                        <li>{langkah}</li>
+                                    ))}
+                                </ol>
+                            </div>
+                        </div>
+                        
+                        <div class="reviews">
+                            <p>{resep.ulasan}</p>
+                        </div>
+                    </div>
+                </div>
+            ))}
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        {popUp() && <Logout onClose={closePopUp}/>}
+    </div>
+  );
+};
+
+export default Profile;
+
+                {/* <div class="recipe-card">
                     <img src="/src/assets/img/jamur_enoki.png" alt="" />
                     <div class="recipe-desc">
                         <div>
@@ -118,12 +196,4 @@ const Profile: Component = () => {
                             <p>13 Ulasan</p>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        {popUp() && <Logout onClose={closePopUp}/>}
-    </div>
-  );
-};
-
-export default Profile;
+                </div> */}

@@ -1,9 +1,6 @@
 import { Routes, Route, Navigate, Router } from '@solidjs/router';
 // import { AsyncResource } from 'async_hooks';
 import { Component, lazy } from 'solid-js';
-import Logout from '../containers/logout/logout';
-// import Profile from '../containers/profile/profile';
-// import EditProfile from '../containers/profile/edit-profile/edit-profile';
 
 
 
@@ -13,6 +10,8 @@ const AboutUs = lazy(() => import('../containers/aboutus/aboutus'));
 const Profile = lazy(() => import('../containers/profile/profile'));
 const EditProfile = lazy(() => import('../containers/profile/edit-profile/edit-profile'));
 const Home = lazy(() => import('../containers/users/home/home'));
+const KoleksiResep = lazy(() => import('../containers/users/koleksi-resep/koleksi-resep'));
+const DetailResep = lazy(() => import('../containers/users/detail-resep/detail-resep'));
 const Unggah_resep = lazy(() => import('../containers/unggah_resep/unggah_resep'));
 const Unggah_gambar = lazy(() => import('../containers/unggah_resep/unggah_gambar'));
 
@@ -31,6 +30,9 @@ const RouteData: Component = () => {
             <Route path="/profile" component={Profile}/>
             <Route path="/editprofile" component={EditProfile}/>
             <Route path="/home" component={Home} />
+            <Route path="/koleksi_resep" component={KoleksiResep} />
+            <Route path="/detail_resep" component={DetailResep} />
+
             <Route path="/unggah_resep" component={Unggah_resep} />
             <Route path="/unggah_gambar" component={Unggah_gambar} />
         </Routes>

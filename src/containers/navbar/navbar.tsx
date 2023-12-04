@@ -4,7 +4,7 @@ import { A, useLocation } from '@solidjs/router';
 import { useStore } from '../../store';
 import { UserData } from '../profile/profile';
 import { DataAccount } from '../../api/account';
-import { dataProfile, handleImageProfileError, pictureUrl, profilePic, setDataProfile, setPictureUrl } from '../../store/navbar/profile/ProfileStore';
+import { dataProfile, handleImageProfileError, pictureUrl, profilePic, setDataProfile, setPictureUrl } from '../../store/profile/ProfileStore';
 
 interface NavbarProps { 
     children: JSX.Element
@@ -100,7 +100,7 @@ const Navbar: Component<NavbarProps> = (props) => {
                             <path d="M13.125 29.1667H15.3125V21.3889C16.224 21.3889 16.9991 21.105 17.6378 20.5372C18.2766 19.9694 18.5952 19.2811 18.5938 18.4722V12.6389H16.4062V18.4722H15.3125V12.6389H13.125V18.4722H12.0312V12.6389H9.84375V18.4722C9.84375 19.2824 10.1631 19.9714 10.8019 20.5392C11.4406 21.1069 12.215 21.3902 13.125 21.3889V29.1667ZM21.875 29.1667H24.0625V12.6389C22.8594 12.6389 21.8291 13.02 20.9716 13.7822C20.1141 14.5444 19.686 15.4596 19.6875 16.5278V22.3611H21.875V29.1667ZM0 35V11.6667L17.5 0L35 11.6667V35H0ZM4.375 31.1111H30.625V13.6111L17.5 4.86111L4.375 13.6111V31.1111Z" fill="black" fill-opacity="0.7"/>
                         </svg> 
                     </div>
-                    <div class="page-menu">
+                    <div class="page-menu" classList={{ active: location.pathname === '/koleksi_resep' }}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" viewBox="0 0 34 34" fill="none">
                             <path d="M30.2222 13.6H3.77778C1.69433 13.6 0 15.1249 0 17V30.6C0 32.4751 1.69433 34 3.77778 34H30.2222C32.3057 34 34 32.4751 34 30.6V17C34 15.1249 32.3057 13.6 30.2222 13.6ZM3.77778 30.6V17H30.2222L30.226 30.6H3.77778ZM3.77778 6.8H30.2222V10.2H3.77778V6.8ZM7.55556 0H26.4444V3.4H7.55556V0Z" fill="black" fill-opacity="0.75"/>
                         </svg>
@@ -159,7 +159,7 @@ const Navbar: Component<NavbarProps> = (props) => {
                         </div>
                         </A>
 
-                        <A href='' classList={{ active: location.pathname === '/koleksi_resep' }} onClick={handleNavLinkClick}>
+                        <A href='/koleksi_resep' classList={{ active: location.pathname === '/koleksi_resep' }} onClick={handleNavLinkClick}>
                         <div class="menu-container">
                             <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" viewBox="0 0 34 34" fill="none">
                                 <path d="M30.2222 13.6H3.77778C1.69433 13.6 0 15.1249 0 17V30.6C0 32.4751 1.69433 34 3.77778 34H30.2222C32.3057 34 34 32.4751 34 30.6V17C34 15.1249 32.3057 13.6 30.2222 13.6ZM3.77778 30.6V17H30.2222L30.226 30.6H3.77778ZM3.77778 6.8H30.2222V10.2H3.77778V6.8ZM7.55556 0H26.4444V3.4H7.55556V0Z" fill="black" fill-opacity="0.75"/>
