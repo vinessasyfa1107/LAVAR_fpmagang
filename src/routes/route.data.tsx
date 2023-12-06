@@ -13,6 +13,7 @@ const KoleksiResep = lazy(() => import('../containers/users/koleksi-resep/koleks
 const BahanLangkah = lazy(() => import('../containers/users/detail-resep/bahan-langkah'));
 const UlasanResep = lazy(() => import('../containers/users/detail-resep/ulasan-resep'));
 const Unggah_resep = lazy(() => import('../containers/unggah_resep/unggah_resep'));
+const Unggah_gambar = lazy(() => import('../containers/unggah_resep/unggah_gambar'));
 
 const getPath = () => {
     return "/about-us";
@@ -34,6 +35,7 @@ const RouteData: Component = () => {
             <Route path="/detail_resep_ulasan" component={UlasanResep} />
 
             <Route path="/unggah_resep" component={Unggah_resep} />
+            <Route path="/unggah_gambar" component={Unggah_gambar} />
         </Routes>
         // </Router>
     )
