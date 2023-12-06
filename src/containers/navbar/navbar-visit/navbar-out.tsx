@@ -49,7 +49,7 @@ const NavbarOut: Component<NavbarProps> = (props) => {
   return (
     <div class="navbar-2">
 
-        <div class=" fixed z-99 top-0">
+        <div class="absolute fixed z-99 top-0">
             <div class="drawer">
                 <input id="my-drawer-2" type="checkbox" class="drawer-toggle" 
                 checked={drawerOpen()}

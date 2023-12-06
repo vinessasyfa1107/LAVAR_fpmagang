@@ -1,4 +1,4 @@
-import { onMount, type Component, createSignal, JSX, createEffect, createMemo } from 'solid-js';
+import { onMount, type Component, createSignal, JSX, createEffect, createMemo, onCleanup } from 'solid-js';
 import './profile.css'
 import { Icon } from '@iconify-icon/solid';
 import { DataAccount, dataaccount } from '../../api/account';
@@ -56,10 +56,19 @@ const Profile: Component = () => {
     // };
     
     // createEffect(() => {
+    //     const cleanupFunctions: (() => void)[] = [];
+    
     //     resepUser().forEach((resep) => {
-    //         fetchAndRenderUlasan(resep);
+    //         const cleanup = fetchAndRenderUlasan(resep);
+    //         cleanupFunctions.push(cleanup);
+    //     });
+    
+    //     onCleanup(() => {
+    //         // Cleanup all registered cleanup functions
+    //         cleanupFunctions.forEach(cleanup => cleanup());
     //     });
     // });
+    
     
 
     // createEffect(async () => {
@@ -100,7 +109,7 @@ const Profile: Component = () => {
                     <p>{dataProfile().desc}</p>
                 </div>
                 <div class="component-2">
-                    <h2>Jumlah Koleksi Resep</h2>
+                    <h2>Jumlah Resep yang Diunggah</h2>
                     <h1 style={{color:"#FFBE1A","font-size":"25px"}}>{jumlahUlasan()}</h1>
                 </div>
                 <div class="component-3">
@@ -121,7 +130,7 @@ const Profile: Component = () => {
         </div>
 
         <div class="profile-my-recipes">
-            <h1>Koleksi Resep</h1>
+            <h1>Resep yang Diunggah</h1>
             <div class="recipes-group">
 
                 {resepUser().map((resep)=> (

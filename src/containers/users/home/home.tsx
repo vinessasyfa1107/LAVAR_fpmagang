@@ -4,11 +4,13 @@ import { Icon } from '@iconify-icon/solid';
 import { classList } from 'solid-js/web';
 import { DataResep, resultresep } from '../../../api/resep/dataresep';
 import RencanaMasak from './popup/rencana-masak';
-
+import { useNavigate } from '@solidjs/router';
+import { updateDataResep } from '../../../store/Resep/ResepData';
 
 
 type BahanType = 'gula' | 'garam' | 'tomat' | 'bawang putih' | 'biji-bijian' | 'minyak zaitun' | 'susu' | 'tepung' | 'kacang' | 'kayu manis';
 const Home: Component = () => {
+    const navigate = useNavigate();
     const [bahan, setBahan] = createSignal<BahanType[]>([
         'gula', 'garam', 'tomat', 'bawang putih', 'biji-bijian', 'minyak zaitun', 'susu', 'tepung', 'kacang', 'kayu manis'
     ]);
@@ -53,6 +55,22 @@ const Home: Component = () => {
 
     const combinedData = createMemo(() => resepData());
 
+    function detailResep(resep: resultresep){
+        navigate('/detail_resep');
+        updateDataResep({
+            id_resep: resep.id_resep,
+            id_kategori: resep.id_kategori,
+            id_akun: resep.id_akun,
+            username: resep.username,
+            nama_resep: resep.nama_resep,
+            kategori: resep.nama_kategori,
+            total_bahan: resep.total_bahan,
+            waktu_masak: resep.waktu_masak,
+            bahan: resep.bahan_masak,
+            langkah: resep.cara_buat
+        });
+    }
+
     const renderResepNames = () => {
       const recipes = resepData() as resultresep[];
     
@@ -67,7 +85,7 @@ const Home: Component = () => {
       return (
         <div class="box-home-3">
           {filteredResep.map((resep, index) => (
-            <div class="home-rcp">
+            <div class="home-rcp" onClick={() => detailResep(resep)}>
               <img src="/src/assets/img/jamur_enoki.png" alt="" />
               <div class='rcp-content'>
                 <div>

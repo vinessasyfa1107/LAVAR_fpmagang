@@ -245,6 +245,7 @@
     font-family: 'Inter';
     font-weight: bolder;
     margin-bottom: 5px;
+    text-transform: capitalize;
 }
 
 .home-page .home-2 .box-home-3 .home-rcp .rcp-content h2 {
