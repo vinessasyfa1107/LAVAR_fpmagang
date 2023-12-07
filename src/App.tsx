@@ -29,7 +29,7 @@ const App: Component = () => {
     }
     console.log('need login ' + needLogin());
     if (needLogin()) {
-      navigate('/dashboard/admin', { replace: true });
+      navigate('/lavar', { replace: true });
     }
   });
 

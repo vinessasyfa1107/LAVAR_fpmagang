@@ -88,6 +88,8 @@ const DetailResep: Component = () => {
   
         if (response.ok) {
           alert('Rencana masak berhasil ditambah!');
+          setPopUpMeal(false);
+          
         } else {
           const errorMessage = await response.text();
           alert(`Gagal menambah data. ${errorMessage}`);

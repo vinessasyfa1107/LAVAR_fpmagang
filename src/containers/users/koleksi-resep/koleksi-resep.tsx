@@ -141,7 +141,7 @@ const KoleksiResep: Component = () => {
                         </div>
 
                         <div class='ulasan'>
-                            <p>{resep.ulasan}</p>
+                            {/* <p>{resep.ulasan}</p> */}
                         </div>
                     </div>
                 </div>
