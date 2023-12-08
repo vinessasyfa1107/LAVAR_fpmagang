@@ -21,41 +21,10 @@ const Home: Component = () => {
 
     const [resepData, setResepData] = createSignal<resultresep[]>([]);
 
-
     onMount(async () => {
         const data_resep = await DataResep("resep")
         setResepData(data_resep);
     })
-
-    // const fetchAndRenderUlasan = async (resep: resultresep) => {
-    //     try {
-    //         const response = await fetch(`/api/ulasan/${resep.id_resep}`);
-    //         const ulasanData = await response.json();
-    //         const jumlahUlasan = ulasanData.length;
-    //         const result = `${jumlahUlasan} Ulasan`;
-    //         setResepData((prev) =>
-    //             prev.map((prevResep) =>
-    //                 prevResep.id_resep === resep.id_resep ? { ...prevResep, ulasan: result } : prevResep
-    //             )
-    //         );
-    //         console.log('result', result);
-    //     } catch (error) {
-    //         console.error("Error fetching ulasan:", error);
-    //         setResepData((prev) =>
-    //             prev.map((prevResep) =>
-    //                 prevResep.id_resep === resep.id_resep ? { ...prevResep, ulasan: "0 Ulasan" } : prevResep
-    //             )
-    //         );
-    //     }
-    // };
-
-    // createEffect(() => {
-    //     resepData().forEach((resep) => {
-    //         fetchAndRenderUlasan(resep);
-    //     });
-    // });
-
-    const combinedData = createMemo(() => resepData());
 
     function detailResep(resep: resultresep){
         navigate('/detail_resep_bahan_langkah');
@@ -74,6 +43,35 @@ const Home: Component = () => {
     }
 
     const [clickedFilters, setClickedFilters] = createSignal<BahanType[]>([]);
+
+    const renderResepPopular = () => {
+        const recipes = resepData() as resultresep[];
+
+        const sortedData = recipes.sort((a, b) => {
+            return b.total_ulasan - a.total_ulasan;
+        });
+
+        return (
+            <div class="box-home-3">
+            {sortedData.map((resep, index) => (
+                <div class="home-rcp" onClick={() => detailResep(resep)}>
+                <img src="/src/assets/img/jamur_enoki.png" alt="" />
+                <div class='rcp-content'>
+                    <div>
+                        <h1>{resep.nama_resep}</h1>
+                        <h2>{resep.username}</h2>
+                    </div>
+                    <div>
+                    {resep.total_ulasan}
+                    </div>
+                </div>
+                </div>
+                
+            ))}
+            </div>
+        );
+          
+    }
 
     const renderResepNames = () => {
       const recipes = resepData() as resultresep[];
@@ -112,7 +110,6 @@ const Home: Component = () => {
         } 
     };
 
-    
     const renderbahanItems = () => {
         return (
             <div class="box-home-2">
@@ -128,22 +125,12 @@ const Home: Component = () => {
                 ))}
             </div>
         );
-    };
-    
-            
+    };      
 
     const handleRemoveFilter = (filter: BahanType) => {
         const updatedFilters = clickedFilters().filter((f) => f !== filter);
         setClickedFilters(updatedFilters);
     }
-
-    // const handleItemClick = (bahanItem: BahanType) => {
-    //     const updatedFilters = [...clickedFilters()];
-    //     if (!updatedFilters.includes(bahanItem)) {
-    //         updatedFilters.push(bahanItem);
-    //         setClickedFilters(updatedFilters);
-    //     }
-    // };
 
     const handleItemClick = (bahanItem: BahanType) => {
         const updatedFilters = [...clickedFilters()];
@@ -165,28 +152,6 @@ const Home: Component = () => {
     const handleButtonUnggahResep = () => {
         navigate('/unggah_resep'); // Replace '/path-to-unggah-resep' with the actual path
       };
-    const [isTooltipVisible, setTooltipVisible] = createSignal(false);
-
-
-    const handleMealHover = () => {
-      // Saat mouse masuk, tampilkan tooltip
-      setTooltipVisible(true);
-    };
-  
-    const handleMealHoverOut = () => {
-      // Saat mouse keluar, sembunyikan tooltip
-      setTooltipVisible(false);
-    };
-
-    const [mealPlan, setMealPlan] = createSignal(false);
-
-    function handleMealPlan() {
-        setMealPlan(true);
-    }
-    
-    function handleCloseMealPlan(){
-        setMealPlan(false);
-    }
 
     const [searchValue, setSearchValue] = createSignal('');
 

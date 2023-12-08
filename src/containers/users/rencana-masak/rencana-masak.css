@@ -81,6 +81,10 @@
     font-weight: 800;
 }
 
+.meal-plan-page .mealplan-ct .plan-calendar.selected {
+    background-color: #FFBE1A;
+}
+
 .calendar-container {
     display: flex;
     flex-direction: row;
@@ -126,7 +130,7 @@
   }
 
   .meal-reminder-card {
-    width: 80vh;
+    width: 150vh;
     height: 125px;
     border-radius: 20px;
     background: #FFF;
@@ -138,6 +142,7 @@
     align-items: center;
     padding: 12px;
     gap: 2vh;
+    z-index: 2;
     margin-bottom: 20px;
     /* margin-left: 50px; */
     font-family: 'Inter';
@@ -157,16 +162,35 @@
     flex-direction: row;
   }
 
+  .meal-card-ctn .meal-card-jam {
+    background: #4F48ED;
+    height: 125px;
+    width: 30vh;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-right: 10px;
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
+  }
+
+  .meal-card-ctn .meal-card-jam h1 {
+    font-size: 32px;
+    font-family: 'Poppins-Medium';
+    font-weight: 400;
+  }
+  
+
   .meal-card-ctn .meal-card-expand {
-    width: 10vh;
+    width: 12vh;
     height: 125px;
     border-radius: 0px 20px 20px 0px;
     background: #4F48ED;
     box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
     position: relative;
-    z-index: 2;
+    z-index: 1;
     left:-17px;
-    /* margin: auto; */
     padding: 15px 0 15px 12px;
     display: flex;
     flex-direction: column;
@@ -206,8 +230,6 @@
 
 .btn-add-meal {
   position: absolute;
-  right: 20px;
-  bottom: 20px;
 }
 
 .btn-add-meal button {
@@ -218,6 +240,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
 }
 
 .meal-card-expand .btn-done-cancel {
@@ -231,7 +256,7 @@
 
 .meal-reminder-card b {
   font-family: 'Inter';
-  font-size: 19px;
+  font-size: 28px;
   text-align: center;
 }
 

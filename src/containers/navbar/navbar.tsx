@@ -78,7 +78,7 @@ const Navbar: Component<NavbarProps> = (props) => {
                    onChange={() => setDrawerOpen(!drawerOpen())}
                 />
                 <div class="drawer-content"> 
-                    <label for="my-drawer" class="sidebar" style={{ "z-index":"2"}}>
+                    <label for="my-drawer" class="sidebar" style={{ "z-index":"3"}}>
                     <div class="logo">
                         <img src="/src/assets/img/laver.png" alt="" width="55" height="55" style={{display:"block", margin:"auto"}}/>
                     </div>

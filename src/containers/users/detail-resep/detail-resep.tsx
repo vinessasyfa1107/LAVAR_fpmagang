@@ -52,6 +52,7 @@ const DetailResep: Component = () => {
 
   function showPopUpMeal() {
     setPopUpMeal(!popUpMeal());
+    console.log(dataProfile().id)
   }
 
   function closePopUpMeal() {

@@ -4,7 +4,7 @@ import { dataProfile } from "../store/profile/ProfileStore";
 
 export type resultrencanamasak = {
     "id_rencanamasak": number,
-    "waktu": string,
+    "waktu": Date,
     "id_resep": number,
     "status": string,
 }

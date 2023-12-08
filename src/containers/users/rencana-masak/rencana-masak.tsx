@@ -1,23 +1,74 @@
 import { createSignal, type Component, onCleanup, createEffect, onMount } from 'solid-js';
 import './rencana-masak.css'
 import { Icon } from '@iconify-icon/solid';
-import { A } from '@solidjs/router';
+import { A, useNavigate } from '@solidjs/router';
 import { DataRencanaMasak, resultrencanamasak } from '../../../api/data-rencana-masak';
+import { DataResep, resultresep } from '../../../api/resep/dataresep';
+import { updateDataResep } from '../../../store/Resep/ResepData';
 
 const RencanaMasak: Component = () => {
+    const navigate = useNavigate()
     const [rencanaMasak, setRencanaMasak] = createSignal<resultrencanamasak[]>([]);
+    const [resepDetails, setResepDetails] = createSignal({});
+    const [mergedData, setMergedData] = createSignal<Array<resultrencanamasak & { resepDetails?: resultresep }>>([]);
+    const [filteredPlans, setFilteredPlans] = createSignal<Array<resultrencanamasak & { resepDetails?: resultresep }>>([]);
+
+    const [isTodayActive, setIsTodayActive] = createSignal(false);
 
     onMount(async () => {
         const rencana = await DataRencanaMasak("rencana");
         console.log("rencana", rencana)
         setRencanaMasak(rencana)
+
+        try {
+            const rencana = await DataRencanaMasak("rencana");
+            setRencanaMasak(rencana);
+        
+            const promises = rencana.map(async (plan) => {
+              try {
+                const allResepDetails = await DataResep("resep");
+                
+                const mergedData = rencana.map((plan) => {
+                    const resepDetailsResponse = allResepDetails.find((resep) => resep.id_resep === plan.id_resep);
+                    return {
+                      ...plan,
+                      resepDetails: resepDetailsResponse,
+                    };
+                  });
+            
+                  setMergedData(mergedData);
+                  const today = new Date();
+                  const todayPlans = mergedData.filter((plan) => {
+                    const planDate = new Date(plan.waktu);
+                    plan.waktu = planDate; // Menyimpan objek Date ke dalam properti waktu
+                    return isSameDate(today, planDate);
+                });
+                
+          
+                  if (todayPlans.length > 0) {
+                      const todayIndex = todayPlans[0].waktu.getDate(); // Menggunakan waktu sebagai objek Date
+                      setClickedDate(todayIndex);
+                      handleDateClick(todayIndex);
+                  }
+              } catch (error) {
+                console.error('Error fetching recipe details', error);
+              }
+            });
+          } catch (error) {
+            console.error('Error fetching meal plan data', error);
+          }
     });
 
-    const [selectedMonth, setSelectedMonth] = createSignal<'Jan' | 'Feb' | 'Mar' | 'Apr' | 'May' | 'Jun' | 'Jul' | 'Aug' | 'Sep' | 'Oct' | 'Nov' | 'Dec'>('Jan');
+    const currentDate = new Date();
+    const currentMonthShort = currentDate.toLocaleString('default', { month: 'short' });
+    
+    const [selectedMonth, setSelectedMonth] = createSignal<'Jan' | 'Feb' | 'Mar' | 'Apr' | 'May' | 'Jun' | 'Jul' | 'Aug' | 'Sep' | 'Oct' | 'Nov' | 'Dec'>
+                                                (currentMonthShort as 'Jan' | 'Feb' | 'Mar' | 'Apr' | 'May' | 'Jun' | 'Jul' | 'Aug' | 'Sep' | 'Oct' | 'Nov' | 'Dec');    
     const [selectedYear, setSelectedYear] = createSignal(new Date().getFullYear());
     const [currentIndex, setCurrentIndex] = createSignal(0);
     const [itemsPerPage, setItemsPerPage] = createSignal(14);
     const [daysInMonth, setDaysInMonth] = createSignal(0); // Initialize with 0 initially
+    const [clickedDate, setClickedDate] = createSignal<number | null>(null);
 
     // Declare daysInMonthMap outside createEffect to make it accessible
     const daysInMonthMap = {
@@ -89,7 +140,54 @@ const RencanaMasak: Component = () => {
       const value = daysInMonthMap[month];
       return typeof value === 'function' ? value(year) : value;
     }
-      
+
+    function navigateDetail(resepDetails?: resultresep){
+        updateDataResep({
+            id_resep: resepDetails?.id_resep,
+            id_kategori: resepDetails?.id_kategori,
+            id_akun: resepDetails?.id_akun,
+            username: resepDetails?.username,
+            nama_resep: resepDetails?.nama_resep,
+            kategori: resepDetails?.nama_kategori,
+            total_bahan: resepDetails?.total_bahan,
+            waktu_masak: resepDetails?.waktu_masak,
+            bahan: resepDetails?.bahan_masak,
+            langkah: resepDetails?.cara_buat,
+          });
+        // console.log("ph", dataResep())
+        navigate("/detail_resep_bahan_langkah")
+    }
+    
+    const isSameDate = (date1: Date, date2: Date) => {
+        return (
+          date1.getDate() === date2.getDate() &&
+          date1.getMonth() === date2.getMonth() &&
+          date1.getFullYear() === date2.getFullYear()
+        );
+      };
+
+    const handleDateClick = (dayIndex: number) => {
+        console.log('Clicked date:', dayIndex);
+        setClickedDate(dayIndex);
+
+        // Perform filtering here based on the clicked date
+        const newFilteredPlans = mergedData().filter((plan) => {
+            const planDate = new Date(plan.waktu);
+            const selectedMonth = new Date().toLocaleString('default', { month: 'short' });
+            const selectedYear = new Date().getFullYear();
+
+            return (
+                planDate.getDate() === clickedDate() &&
+                planDate.getMonth() === Object.keys(daysInMonthMap).indexOf(selectedMonth) &&
+                planDate.getFullYear() === selectedYear &&
+                planDate >= new Date() // Only include plans from today and onward
+            );
+        });
+
+        setFilteredPlans(newFilteredPlans);
+    };
+
+
   return (
     <div class="meal-plan-page">
         <div class="mealplan-ct">
@@ -125,7 +223,7 @@ const RencanaMasak: Component = () => {
                 <button onClick={handlePrevClick}>
                     <Icon icon="ic:round-navigate-next" width="40" rotate={2} />
                 </button>
-                {Array.from({ length: itemsPerPage() }, (_, index) => {
+                {/* {Array.from({ length: itemsPerPage() }, (_, index) => {
                   const dayIndex = currentIndex() + index;
                   return dayIndex < Number(daysInMonth()) ? (
                     <div class="plan-calendar">
@@ -134,7 +232,23 @@ const RencanaMasak: Component = () => {
                       {selectedMonth()}
                     </div>
                   ) : null;
+                })} */}
+                {Array.from({ length: itemsPerPage() }, (_, index) => {
+                const dayIndex = currentIndex() + index;
+                const currentDate = new Date(selectedYear(), Object.keys(daysInMonthMap).indexOf(selectedMonth()), dayIndex + 1);
+
+                return dayIndex < Number(daysInMonth()) ? (
+                    <div class={`plan-calendar ${clickedDate() === dayIndex + 1 ? 'selected' : ''} `} onClick={() => {
+                        setClickedDate(dayIndex + 1);
+                        handleDateClick(dayIndex + 1);
+                    }}>
+                    {currentDate.getDate()}
+                    <br />
+                    {selectedMonth()}
+                    </div>
+                ) : null;
                 })}
+
 
 
 
@@ -147,7 +261,18 @@ const RencanaMasak: Component = () => {
                 <h2>Rencana Masak Hari Ini</h2>
                 <div class="meal-reminder">
                     {/* <h3>Pengingat</h3> */}
-                    {rencanaMasak().map((plan) => {
+                    {filteredPlans()
+                    // .filter((plan) => {
+                    //     const planDate = new Date(plan.waktu);
+                    //     const selectedMonth = new Date().toLocaleString('default', { month: 'short' });
+                    //     const selectedYear = new Date().getFullYear();
+                    //     return (
+                    //         planDate.getMonth() === Object.keys(daysInMonthMap).indexOf(selectedMonth) &&
+                    //         planDate.getFullYear() === selectedYear &&
+                    //         planDate >= new Date() // Only include plans from today and onward
+                    //     );
+                    // })
+                    .map((plan) => {
                     // Membuat objek Date dari timestamp
                     const waktu = new Date(plan.waktu);
 
@@ -159,16 +284,16 @@ const RencanaMasak: Component = () => {
 
                     return (
                         <div class="meal-card-ctn">
-                            <div class="meal-reminder-card">
+                            <div class="meal-reminder-card" onClick={() => navigateDetail(plan.resepDetails)}>
                                 <div style={{width:"6px", height:"100px", "background-color":"#ED4848"}}></div>
                                 <div class="mx-6">
                                     <b>{jam}</b> <p>{bulan}</p>
                                 </div>
                                 <img src="" alt="" />
-                                <div>
-                                    <h2>Cah Brokoli</h2>
-                                    <h4>Huang Renjun</h4>
-                                    <h5>6 Ulasan</h5>
+                                <div style={{width:"60vh","background-color":"wheat"}}>
+                                    <h2>{plan.resepDetails?.nama_resep}</h2>
+                                    <h4>{plan.resepDetails?.username}</h4>
+                                    <h5>{plan.resepDetails?.total_ulasan} Ulasan</h5>
                                 </div>
                                 <div style={{"margin-bottom":"auto",left:"40px"}}>
                                     <Icon icon="pepicons-pencil:dots-y" width="30" />
@@ -179,13 +304,16 @@ const RencanaMasak: Component = () => {
                 })}
 
                     <div class="meal-card-ctn">
-                      <div class="meal-reminder-card">
+                      <div class="meal-card-jam">
+                        <h1>09:00</h1>
+                      </div>
+                      <div class="meal-reminder-card z-2">
                         <div style={{width:"6px", height:"100px", "background-color":"#ED4848"}}></div>
-                        <div class="mx-6">
-                        <b>09:00</b> <p>2 Nov</p> 
+                        <div style={{"text-align":"center"}}>
+                        <b>2</b> <p>November 2023</p> 
                         </div>
                         <img src="" alt="" />
-                        <div>
+                        <div style={{width:"60vh","background-color":"wheat"}}>
                           <h2>Cah Brokoli</h2>
                           <h4>Huang Renjun</h4>
                           <h5>6 Ulasan</h5>
@@ -194,40 +322,17 @@ const RencanaMasak: Component = () => {
                           <Icon icon="pepicons-pencil:dots-y" width="30" />                        </div>
                         </div>
 
-                      {/* <div class="meal-card-expand">
+                      <div class="meal-card-expand">
                           <div class="btn-done-cancel">
                             <Icon icon="mi:close" width="26" />Lewati
                           </div>
                           <div class="btn-done-cancel">
                           <Icon icon="ph:check-bold" width="25"/>Selesai
                           </div>
-                      </div> */}
+                      </div>
                 
                     </div>
 
-                    {/* <h3>Akan Datang</h3> */}
-                    {/* <div class="meal-card-ctn">
-                      <div class="meal-reminder-card">
-                        <div style={{width:"6px", height:"100px", "background-color":"#FFBE1A"}}></div>
-                        <div class="mx-6">
-                          <b>09:00</b> <p>2 Nov</p> 
-                        </div>
-                        <img src="" alt="" />
-                        <div>
-                          <h2>Cah Brokoli</h2>
-                          <h4>Huang Renjun</h4>
-                          <h5>6 Ulasan</h5>
-                        </div>
-                        <div>
-                      </div>
-                      <div style={{"margin-bottom":"auto",left:"40px"}}>
-                          <Icon icon="pepicons-pencil:dots-y" width="30" />                        </div>
-                        </div>
-
-                      {/* <div class="meal-card-expand">
-                      </div> 
-                    
-                    </div> */}
                 </div>
             </div>
         </div>
