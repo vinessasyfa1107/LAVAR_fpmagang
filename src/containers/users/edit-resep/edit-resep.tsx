@@ -61,6 +61,8 @@ const EditResep: Component = () => {
           setSteps([{ id: 1, desc: '' }]);
         }
         console.log("p", ingredients().map(ingredient => ingredient.name));
+        setBahan(ingredients().map(ingredient => ingredient.name));
+        setLangkah(steps().map(step => step.desc))
         console.log("hlo", isiResep().id_foto)
     });
       
@@ -193,7 +195,8 @@ const EditResep: Component = () => {
             })
             if (response.ok && response2.ok) {
                 alert("Data berhasil diubah")
-                navigate('/detail_resep_bahan_langkah');
+                navigate(-1);
+                // navigate('/detail_resep_bahan_langkah');
             } else {
                 const errorMessage = await response.text();
                 alert(`Gagal menambah data. Pesan kesalahan: ${errorMessage}`);

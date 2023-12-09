@@ -2,11 +2,12 @@ import type { Component } from 'solid-js';
 import './bahan-langkah.css'
 import { dataResep } from '../../../store/Resep/ResepData';
 import DetailResep, { isiResep } from './detail-resep';
+import { useStore } from '../../../store';
 
 const BahanLangkah: Component = () => {
     console.log("bahan", dataResep().bahan);
+    const [{ sessionStore }] = useStore();
 
-    
   return (
     <div>
       <DetailResep/>

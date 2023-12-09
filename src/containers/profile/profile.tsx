@@ -24,6 +24,7 @@ const Profile: Component = () => {
     const navigate = useNavigate()
     const [resepUser, setResepUser] = createSignal<resepuser[]>([])
     const [jumlahUlasan, setJumlahUlasan] = createSignal(0)
+    const [fotoResep, setFotoResep] = createSignal('/api/resep/makanan/');
 
     onMount(async () => {
         const resepsaya = await DataResepUSer("resepsaya");
@@ -159,7 +160,7 @@ const Profile: Component = () => {
                 <div>
                     {userRecipes.map((resep) => (
                         <div class="recipe-card" onClick={() => navigateDetail(resep)}>
-                            <img src="/src/assets/img/jamur_enoki.png" alt="" />
+                            <img src={`${fotoResep()}${resep.nama_foto}`} alt="" />
                             <div class="recipe-desc">
                                 <div>
                                     <div class="head">
@@ -190,7 +191,7 @@ const Profile: Component = () => {
                                 </div>
     
                                 <div class="reviews">
-                                    <p>{resep.total_ulasan} Ulasan</p>
+                                    <p>{resep.total_ulasan || "0"} Ulasan</p>
                                 </div>
                             </div>
                         </div>
@@ -208,10 +209,9 @@ const Profile: Component = () => {
         }
     };
     
-    // ...
-    
-    // Call the renderResepUser function where you want to display user recipes
-
+    function tambahResep(){
+        navigate('/unggah_resep')
+    }
     
 
   return (
@@ -251,7 +251,7 @@ const Profile: Component = () => {
             </div>
             <h1>Resep yang Diunggah</h1>
             <div class="upload-my-recipe">
-                <button><Icon icon="icon-park-outline:upload-logs" width='25' class="pr-1.5"/>Unggah Resep</button>
+                <button onClick={tambahResep}><Icon icon="icon-park-outline:upload-logs" width='25' class="pr-1.5"/>Unggah Resep</button>
             </div>
             <div class="recipes-group">
                 {renderResepUser()}
