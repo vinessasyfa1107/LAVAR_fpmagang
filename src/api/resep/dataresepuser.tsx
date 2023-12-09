@@ -12,7 +12,9 @@ export type resepuser = {
     "cara_buat" : string[],
     "id_kategori" : number,
     "id_akun" : number,
-    "total_ulasan": number
+    "total_ulasan": number,
+    "nama_foto": string,
+    "id_foto": number
 }
 
 

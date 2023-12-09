@@ -51,25 +51,27 @@ const Unggah_gambar: Component = () => {
     };
 
     // function agar user memasukkan foto (wajib)
-    const isFormValid = () => {
-        return !!selectedFile();
-    };
+    // const isFormValid = () => {
+    //     return !!selectedFile();
+    // };
 
     // function untuk kondisi form submit
-    const handleSubmit = async (event: Event) => {
-        const unggah = new FormData();
+    const handleSubmit = async () => {
         const idResepValue = 0;
         const idFotoValue = 0;
         const lastIdResep = await getLastIdResep();
+        const unggah = new FormData();
 
-        unggah.append('id_resep', `${lastIdResep}`);
-        unggah.append('id_foto', `${idFotoValue}`);
+        unggah.append('id_resep', '0');
+        unggah.append('id_foto', '0');
 
         if (selectedFile()) {
             unggah.append('foto resep', selectedFile()!);
         }
 
-        event.preventDefault();
+        console.log("??", selectedFile())
+
+        // event.preventDefault();
 
         try {
             const response = await fetch('/api/resep/inspic', {
@@ -80,7 +82,7 @@ const Unggah_gambar: Component = () => {
                 body: unggah,
             });
 
-            if (response.ok && isFormValid()) {
+            if (response.ok) {
                 alert("Gambar berhasil diunggah");
                 navigate('/home', { replace: true });
                 // window.location.reload();
@@ -108,7 +110,7 @@ const Unggah_gambar: Component = () => {
                 </div>
 
                 <div class="unggah-resep-input">
-                    <form>
+                    {/* <form> */}
                         <div class="unggah-resep-input2">
                             <div class="unggah-foto">
                                 <input
@@ -137,7 +139,7 @@ const Unggah_gambar: Component = () => {
                             </button>
                         </div>
 
-                    </form>
+                    {/* </form> */}
                 </div>
             </div>
         </div>

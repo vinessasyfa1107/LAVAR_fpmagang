@@ -15,6 +15,8 @@ const RencanaMasak: Component = () => {
 
     const [isTodayActive, setIsTodayActive] = createSignal(false);
 
+    const [fotoResep, setFotoResep] = createSignal('')
+
     onMount(async () => {
         const rencana = await DataRencanaMasak("rencana");
         console.log("rencana", rencana)
@@ -27,16 +29,22 @@ const RencanaMasak: Component = () => {
             const promises = rencana.map(async (plan) => {
               try {
                 const allResepDetails = await DataResep("resep");
+                allResepDetails
+
+                
                 
                 const mergedData = rencana.map((plan) => {
                     const resepDetailsResponse = allResepDetails.find((resep) => resep.id_resep === plan.id_resep);
+                    setFotoResep(`/api/resep/makanan/${resepDetailsResponse?.nama_foto}`)
+                    console.log('fotoResepUrl:', fotoResep());
+
                     return {
                       ...plan,
                       resepDetails: resepDetailsResponse,
+                      foto: fotoResep()
                     };
                   });
-            
-                  setMergedData(mergedData);
+                  
                   const today = new Date();
                   const todayPlans = mergedData.filter((plan) => {
                     const planDate = new Date(plan.waktu);
@@ -50,6 +58,9 @@ const RencanaMasak: Component = () => {
                       setClickedDate(todayIndex);
                       handleDateClick(todayIndex);
                   }
+            
+                  setMergedData(mergedData);
+
               } catch (error) {
                 console.error('Error fetching recipe details', error);
               }
@@ -153,6 +164,7 @@ const RencanaMasak: Component = () => {
             waktu_masak: resepDetails?.waktu_masak,
             bahan: resepDetails?.bahan_masak,
             langkah: resepDetails?.cara_buat,
+            nama_foto: resepDetails?.nama_foto
           });
         // console.log("ph", dataResep())
         navigate("/detail_resep_bahan_langkah")
@@ -260,8 +272,49 @@ const RencanaMasak: Component = () => {
             <div>
                 <h2>Rencana Masak Hari Ini</h2>
                 <div class="meal-reminder">
-                    {/* <h3>Pengingat</h3> */}
-                    {filteredPlans()
+                    {filteredPlans().length > 0 ? (
+                    filteredPlans().map((plan) => {
+                      const waktu = new Date(plan.waktu);
+
+                      // Mendapatkan bulan dalam format MMM
+                      const bulan = new Intl.DateTimeFormat('id-ID', { month: 'long' }).format(waktu);
+
+                      // Mendapatkan tahun
+                      const tahun = waktu.getFullYear();
+                      
+                      // Menggabungkan bulan dan tahun
+                      const bulanTahun = `${bulan} ${tahun}`;
+                      // Mendapatkan jam dalam format HH:mm
+                      const jam = waktu.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+
+                    return (
+                        <div class="meal-card-ctn">
+                            <div class="meal-reminder-card" onClick={() => navigateDetail(plan.resepDetails)}>
+                                <div style={{width:"6px", height:"100px", "background-color":"#ED4848"}}></div>
+                                <div style={{"text-align":"center"}}>
+                                    <b>{jam}</b> <p>{bulanTahun}</p>
+                                </div>
+                                <img src={fotoResep()} alt="" />
+                                <div style={{width:"60vh"}}>
+                                    <h2>{plan.resepDetails?.nama_resep}</h2>
+                                    <h4>{plan.resepDetails?.username}</h4>
+                                    <h5>{plan.resepDetails?.total_ulasan} Ulasan</h5>
+                                </div>
+                                <div style={{"margin-bottom":"auto",left:"40px"}}>
+                                    <Icon icon="pepicons-pencil:dots-y" width="30" />
+                                </div>
+                            </div>
+                        </div>
+                    );
+                    })
+                    ) : (
+                      <div class="no-mealprep">
+                        <img src="/src/assets/img/mealprep.png" alt="" />
+                        <p>Tambahkan rencana masak anda</p>
+                      </div>
+                    )}
+
+                    {/* {filteredPlans()
                     // .filter((plan) => {
                     //     const planDate = new Date(plan.waktu);
                     //     const selectedMonth = new Date().toLocaleString('default', { month: 'short' });
@@ -273,6 +326,16 @@ const RencanaMasak: Component = () => {
                     //     );
                     // })
                     .map((plan) => {
+                    if (filteredPlans().length > 0) {
+
+                    } else {
+                      return (
+                        <div>
+                          <img src="/src/assets/img/mealprep.png" alt="" />
+                          <p>Tambahkan rencana masak anda</p>
+                        </div>
+                      )
+                    }
                     // Membuat objek Date dari timestamp
                     const waktu = new Date(plan.waktu);
 
@@ -301,8 +364,8 @@ const RencanaMasak: Component = () => {
                             </div>
                         </div>
                     );
-                })}
-
+                })} */}
+{/* 
                     <div class="meal-card-ctn">
                       <div class="meal-card-jam">
                         <h1>09:00</h1>
@@ -331,7 +394,7 @@ const RencanaMasak: Component = () => {
                           </div>
                       </div>
                 
-                    </div>
+                    </div> */}
 
                 </div>
             </div>

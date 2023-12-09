@@ -228,6 +228,14 @@
     gap: 2vh;
 }  
 
+.home-page .home-2 .box-home-3 .home-rcp img {
+    height: 115px;
+    width: 150px;
+    border-radius: 10px;
+    display: block;
+    margin: auto;
+}
+
 .home-page .home-2 .box-home-3 .home-rcp .rcp-content {
     flex: 1;
     /* background-color: #FFBE1A; */

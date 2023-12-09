@@ -4,11 +4,12 @@ import { Icon } from '@iconify-icon/solid';
 import { DataAccount, dataaccount } from '../../api/account';
 import { useStore } from '../../store';
 import Logout from '../logout/logout';
-import { A } from '@solidjs/router';
+import { A, useNavigate } from '@solidjs/router';
 import { dataProfile, profilePic } from '../../store/profile/ProfileStore';
 import { DataResepUSer, resepuser } from '../../api/resep/dataresepuser';
 import { resepUser, setResepUser } from '../../store/ResepUser/resep-user-data';
 import { DataUlasan } from '../../api/ulasan';
+import { updateDataResep } from '../../store/Resep/ResepData';
 
 export interface UserData {
     id_akun: number;
@@ -20,8 +21,10 @@ export interface UserData {
 
 
 const Profile: Component = () => {
+    const navigate = useNavigate()
     const [resepUser, setResepUser] = createSignal<resepuser[]>([])
     const [jumlahUlasan, setJumlahUlasan] = createSignal(0)
+    const [fotoResep, setFotoResep] = createSignal('/api/resep/makanan/');
 
     onMount(async () => {
         const resepsaya = await DataResepUSer("resepsaya");
@@ -98,6 +101,56 @@ const Profile: Component = () => {
         setPopUp(false);
     }
 
+    function navigateDetail(resep: resepuser){
+        updateDataResep({
+            id_resep: resep.id_resep,
+            id_kategori: resep.id_kategori,
+            id_akun: resep.id_akun,
+            username: resep.username,
+            nama_resep: resep.nama_resep,
+            kategori: resep.nama_kategori,
+            total_bahan: resep.total_bahan,
+            waktu_masak: resep.waktu_masak,
+            bahan: resep.bahan_masak,
+            langkah: resep.cara_buat,
+            nama_foto: resep.nama_foto
+          });
+        // console.log("ph", dataResep())
+        navigate("/detail_resep_bahan_langkah")
+    }
+
+    let trashButtonRef: HTMLElement | null = null;
+
+    const navigateEdit = (e: any, resep: resepuser) => {
+        console.log('navigateEdit called');
+
+        // Pengecekan untuk melihat apakah event berasal dari tombol "trash"
+        if (e.currentTarget.id === "your-trash-button-id") {
+            console.log('Trash button clicked');
+            navigate('/edit_resep')
+            updateDataResep({
+                id_resep: resep.id_resep,
+                id_kategori: resep.id_kategori,
+                id_akun: resep.id_akun,
+                username: resep.username,
+                nama_resep: resep.nama_resep,
+                kategori: resep.nama_kategori,
+                total_bahan: resep.total_bahan,
+                waktu_masak: resep.waktu_masak,
+                bahan: resep.bahan_masak,
+                langkah: resep.cara_buat,
+                nama_foto: resep.nama_foto,
+                id_foto: resep.id_foto
+              });
+            // Lakukan hal-hal yang diperlukan ketika tombol "trash" diklik
+        }
+    };
+
+    onCleanup(() => {
+        trashButtonRef = null;
+    });
+
+
     const renderResepUser = () => {
         const userRecipes = resepUser();
     
@@ -106,13 +159,20 @@ const Profile: Component = () => {
             return (
                 <div>
                     {userRecipes.map((resep) => (
-                        <div class="recipe-card">
-                            <img src="/src/assets/img/jamur_enoki.png" alt="" />
+                        <div class="recipe-card" onClick={() => navigateDetail(resep)}>
+                            <img src={`${fotoResep()}${resep.nama_foto}`} alt="" />
                             <div class="recipe-desc">
                                 <div>
                                     <div class="head">
                                         <h1>{resep.nama_resep}</h1>
-                                        <button><Icon icon="bx:edit" width="24" height="24" /></button>
+                                        <button id="your-trash-button-id"
+                                        ref={(el) => (trashButtonRef = el)}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            navigateEdit(e, resep);
+                                        }}>
+                                        <Icon icon="bx:edit" width="24" height="24" />
+                                        </button>
                                     </div>
                                     <div class="ct-recipe">
                                         <h2>Bahan</h2>
@@ -131,7 +191,7 @@ const Profile: Component = () => {
                                 </div>
     
                                 <div class="reviews">
-                                    <p>{resep.total_ulasan} Ulasan</p>
+                                    <p>{resep.total_ulasan || "0"} Ulasan</p>
                                 </div>
                             </div>
                         </div>
@@ -149,10 +209,9 @@ const Profile: Component = () => {
         }
     };
     
-    // ...
-    
-    // Call the renderResepUser function where you want to display user recipes
-
+    function tambahResep(){
+        navigate('/unggah_resep')
+    }
     
 
   return (
@@ -185,6 +244,7 @@ const Profile: Component = () => {
                 </div>
             </div>
         </div>
+        {/* <div style={{width:"350px", background:"whitesmoke"}}></div> */}
 
         <div class="profile-my-recipes">
             <div>
@@ -192,7 +252,7 @@ const Profile: Component = () => {
             </div>
             <h1>Resep yang Diunggah</h1>
             <div class="upload-my-recipe">
-                <button><Icon icon="icon-park-outline:upload-logs" width='25' class="pr-1.5"/>Unggah Resep</button>
+                <button onClick={tambahResep}><Icon icon="icon-park-outline:upload-logs" width='25' class="pr-1.5"/>Unggah Resep</button>
             </div>
             <div class="recipes-group">
                 {renderResepUser()}

@@ -13,8 +13,8 @@ const Logout: Component<LogoutProps> = (props) => {
     const ActionLogout = () => {
         console.log('hallo logout');
         sessionStorage.clear();
-        window.location.reload();
-        navigate('/dashboard')
+        // window.location.reload();
+        navigate('/home')
       }
 
     console.log("logout nie");

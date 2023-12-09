@@ -61,12 +61,12 @@ const EditProfile: Component = () => {
             setFileProfile(null);
         }
     };
+    
     const onSaveFile = (file: File | null) => {
         setFileProfile(() => file);
     };
 
     const handleDeleteFile = () => {
-        // Tangani penghapusan file di EditProfile
         setFileProfile(null);
     };
 

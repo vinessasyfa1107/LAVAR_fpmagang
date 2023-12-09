@@ -3,12 +3,46 @@ import DetailResep, { isiResep, isiUlasan } from './detail-resep';
 import { dataProfile } from '../../../store/profile/ProfileStore';
 import { Icon } from '@iconify-icon/solid';
 import './ulasan-resep.css'
+import { useStore } from '../../../store';
 
 const UlasanResep: Component = () => {
+    const [{ sessionStore }] = useStore();
+    const userDataString = sessionStore.sessionData as unknown as string;
+    console.log("min", sessionStore.sessionData);
+    console.log("mon", userDataString)
     const [tambahUlasan, setTambahUlasan] = createSignal(false);
 
     function handleTambahUlasan(){
-      setTambahUlasan(!tambahUlasan())
+      setTambahUlasan(!tambahUlasan());
+    //   if (!tambahUlasan()) {
+    //     if(userDataString === null) {
+    //         return (
+    //             <div>
+    //                 Login
+    //             </div>
+    //         );
+    //       } else {
+    //         return (
+    //             <div>
+    //             {!tambahUlasan() &&   
+    //             <div style={{display:"flex", "flex-direction":"column",gap:"3vh"}}>
+    //             {(isiUlasan() as any[]).map((review: any) => (
+    //                 <div class="ulas-item">
+    //                 <div>
+    //                     <h1>{review.username}</h1>
+    //                 </div>
+    //                 <div>
+    //                     <p>{review.deskripsi_ulasan}</p>
+    //                 </div>
+    //                 </div>
+    //             ))}
+    //             </div>
+    //             }
+    //             </div>
+    //         )
+    //       }
+    //   }
+
       console.log("click")
     }
 
@@ -50,48 +84,63 @@ const UlasanResep: Component = () => {
     };
   return (
     <div>
-      <DetailResep/>
-      <div style={{"padding-left":"50px","padding-bottom":"35px"}}>
-      <div class="ulas-container">
-            <div style={{display:"flex","justify-content":"right"}}>
-              <button class="add-ulasan" onClick={handleTambahUlasan}><Icon icon={tambahUlasan() ? "mdi:comment-arrow-left-outline":"fluent:comment-add-16-regular"} width="25" /></button>
+    <DetailResep />
+    <div style={{ "padding-left": "50px", "padding-bottom": "35px" }}>
+        <div class="ulas-container">
+            <div style={{ display: "flex", "justify-content": "right" }}>
+                <button class="add-ulasan" onClick={handleTambahUlasan}>
+                    <Icon icon={tambahUlasan() ? "mdi:comment-arrow-left-outline" : "fluent:comment-add-16-regular"} width="25" />
+                </button>
             </div>
-            {tambahUlasan() && 
+
+            {tambahUlasan() && userDataString && (
+                <div>
+                    <div class="ulas-item">
+                        <div>
+                            <h1>{dataProfile().username}</h1>
+                        </div>
+                        <div>
+                            <input
+                                type="text"
+                                placeholder='Tambahkan ulasanmu di sini...'
+                                value={descUlasan()}
+                                onInput={(e) => setDescUlasan(e.currentTarget.value)}
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn-add-ulasan" onClick={SubmitUlasan}>Simpan</button>
+                    </div>
+                </div>
+            )}
+
             <div>
-                <div class="ulas-item">
-                <div>
-                    <h1>{dataProfile().username}</h1>
+            {
+            !tambahUlasan() && (
+                isiUlasan().length > 0 ? (
+                <div style={{ display: "flex", "flex-direction": "column", gap: "3vh" }}>
+                    {(isiUlasan() as any[]).map((review: any) => (
+                    <div class="ulas-item">
+                        <div>
+                        <h1>{review.username}</h1>
+                        </div>
+                        <div>
+                        <p>{review.deskripsi_ulasan}</p>
+                        </div>
+                    </div>
+                    ))}
                 </div>
-                <div>
-                    <input type="text" placeholder='Tambahkan ulasanmu di sini...'
-                    value={descUlasan()}
-                    onInput={(e) => setDescUlasan(e.currentTarget.value)}
-                    />
-                </div>
-                </div>
-                <div>
-                    <button class="btn-add-ulasan" onClick={SubmitUlasan}>Simpan</button>
-                </div>
-            </div>
+                ) : 
+                <div>blm ada ulasan</div>
+            )
             }
 
-            {!tambahUlasan() &&   
-            <div style={{display:"flex", "flex-direction":"column",gap:"3vh"}}>
-            {(isiUlasan() as any[]).map((review: any) => (
-                <div class="ulas-item">
-                <div>
-                    <h1>{review.username}</h1>
-                </div>
-                <div>
-                    <p>{review.deskripsi_ulasan}</p>
-                </div>
-                </div>
-            ))}
-            </div>
-            }
-      </div> 
-      </div>
 
+
+                {tambahUlasan() && !userDataString && <div>Login</div>}
+            </div>
+        </div>
+    </div>
     </div>
   );
 };

@@ -24,11 +24,7 @@ const Navbar: Component<NavbarProps> = (props) => {
                 email: account.email,
                 password: account.password,
                 desc: account.deskripsi_profil,
-            });
-            const Email = account.email;
-            const Password = account.password;
-            const Desc = account.deskripsi_profil;
-            const Profpic = account.foto_profil;  
+            }); 
             console.log(account.foto_profil);
             setPictureUrl(`/api/account/profile-picture/${account.foto_profil}`);    
             // Lakukan sesuatu dengan setiap nilai kolom
@@ -87,7 +83,7 @@ const Navbar: Component<NavbarProps> = (props) => {
                         {profilePic()}
                         {/* <img src={pictureUrl()} alt="" onError={handleImageProfileError}/> */}
                     </div>
-                    <div class="page-menu" classList={{ active: location.pathname === '/home' }}>
+                    <div class="page-menu home" classList={{ active: location.pathname === '/home' }}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 36 36" fill="none">
                             <path d="M12.6667 2H3.77778C2.79594 2 2 2.79594 2 3.77778V16.2222C2 17.2041 2.79594 18 3.77778 18H12.6667C13.6485 18 14.4444 17.2041 14.4444 16.2222V3.77778C14.4444 2.79594 13.6485 2 12.6667 2Z" stroke="black" stroke-opacity="0.7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M32.2223 2H23.3334C22.3516 2 21.5557 2.79594 21.5557 3.77778V9.11111C21.5557 10.093 22.3516 10.8889 23.3334 10.8889H32.2223C33.2042 10.8889 34.0001 10.093 34.0001 9.11111V3.77778C34.0001 2.79594 33.2042 2 32.2223 2Z" stroke="black" stroke-opacity="0.7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -139,7 +135,7 @@ const Navbar: Component<NavbarProps> = (props) => {
 
                     <div class="menu">
                         <A href='/home'>
-                        <div class="menu-container" classList={{ active: location.pathname === '/home' }} onClick={handleNavLinkClick}>
+                        <div class="menu-container home" classList={{ active: location.pathname === '/home' }} onClick={handleNavLinkClick}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 36 36" fill="none">
                                 <path d="M12.6667 2H3.77778C2.79594 2 2 2.79594 2 3.77778V16.2222C2 17.2041 2.79594 18 3.77778 18H12.6667C13.6485 18 14.4444 17.2041 14.4444 16.2222V3.77778C14.4444 2.79594 13.6485 2 12.6667 2Z" stroke="black" stroke-opacity="0.7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M32.2223 2H23.3334C22.3516 2 21.5557 2.79594 21.5557 3.77778V9.11111C21.5557 10.093 22.3516 10.8889 23.3334 10.8889H32.2223C33.2042 10.8889 34.0001 10.093 34.0001 9.11111V3.77778C34.0001 2.79594 33.2042 2 32.2223 2Z" stroke="black" stroke-opacity="0.7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>

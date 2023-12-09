@@ -21,13 +21,15 @@ export const [isiResep, setIsiResep] = createSignal({
   waktu_masak: 0,
   bahan: [''],
   langkah: [''],
+  nama_foto: '',
+  id_foto: 0
 })
 
 export const [isiUlasan, setIsiUlasan] = createSignal<resultulasan[]>([])
 
 const DetailResep: Component = () => {
   const location = useLocation();
-
+  const [fotoResep, setFotoResep] = createSignal('');
   const[totalReview, setTotalReview] = createSignal(0)
 
   onMount(async () => {
@@ -35,7 +37,11 @@ const DetailResep: Component = () => {
     if (storedData) {
       const parsedData = JSON.parse(storedData);
       setIsiResep(parsedData);
+      setFotoResep(`/api/resep/makanan/${parsedData.nama_foto}`);
+
     }
+
+    // setFotoResep(`/api/makanan/${isiResep().nama_foto}`);
 
     const ulasan = await DataUlasan('reviews');
     const setReviews = ulasan
@@ -48,6 +54,7 @@ const DetailResep: Component = () => {
       setTotalReview(setReviews.length)
   });
 
+  console.log("id", isiResep().id_resep)
   const [popUpMeal, setPopUpMeal] = createSignal(false);
 
   function showPopUpMeal() {
@@ -106,7 +113,7 @@ const DetailResep: Component = () => {
   return (
     <div class="detail-resep-page">
       <div class="head-detail-resep">
-        <img src="/src/assets/img/jamur_enoki.png" alt="" />
+        <img src={fotoResep()} alt="" />
         <div>
           <h1>{isiResep().nama_resep}</h1>
           <h2>{isiResep().username}</h2>
