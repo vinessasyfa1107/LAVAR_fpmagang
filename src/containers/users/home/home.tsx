@@ -66,7 +66,7 @@ const Home: Component = () => {
                         <h2>{resep.username}</h2>
                     </div>
                     <div>
-                    {resep.total_ulasan} Ulasan
+                    {resep.total_ulasan || 0} Ulasan
                     </div>
                 </div>
                 </div>
@@ -101,7 +101,7 @@ const Home: Component = () => {
                         <h2>{resep.username}</h2>
                     </div>
                     <div>
-                    {resep.total_ulasan} Ulasan
+                    {resep.total_ulasan || 0} Ulasan
                     </div>
                 </div>
                 </div>
@@ -110,10 +110,11 @@ const Home: Component = () => {
             </div>
             </div>
         );
-
-        } else {
-            return <p>Tidak ada hasil pencarian.</p>;
         }
+
+        // } else {
+        //     return <p>Tidak ada hasil pencarian.</p>;
+        // }
     };
 
     const renderbahanItems = () => {
@@ -191,7 +192,7 @@ const Home: Component = () => {
                         <h1>{resep.nama_resep}</h1>
                         <h2>{resep.username}</h2>
                     </div>
-                    <div>{resep.total_ulasan} Ulasan</div>
+                    <div>{resep.total_ulasan || 0} Ulasan</div>
                     </div>
                 </div>
                 ))}
