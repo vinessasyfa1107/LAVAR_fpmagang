@@ -52,6 +52,11 @@
 
 .sidebar .page-menu.active svg path {
     fill: #FFBE1A;
+    /* stroke: #FFBE1A; */
+}
+
+.sidebar .page-menu.home.active svg path {
+    fill: none;
     stroke: #FFBE1A;
 }
 
@@ -180,6 +185,16 @@
 
 .navbar-container .menu .menu-container:hover svg path {
     fill: #FFBE1A;
+}
+
+.navbar-container .menu A.active .menu-container.home svg path {
+    fill: none;
+    stroke: #FFBE1A;
+}
+
+.navbar-container .menu .menu-container.home:hover svg path {
+    fill: none;
+    stroke: #FFBE1A;
 }
 
 

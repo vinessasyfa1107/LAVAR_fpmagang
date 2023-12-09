@@ -4,7 +4,9 @@ import { dataResep } from '../../../store/Resep/ResepData';
 import DetailResep, { isiResep } from './detail-resep';
 
 const BahanLangkah: Component = () => {
-    console.log("bahan", dataResep().bahan)
+    console.log("bahan", dataResep().bahan);
+
+    
   return (
     <div>
       <DetailResep/>

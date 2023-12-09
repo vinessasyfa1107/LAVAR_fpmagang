@@ -5,6 +5,7 @@ import { classList } from 'solid-js/web';
 import { DataResep, resultresep } from '../../../api/resep/dataresep';
 import { useNavigate } from '@solidjs/router';
 import { updateDataResep } from '../../../store/Resep/ResepData';
+import { useStore } from '../../../store';
 
 
 export type BahanType = 'gula' | 'garam' | 'tomat' | 'bawang putih' | 'biji-bijian' | 'minyak zaitun' | 'susu' | 'tepung' | 'kacang' | 'kayu manis' | 'jagung' ;
@@ -18,9 +19,11 @@ export const [bahan, setBahan] = createSignal<BahanType[]>([
 
 const Home: Component = () => {
     const navigate = useNavigate();
+    const [{ sessionStore }] = useStore();
 
     const [resepData, setResepData] = createSignal<resultresep[]>([]);
 
+    const [fotoResep, setFotoResep] = createSignal('/api/resep/makanan/')
     onMount(async () => {
         const data_resep = await DataResep("resep")
         setResepData(data_resep);
@@ -38,7 +41,8 @@ const Home: Component = () => {
             total_bahan: resep.total_bahan,
             waktu_masak: resep.waktu_masak,
             bahan: resep.bahan_masak,
-            langkah: resep.cara_buat
+            langkah: resep.cara_buat,
+            nama_foto: resep.nama_foto
         });
     }
 
@@ -55,14 +59,14 @@ const Home: Component = () => {
             <div class="box-home-3">
             {sortedData.map((resep, index) => (
                 <div class="home-rcp" onClick={() => detailResep(resep)}>
-                <img src="/src/assets/img/jamur_enoki.png" alt="" />
+                <img src={`${fotoResep()}${resep.nama_foto}`} alt="" />
                 <div class='rcp-content'>
                     <div>
                         <h1>{resep.nama_resep}</h1>
                         <h2>{resep.username}</h2>
                     </div>
                     <div>
-                    {resep.total_ulasan}
+                    {resep.total_ulasan} Ulasan
                     </div>
                 </div>
                 </div>
@@ -90,14 +94,14 @@ const Home: Component = () => {
             <div class="box-home-3">
             {filteredResep.map((resep, index) => (
                 <div class="home-rcp" onClick={() => detailResep(resep)}>
-                <img src="/src/assets/img/jamur_enoki.png" alt="" />
+                <img src={`${fotoResep()}${resep.nama_foto}`} alt="" />
                 <div class='rcp-content'>
                     <div>
                         <h1>{resep.nama_resep}</h1>
                         <h2>{resep.username}</h2>
                     </div>
                     <div>
-                    {resep.total_ulasan}
+                    {resep.total_ulasan} Ulasan
                     </div>
                 </div>
                 </div>
@@ -107,7 +111,9 @@ const Home: Component = () => {
             </div>
         );
 
-        } 
+        } else {
+            return <p>Tidak ada hasil pencarian.</p>;
+        }
     };
 
     const renderbahanItems = () => {
@@ -154,6 +160,50 @@ const Home: Component = () => {
       };
 
     const [searchValue, setSearchValue] = createSignal('');
+    const [onSearch, setOnSearch] = createSignal(false)
+
+    const handleSearchChange = (event: { target: { value: any; }; }) => {
+        setSearchValue(event.target.value);
+        if (searchValue() !== '') {
+            setOnSearch(true)
+        } else {
+            setOnSearch(false)
+        }
+    }
+
+    const renderSearchedResep = () => {
+        const recipes = resepData() as resultresep[];
+    
+        const searchedResep = recipes.filter((resep) =>
+        resep.nama_resep.toLowerCase().includes(searchValue().toLowerCase())
+        );
+    
+        if (searchedResep.length > 0) {
+        return (
+            <div>
+            <h2>Hasil Pencarian</h2>
+            <div class="box-home-3">
+                {searchedResep.map((resep, index) => (
+                <div class="home-rcp" onClick={() => detailResep(resep)}>
+                    <img src={`${fotoResep()}${resep.nama_foto}`} alt="" />
+                    <div class="rcp-content">
+                    <div>
+                        <h1>{resep.nama_resep}</h1>
+                        <h2>{resep.username}</h2>
+                    </div>
+                    <div>{resep.total_ulasan} Ulasan</div>
+                    </div>
+                </div>
+                ))}
+            </div>
+            </div>
+        );
+        } else {
+        return <p>Tidak ada hasil pencarian.</p>;
+        }
+    };
+    
+  
 
 
   return (
@@ -188,7 +238,7 @@ const Home: Component = () => {
                 </button> */}
                 <input type="text" placeholder='Mulai eksplorasi kuliner anda'
                 value={searchValue()}
-                // onInput={}
+                onInput={handleSearchChange}
                 />
                 <button class="search-icon-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 35 35" fill="none">
@@ -198,6 +248,7 @@ const Home: Component = () => {
             </div>
         </div>
         
+        {!onSearch() ? 
         <div class="home-2">
             <div class="selected-filters">
                 {/* <div class="filter-bahan"> */}
@@ -231,9 +282,18 @@ const Home: Component = () => {
 
             <div>
                 <h2>resep populer</h2>
-                {/* {renderResepNames()} */}
+                {renderResepPopular()}
             </div>
         </div>
+        :
+        <div class="home-2">
+            <div>
+                {renderSearchedResep()}
+            </div>
+        </div>
+        }
+
+
     </div>
   );
 };

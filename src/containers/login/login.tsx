@@ -204,7 +204,7 @@ const Login: Component<LoginProps> = (props) => {
                             <br />
 
                             <div class="login-btn-masuk">
-                                <button onClick={ActionLogin}>MASUK</button>
+                                <button onClick={ActionLogin1}>MASUK</button>
                             </div>
 
                         <div class="buat-akun">

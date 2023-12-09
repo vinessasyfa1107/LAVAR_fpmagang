@@ -2,17 +2,19 @@
 import { createSignal, onCleanup } from 'solid-js';
 
 // Define a type for the recipe data
-type RecipeData = {
+export type RecipeData = {
   id_resep: number;
   id_kategori: number;
   id_akun: number;
   username: string;
   nama_resep: string;
-  kategori: string;
+  kategori?: string;
   total_bahan: number;
   waktu_masak: number;
   bahan: string[];
   langkah: string[];
+  nama_foto: string;
+  id_foto?: number;
 };
 
 export const [dataResep, setDataResep] = createSignal<RecipeData>({
@@ -26,6 +28,8 @@ export const [dataResep, setDataResep] = createSignal<RecipeData>({
   waktu_masak: 0,
   bahan: [''],
   langkah: [''],
+  nama_foto: '',
+  id_foto: 0
 });
 
 // Function to update the recipe data
