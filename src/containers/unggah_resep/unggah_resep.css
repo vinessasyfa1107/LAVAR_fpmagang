@@ -66,6 +66,32 @@
     background: #FFF;
 }
 
+/* css bagian semua select yang ada di form */
+.unggah-resep-container .unggah-resep-input form select {
+    margin-top: 5px;
+    margin-bottom: 2rem;
+    width: 67rem;
+    height: 2.5rem;
+    flex-shrink: 0;
+    border-radius: 7px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    background: #FFF;
+    margin-left: 2.9vh;
+    font-family: 'Poppins-Light';
+}
+
+/* css bagian semua option yang ada di form */
+.unggah-resep-container .unggah-resep-input form option {
+    margin-top: 5px;
+    margin-bottom: 2rem;
+    width: 67rem;
+    height: 2.5rem;
+    flex-shrink: 0;
+    border-radius: 7px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    background: #FFF;
+}
+
 .unggah-resep-container .unggah-resep-input .unggah-resep-input2 label {
     text-align: center;
 }

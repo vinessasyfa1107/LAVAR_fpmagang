@@ -2,6 +2,19 @@ import { onCleanup, createEffect, createSignal, type Component } from 'solid-js'
 import { useNavigate } from '@solidjs/router';
 import { Icon } from '@iconify-icon/solid';
 import './unggah_resep.css';
+import { resultresep } from '../../api/resep/dataresep';
+
+export async function getLastIdResep(): Promise<number | null> {
+    const response = await fetch(`/api/resep/show`);
+    const results = await response.json();
+    const documents = results as resultresep[];
+
+    if (documents.length > 0) {
+        return documents[documents.length - 1].id_resep;
+    } else {
+        return null;
+    }
+}
 
 const Unggah_gambar: Component = () => {
 
@@ -10,13 +23,23 @@ const Unggah_gambar: Component = () => {
     const [imageUrl, setImageUrl] = createSignal<string | null>(null);
     const navigate = useNavigate();
 
+    // untuk mengambil id resep terakhir
+    createEffect(async () => {
+        // Mengambil id_resep terakhir saat komponen dipasang
+        const lastIdResep = await getLastIdResep();
+        // Gunakan lastIdResep sesuai kebutuhan, misalnya, simpan di state komponen
+        console.log('Last Id Resep:', lastIdResep);
+    });
+
     // function untuk mengunggah gambar
     const handleFileChange = (e: Event) => {
         const target = e.target as HTMLInputElement;
         const file = target.files && target.files[0];
 
+
         if (file) {
             setSelectedFile(() => file);
+            console.log('test', selectedFile());
 
             // Create a temporary URL for the selected image file
             const url = URL.createObjectURL(file);
@@ -26,21 +49,48 @@ const Unggah_gambar: Component = () => {
             setImageUrl(null);
         }
     };
-    
+
     // function agar user memasukkan foto (wajib)
     const isFormValid = () => {
         return !!selectedFile();
     };
 
     // function untuk kondisi form submit
-    const handleSubmit = (event: Event) => {
+    const handleSubmit = async (event: Event) => {
+        const unggah = new FormData();
+        const idResepValue = 0;
+        const idFotoValue = 0;
+        const lastIdResep = await getLastIdResep();
+
+        unggah.append('id_resep', `${lastIdResep}`);
+        unggah.append('id_foto', `${idFotoValue}`);
+
+        if (selectedFile()) {
+            unggah.append('foto resep', selectedFile()!);
+        }
+
         event.preventDefault();
-        if (isFormValid()) {
-            // Handle form submission logic here
-            alert('Unggahan resep Anda berhasil diunggah!');
-            navigate('/home', { replace: true });
-        } else {
-            alert('Masukkan gambar masakan sesuai resep yang Anda ketik di halaman sebelumnya!');
+
+        try {
+            const response = await fetch('/api/resep/inspic', {
+                method: 'POST',
+                // headers: {
+                //     'Content-Type': 'application/json'
+                // },
+                body: unggah,
+            });
+
+            if (response.ok && isFormValid()) {
+                alert("Gambar berhasil diunggah");
+                navigate('/home', { replace: true });
+                // window.location.reload();
+            } else {
+                const errorMessage = await response.text();
+                alert(`Gagal mengubah data. Pesan kesalahan: ${errorMessage}`);
+                console.error('Gagal mengubah data:', errorMessage);
+            }
+        } catch (error) {
+            console.error('Error:', error);
         }
     };
 

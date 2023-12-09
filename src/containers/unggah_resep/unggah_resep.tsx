@@ -1,7 +1,11 @@
-import { onCleanup, createEffect, createSignal, type Component } from 'solid-js';
+import { onCleanup, createEffect, createSignal, onMount, type Component } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
 import { Icon } from '@iconify-icon/solid';
 import './unggah_resep.css';
+import { dataProfile } from '../../store/profile/ProfileStore';
+import { resultkategori } from '../../api/kategori';
+import { DataKategori } from '../../api/kategori';
+
 
 interface Ingredient {
     id: number;
@@ -24,6 +28,21 @@ const Unggah_resep: Component = () => {
         { id: 1, desc: '' }, // Initial input box
     ]);
     const navigate = useNavigate();
+    // deklarasi untuk kirim data ke be
+    const [namaResep, setNamaResep] = createSignal("");
+    const [kategoriData, setKategoriData] = createSignal<resultkategori[]>([]);
+    const [selectedKategori, setSelectedKategori] = createSignal("");
+    const [waktuMasak, setWaktuMasak] = createSignal("");
+
+    // get data untuk kategori
+    onMount(async () => {
+        try {
+            const data_kategori = await DataKategori("data kategori");
+            setKategoriData(data_kategori);
+        } catch (error) {
+            console.error('Error fetching data from backend:', error);
+        }
+    });
 
     // function untuk iterasi ingredients
     const handleIngredientChange = (id: number, value: string) => {
@@ -47,7 +66,7 @@ const Unggah_resep: Component = () => {
         );
     };
 
-    //function untuk steps
+    // function untuk steps
     const handleStepsChange = (id: number, value: string) => {
         setSteps((prevSteps) =>
             prevSteps.map((steps) =>
@@ -72,19 +91,75 @@ const Unggah_resep: Component = () => {
     // function untuk mengecek user minimal memasukkan 1 bahan atau langkah
     const isFormValid = () => {
         // Check if at least one ingredient and one step are entered
-        return ingredients().some((ingredient) => ingredient.name.trim() !== '') && steps().some((step) => step.desc.trim() !== '');
+        const isIngredientsValid = ingredients().some((ingredient) => ingredient.name.trim() !== '');
+        const isStepsValid = steps().some((step) => step.desc.trim() !== '');
 
+        if (!namaResep() || ingredients().length === 0 || !waktuMasak() || steps().length === 0 || !isIngredientsValid || !isStepsValid) {
+            alert('Semua kotak input harus terisi');
+            return false;
+        }
+
+        return true;
+
+    };
+
+    // function untuk mengirim data ke backend
+    const sendUnggahResep = async () => {
+        if (!isFormValid()) {
+            return;
+        }
+
+        // Format array bahan menjadi array JSON
+        const formattedIngredients = ingredients().map((ingredient) => ingredient.name);
+
+        // Format array langkah menjadi array JSON
+        const formattedSteps = steps().map((step) => step.desc.trim());
+
+        // Calculate the total number of ingredients
+        const totalBahanValue = ingredients().filter((ingredient) => ingredient.name.trim() !== '').length;
+
+
+        const data = {
+            id_resep: 0,
+            nama_resep: namaResep(),
+            id_akun: dataProfile().id,
+            id_kategori: parseInt(selectedKategori(), 10),
+            total_bahan: totalBahanValue,
+            waktu_masak: parseInt(waktuMasak(), 10),
+            bahan_masak: formattedIngredients,
+            cara_buat: formattedSteps
+        };
+
+        try {
+            const response = await fetch('api/resep/ins', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                // Navigate to the next page
+                navigate('/unggah_gambar', { replace: true });
+            } else {
+                // Handle error response
+                alert('Error, data belum terkirim!');
+            }
+        } catch (error) {
+            console.log('Error saat mengirim data:', error);
+        }
     };
 
     // function untuk kondisi form submit
-    const handleSubmit = (event: Event) => {
-        event.preventDefault();
-        if (isFormValid()) {
-            navigate('/unggah_gambar', { replace: true });
-        } else {
-            alert('Isi kotak yang sudah Anda tambahkan');
-        }
-    };
+    // const handleSubmit = async (event: Event) => {
+    //     event.preventDefault();
+    //     if (isFormValid()) {
+    //         navigate('/unggah_gambar', { replace: true });
+    //     } else {
+    //         alert('Isi kotak yang sudah Anda tambahkan');
+    //     }
+    // };
 
     const handleCancel = () => {
         navigate('/home', { replace: true }); // Navigate to the home page when cancel button is clicked
@@ -98,12 +173,40 @@ const Unggah_resep: Component = () => {
                     <Icon icon="ion:chevron-back" color="black" width="38" height="38" />
                     <h2>Unggah Resep</h2>
                 </div>
-
                 <div class="unggah-resep-input">
                     <form>
-                        <label>Nama Masakan Anda</label>
+                        <label>Nama Resep Anda</label>
                         <br />
-                        <input style={{ "margin-left": "18px" }} type="text" placeholder="Masukkan nama masakan" />
+                        <input style={{ "margin-left": "18px" }} type="text" placeholder="Masukkan nama masakan"
+                            value={namaResep()}
+                            onInput={(e) => setNamaResep(e.currentTarget.value)} />
+
+                        <br />
+
+                        <div style={{ "display": "flex", "flex-direction":"row", "justify-content":"space-between", "margin-right":"3.6rem" }}>
+                            <div>
+                                <label>Waktu Masak</label>
+                                <br />
+                                <input style={{ "margin-left": "18px","width":"25rem" }} type="number" placeholder="Masukkan waktu masak" value={waktuMasak()}
+                                    onInput={(e) => setWaktuMasak(e.currentTarget.value)} />
+                                <span style={{"font-family":"Poppins-Light"}}> menit</span>
+                            </div>
+
+                            <div>
+                                <label>Pilih Kategori</label>
+                                <br />
+                                <select name="kategori" id="kategori" value={selectedKategori()} onInput={(e) => setSelectedKategori(e.currentTarget.value)} style={{"width":"25rem"}}>
+                                    <option value="">Pilih Kategori</option>
+                                    {kategoriData().map((kategori) => (
+                                        <option value={kategori.id_kategori}>
+                                            {kategori.nama_kategori}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                        </div>
+
                         <div class="unggah-resep-input2">
                             <div class="bahan-resep">
                                 <label>Bahan-bahan</label>
@@ -114,8 +217,10 @@ const Unggah_resep: Component = () => {
                                             type="text"
                                             value={ingredient.name}
                                             placeholder="Masukkan bahan"
-                                            onChange={(e) => handleIngredientChange(ingredient.id, e.target.value)}
+                                            onChange={(e) => handleIngredientChange(ingredient.id, e.target.value)
+                                            }
                                         />
+
                                         <button type="button" onClick={() => removeIngredient(ingredient.id)}>
                                             <Icon icon="ep:remove-filled" color="red" width="30" height="30" />
                                         </button>
@@ -126,7 +231,6 @@ const Unggah_resep: Component = () => {
                                         <Icon icon="gridicons:add" color="#ffbe1a" width="30" height="30" />
                                     </button>
                                 </div>
-
                             </div>
 
                             <div class="langkah-masak">
@@ -135,7 +239,7 @@ const Unggah_resep: Component = () => {
                                     <div class="steps-input">
                                         <span>{index + 1}</span>
                                         <textarea
-                                            placeholder="Masukkan langkah masakan"
+                                            placeholder="Masukkan langkah masakan" value={steps.desc}
                                             onChange={(e) => handleStepsChange(steps.id, e.target.value)}>
                                         </textarea>
                                         <button type="button" onClick={() => removeSteps(steps.id)}>
@@ -152,7 +256,7 @@ const Unggah_resep: Component = () => {
                         </div>
 
                         <div class="button-bawah">
-                            <button class="button-unggah" onClick={handleSubmit}>
+                            <button class="button-unggah" onClick={sendUnggahResep}>
                                 Lanjut
                             </button>
 
