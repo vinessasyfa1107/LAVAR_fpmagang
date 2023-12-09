@@ -174,7 +174,7 @@ const Unggah_resep: Component = () => {
                     <h2>Unggah Resep</h2>
                 </div>
                 <div class="unggah-resep-input">
-                    <form>
+                    <div class="form">
                         <label>Nama Resep Anda</label>
                         <br />
                         <input style={{ "margin-left": "18px" }} type="text" placeholder="Masukkan nama masakan"
@@ -183,19 +183,19 @@ const Unggah_resep: Component = () => {
 
                         <br />
 
-                        <div style={{ "display": "flex", "flex-direction":"row", "justify-content":"space-between", "margin-right":"3.6rem" }}>
+                        <div style={{ "display": "flex", "flex-direction": "row", "justify-content": "space-between", "margin-right": "3.6rem" }}>
                             <div>
                                 <label>Waktu Masak</label>
                                 <br />
-                                <input style={{ "margin-left": "18px","width":"25rem" }} type="number" placeholder="Masukkan waktu masak" value={waktuMasak()}
+                                <input style={{ "margin-left": "18px", "width": "25rem" }} type="number" placeholder="Masukkan waktu masak" value={waktuMasak()}
                                     onInput={(e) => setWaktuMasak(e.currentTarget.value)} />
-                                <span style={{"font-family":"Poppins-Light"}}> menit</span>
+                                <span style={{ "font-family": "Poppins-Light" }}> menit</span>
                             </div>
 
                             <div>
                                 <label>Pilih Kategori</label>
                                 <br />
-                                <select name="kategori" id="kategori" value={selectedKategori()} onInput={(e) => setSelectedKategori(e.currentTarget.value)} style={{"width":"25rem"}}>
+                                <select name="kategori" id="kategori" value={selectedKategori()} onInput={(e) => setSelectedKategori(e.currentTarget.value)} style={{ "width": "25rem" }}>
                                     <option value="">Pilih Kategori</option>
                                     {kategoriData().map((kategori) => (
                                         <option value={kategori.id_kategori}>
@@ -265,7 +265,7 @@ const Unggah_resep: Component = () => {
                             </button>
                         </div>
 
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>

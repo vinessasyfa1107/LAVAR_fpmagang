@@ -27,9 +27,9 @@
     margin-left: 2vh;
 }
 
-/*======= css bagian form keseluruhan =======*/
+/*======= css bagian .form keseluruhan =======*/
 
-/* css bagian kotak form */
+/* css bagian kotak .form */
 .unggah-resep-container .unggah-resep-input {
     width: 1190px;
     height: fit-content;
@@ -39,8 +39,8 @@
     box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
 }
 
-/* css bagian form */
-.unggah-resep-container .unggah-resep-input form {
+/* css bagian .form */
+.unggah-resep-container .unggah-resep-input .form {
     font-weight: 100;
     margin-left: 6.5vh;
     margin-top: 5vh;
@@ -48,14 +48,14 @@
     margin-bottom: 7vh;
 }
 
-/* css bagian semua label yang ada di form */
-.unggah-resep-container .unggah-resep-input form label {
+/* css bagian semua label yang ada di .form */
+.unggah-resep-container .unggah-resep-input .form label {
     font-family: 'Poppins-Light';
     font-size: 18px;
 }
 
-/* css bagian semua input yang ada di form */
-.unggah-resep-container .unggah-resep-input form input {
+/* css bagian semua input yang ada di .form */
+.unggah-resep-container .unggah-resep-input .form input {
     margin-top: 5px;
     margin-bottom: 2rem;
     width: 67rem;
@@ -66,8 +66,8 @@
     background: #FFF;
 }
 
-/* css bagian semua select yang ada di form */
-.unggah-resep-container .unggah-resep-input form select {
+/* css bagian semua select yang ada di .form */
+.unggah-resep-container .unggah-resep-input .form select {
     margin-top: 5px;
     margin-bottom: 2rem;
     width: 67rem;
@@ -80,8 +80,8 @@
     font-family: 'Poppins-Light';
 }
 
-/* css bagian semua option yang ada di form */
-.unggah-resep-container .unggah-resep-input form option {
+/* css bagian semua option yang ada di .form */
+.unggah-resep-container .unggah-resep-input .form option {
     margin-top: 5px;
     margin-bottom: 2rem;
     width: 67rem;
@@ -198,8 +198,8 @@
     padding-bottom: 20px;
 }
 
-/* button submit dan cancel form */
-.unggah-resep-container .unggah-resep-input form .button-bawah {
+/* button submit dan cancel .form */
+.unggah-resep-container .unggah-resep-input .form .button-bawah {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -207,7 +207,7 @@
     padding-top: 20px;
 }
 
-.unggah-resep-container .unggah-resep-input form .button-bawah .button-unggah {
+.unggah-resep-container .unggah-resep-input .form .button-bawah .button-unggah {
     width: 8rem;
     height: 3rem;
     padding: 10px;
@@ -219,12 +219,12 @@
     color: #110F36;
 }
 
-.unggah-resep-container .unggah-resep-input form .button-bawah .button-unggah:hover {
+.unggah-resep-container .unggah-resep-input .form .button-bawah .button-unggah:hover {
     background-color: #110F36;
     color: white;
 }
 
-.unggah-resep-container .unggah-resep-input form .button-bawah .button-cancel {
+.unggah-resep-container .unggah-resep-input .form .button-bawah .button-cancel {
     width: 8rem;
     height: 3rem;
     padding: 10px;
@@ -236,7 +236,7 @@
     color: #110F36;
 }
 
-.unggah-resep-container .unggah-resep-input form .button-bawah .button-cancel:hover {
+.unggah-resep-container .unggah-resep-input .form .button-bawah .button-cancel:hover {
     background-color: #110F36;
     color: white;
 }
