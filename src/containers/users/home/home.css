@@ -53,7 +53,7 @@
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    padding: 0 12px;
+    padding: 0 25px;
     border: none;
     outline: none;
     position: relative;
@@ -245,6 +245,7 @@
     font-family: 'Inter';
     font-weight: bolder;
     margin-bottom: 5px;
+    text-transform: capitalize;
 }
 
 .home-page .home-2 .box-home-3 .home-rcp .rcp-content h2 {

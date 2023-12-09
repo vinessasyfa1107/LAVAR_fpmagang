@@ -1,8 +1,20 @@
-import { createSignal, type Component } from 'solid-js';
+import { createSignal, type Component, onMount } from 'solid-js';
 import './aboutus.css'
 import Logout from '../logout/logout';
+import { DataUlasan } from '../../api/ulasan';
 
 const AboutUs: Component = () => {
+
+  const [resepUser, setResepUser] = createSignal([{}])
+  const [jumlahUlasan, setJumlahUlasan] = createSignal(0)
+
+  onMount(async () => {
+      const resepsaya = await DataUlasan("ULASAAAN");
+      console.log("rea, ", resepsaya)
+      setResepUser(resepsaya)
+      setJumlahUlasan(resepsaya.length)
+  })
+
   const [logout, setLogout] = createSignal(false);
 
   function showLogout(){
@@ -14,6 +26,7 @@ const AboutUs: Component = () => {
   
   return (
     <div class="about-us-page">
+      {jumlahUlasan()}
         <div class="title">
             <h1>Tentang Kami</h1>
             <p>Kami adalah tim yang bersemangat dalam mengembangkan solusi untuk memudahkan kehidupan sehari-hari, 

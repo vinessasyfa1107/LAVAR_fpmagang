@@ -42,7 +42,8 @@
 }
 
 .sidebar .profile-pic.active {
-    box-shadow: 1px 2px 1px 3px #ffbe1ab3;
+    /* box-shadow: 1px 2px 1px 3px #ffbe1ab3; */
+    box-shadow: 0px 4px 20px 0px #FFBE1A;
 } 
 
 .sidebar .page-menu {
@@ -120,7 +121,7 @@
 }
 
 .navbar-container A.active .profile {
-    box-shadow: 1px 2px 1px 3px #ffbe1ab3;
+    box-shadow: 0px 4px 20px 0px #FFBE1A;
 }
 
 .navbar-container .profile img {

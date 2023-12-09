@@ -78,7 +78,7 @@ const Navbar: Component<NavbarProps> = (props) => {
                    onChange={() => setDrawerOpen(!drawerOpen())}
                 />
                 <div class="drawer-content"> 
-                    <label for="my-drawer" class="sidebar" style={{ "z-index":"2"}}>
+                    <label for="my-drawer" class="sidebar" style={{ "z-index":"3"}}>
                     <div class="logo">
                         <img src="/src/assets/img/laver.png" alt="" width="55" height="55" style={{display:"block", margin:"auto"}}/>
                     </div>
@@ -95,12 +95,12 @@ const Navbar: Component<NavbarProps> = (props) => {
                             <path d="M12.6667 25.1111H3.77778C2.79594 25.1111 2 25.9071 2 26.8889V32.2222C2 33.2041 2.79594 34 3.77778 34H12.6667C13.6485 34 14.4444 33.2041 14.4444 32.2222V26.8889C14.4444 25.9071 13.6485 25.1111 12.6667 25.1111Z" stroke="black" stroke-opacity="0.7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <div class="page-menu">
+                    <div class="page-menu" classList={{ active: location.pathname === '/dapur_saya' }}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 35 35" fill="none">
                             <path d="M13.125 29.1667H15.3125V21.3889C16.224 21.3889 16.9991 21.105 17.6378 20.5372C18.2766 19.9694 18.5952 19.2811 18.5938 18.4722V12.6389H16.4062V18.4722H15.3125V12.6389H13.125V18.4722H12.0312V12.6389H9.84375V18.4722C9.84375 19.2824 10.1631 19.9714 10.8019 20.5392C11.4406 21.1069 12.215 21.3902 13.125 21.3889V29.1667ZM21.875 29.1667H24.0625V12.6389C22.8594 12.6389 21.8291 13.02 20.9716 13.7822C20.1141 14.5444 19.686 15.4596 19.6875 16.5278V22.3611H21.875V29.1667ZM0 35V11.6667L17.5 0L35 11.6667V35H0ZM4.375 31.1111H30.625V13.6111L17.5 4.86111L4.375 13.6111V31.1111Z" fill="black" fill-opacity="0.7"/>
                         </svg> 
                     </div>
-                    <div class="page-menu" classList={{ active: location.pathname === '/koleksi_resep' }}>
+                    <div class="page-menu" classList={{ active: location.pathname === '/rencana_masak' }}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" viewBox="0 0 34 34" fill="none">
                             <path d="M30.2222 13.6H3.77778C1.69433 13.6 0 15.1249 0 17V30.6C0 32.4751 1.69433 34 3.77778 34H30.2222C32.3057 34 34 32.4751 34 30.6V17C34 15.1249 32.3057 13.6 30.2222 13.6ZM3.77778 30.6V17H30.2222L30.226 30.6H3.77778ZM3.77778 6.8H30.2222V10.2H3.77778V6.8ZM7.55556 0H26.4444V3.4H7.55556V0Z" fill="black" fill-opacity="0.75"/>
                         </svg>
@@ -150,7 +150,7 @@ const Navbar: Component<NavbarProps> = (props) => {
                         </div>
                         </A>
 
-                        <A href='' classList={{ active: location.pathname === '/dapur-saya' }} onClick={handleNavLinkClick}>
+                        <A href='/dapur_saya' classList={{ active: location.pathname === '/dapur_saya' }} onClick={handleNavLinkClick}>
                         <div class="menu-container">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 35 35" fill="none">
                                 <path d="M13.125 29.1667H15.3125V21.3889C16.224 21.3889 16.9991 21.105 17.6378 20.5372C18.2766 19.9694 18.5952 19.2811 18.5938 18.4722V12.6389H16.4062V18.4722H15.3125V12.6389H13.125V18.4722H12.0312V12.6389H9.84375V18.4722C9.84375 19.2824 10.1631 19.9714 10.8019 20.5392C11.4406 21.1069 12.215 21.3902 13.125 21.3889V29.1667ZM21.875 29.1667H24.0625V12.6389C22.8594 12.6389 21.8291 13.02 20.9716 13.7822C20.1141 14.5444 19.686 15.4596 19.6875 16.5278V22.3611H21.875V29.1667ZM0 35V11.6667L17.5 0L35 11.6667V35H0ZM4.375 31.1111H30.625V13.6111L17.5 4.86111L4.375 13.6111V31.1111Z" fill="black" fill-opacity="0.7"/>
@@ -159,12 +159,12 @@ const Navbar: Component<NavbarProps> = (props) => {
                         </div>
                         </A>
 
-                        <A href='/koleksi_resep' classList={{ active: location.pathname === '/koleksi_resep' }} onClick={handleNavLinkClick}>
+                        <A href='/rencana_masak' classList={{ active: location.pathname === '/rencana_masak' }} onClick={handleNavLinkClick}>
                         <div class="menu-container">
                             <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" viewBox="0 0 34 34" fill="none">
                                 <path d="M30.2222 13.6H3.77778C1.69433 13.6 0 15.1249 0 17V30.6C0 32.4751 1.69433 34 3.77778 34H30.2222C32.3057 34 34 32.4751 34 30.6V17C34 15.1249 32.3057 13.6 30.2222 13.6ZM3.77778 30.6V17H30.2222L30.226 30.6H3.77778ZM3.77778 6.8H30.2222V10.2H3.77778V6.8ZM7.55556 0H26.4444V3.4H7.55556V0Z" fill="black" fill-opacity="0.75"/>
                             </svg>
-                            <p>Koleksi Resep</p>       
+                            <p>Rencana Masak</p>       
                         </div>
                         </A>
 

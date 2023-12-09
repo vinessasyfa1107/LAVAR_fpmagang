@@ -21,7 +21,7 @@ export type resultresep = {
     "cara_buat" : string[],
     "id_kategori" : number,
     "id_akun" : number,
-    "ulasan": string
+    "total_ulasan": number
 }
 
 

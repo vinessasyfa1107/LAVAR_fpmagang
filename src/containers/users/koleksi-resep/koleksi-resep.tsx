@@ -1,10 +1,11 @@
-import { createSignal, type Component, onMount, createEffect, createMemo } from 'solid-js';
+import { createSignal, type Component, onMount, createEffect, createMemo, onCleanup } from 'solid-js';
 import './koleksi-resep.css'
 import { Icon } from '@iconify-icon/solid';
 import DeleteResep from './popup-delete-resep';
 import { resepUser } from '../../../store/ResepUser/resep-user-data';
 import { DataResepUSer, resepuser } from '../../../api/resep/dataresepuser';
 import { A, useNavigate } from '@solidjs/router';
+import { dataResep, setDataResep, updateDataResep } from '../../../store/Resep/ResepData';
 
 const KoleksiResep: Component = () => {
     const [resepUser, setResepUser] = createSignal<resepuser[]>([])
@@ -50,11 +51,11 @@ const KoleksiResep: Component = () => {
 
     const [popUpDelete, setPopUpDelete] = createSignal(false);
 
-    function openPopUpDelete(selectedResep: resepuser) {
-        setResep(selectedResep.nama_resep);
-        setID(selectedResep.id_resep);
-        setPopUpDelete(true);
-    }
+    // function openPopUpDelete(selectedResep: resepuser) {
+    //     setResep(selectedResep.nama_resep);
+    //     setID(selectedResep.id_resep);
+    //     setPopUpDelete(true);
+    // }
 
     function closePopUpDelete(){
         setPopUpDelete(false)
@@ -62,9 +63,44 @@ const KoleksiResep: Component = () => {
 
     const navigate = useNavigate();
 
-    function navigateDetail(){
-        navigate("/detail_resep")
+    const [bahan, setBahan] = createSignal(['']);
+
+    function navigateDetail(resep: resepuser){
+        updateDataResep({
+            id_resep: resep.id_resep,
+            id_kategori: resep.id_kategori,
+            id_akun: resep.id_akun,
+            username: resep.username,
+            nama_resep: resep.nama_resep,
+            kategori: resep.nama_kategori,
+            total_bahan: resep.total_bahan,
+            waktu_masak: resep.waktu_masak,
+            bahan: resep.bahan_masak,
+            langkah: resep.cara_buat
+          });
+        console.log("ph", dataResep())
+        navigate("/detail_resep_bahan_langkah")
     }
+    
+    let trashButtonRef: HTMLElement | null = null;
+
+    const openPopUpDelete = (e: any, selectedResep: resepuser) => {
+        console.log('openPopUpDelete called');
+
+        // Pengecekan untuk melihat apakah event berasal dari tombol "trash"
+        if (e.currentTarget.id === "your-trash-button-id") {
+            console.log('Trash button clicked');
+            setResep(selectedResep.nama_resep);
+            setID(selectedResep.id_resep);
+            setPopUpDelete(true);
+            // Lakukan hal-hal yang diperlukan ketika tombol "trash" diklik
+        }
+    };
+
+    onCleanup(() => {
+        trashButtonRef = null;
+    });
+
 
 
 
@@ -74,13 +110,18 @@ const KoleksiResep: Component = () => {
         <div class="koleksi-resep-cp">
             <div class="koleksi-resep-cp">
                 {resepUser().map((resep =>
-                <div class="koleksi-resep-item" onClick={navigateDetail}>
+                <div class="koleksi-resep-item" onClick={() => navigateDetail(resep)}>
                     <img src="/src/assets/img/jamur_enoki.png" alt="" />
                     <div class="recipes-desc">
                         <div>
                             <div class="header">
                                 <h1>{resep.nama_resep}</h1>
-                                <button onClick={() => openPopUpDelete(resep)}>
+                                <button id="your-trash-button-id"
+                                ref={(el) => (trashButtonRef = el)}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    openPopUpDelete(e, resep);
+                                }}>
                                     <Icon icon="tabler:trash" width="25" />
                                 </button>
                             </div>
@@ -100,7 +141,7 @@ const KoleksiResep: Component = () => {
                         </div>
 
                         <div class='ulasan'>
-                            <p>{resep.ulasan}</p>
+                            {/* <p>{resep.ulasan}</p> */}
                         </div>
                     </div>
                 </div>
