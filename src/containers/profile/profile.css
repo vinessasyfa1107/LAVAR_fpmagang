@@ -22,7 +22,7 @@
     align-items: center;
     gap: 3vh;
     padding: 25px;
-    position: fixed;
+    position: sticky;
 }
 
 .profile-page .profile-card h1 {
@@ -112,7 +112,7 @@
 
 .profile-my-recipes {
     flex: 1;
-    padding-left: 350px;
+    /* padding-left: 350px; */
     display: flex;
     flex-direction: column;
     /* background-color: rgb(129, 102, 67); */

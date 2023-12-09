@@ -65,7 +65,7 @@ const NavbarOut: Component<NavbarProps> = (props) => {
                     <div class="profile-pic">
                         <Icon icon="gg:profile" width="45" height="45"/>
                     </div>
-                    <div class="page-menu home">
+                    <div class="page-menu home" classList={{ active: location.pathname === '/home' }}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 36 36" fill="none">
                             <path d="M12.6667 2H3.77778C2.79594 2 2 2.79594 2 3.77778V16.2222C2 17.2041 2.79594 18 3.77778 18H12.6667C13.6485 18 14.4444 17.2041 14.4444 16.2222V3.77778C14.4444 2.79594 13.6485 2 12.6667 2Z" stroke="black" stroke-opacity="0.7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M32.2223 2H23.3334C22.3516 2 21.5557 2.79594 21.5557 3.77778V9.11111C21.5557 10.093 22.3516 10.8889 23.3334 10.8889H32.2223C33.2042 10.8889 34.0001 10.093 34.0001 9.11111V3.77778C34.0001 2.79594 33.2042 2 32.2223 2Z" stroke="black" stroke-opacity="0.7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -73,7 +73,7 @@ const NavbarOut: Component<NavbarProps> = (props) => {
                             <path d="M12.6667 25.1111H3.77778C2.79594 25.1111 2 25.9071 2 26.8889V32.2222C2 33.2041 2.79594 34 3.77778 34H12.6667C13.6485 34 14.4444 33.2041 14.4444 32.2222V26.8889C14.4444 25.9071 13.6485 25.1111 12.6667 25.1111Z" stroke="black" stroke-opacity="0.7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <div class="page-menu">
+                    <div class="page-menu" classList={{ active: location.pathname === '/dapur_saya' }} >
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 35 35" fill="none">
                             <path d="M13.125 29.1667H15.3125V21.3889C16.224 21.3889 16.9991 21.105 17.6378 20.5372C18.2766 19.9694 18.5952 19.2811 18.5938 18.4722V12.6389H16.4062V18.4722H15.3125V12.6389H13.125V18.4722H12.0312V12.6389H9.84375V18.4722C9.84375 19.2824 10.1631 19.9714 10.8019 20.5392C11.4406 21.1069 12.215 21.3902 13.125 21.3889V29.1667ZM21.875 29.1667H24.0625V12.6389C22.8594 12.6389 21.8291 13.02 20.9716 13.7822C20.1141 14.5444 19.686 15.4596 19.6875 16.5278V22.3611H21.875V29.1667ZM0 35V11.6667L17.5 0L35 11.6667V35H0ZM4.375 31.1111H30.625V13.6111L17.5 4.86111L4.375 13.6111V31.1111Z" fill="black" fill-opacity="0.7"/>
                         </svg> 
@@ -108,7 +108,7 @@ const NavbarOut: Component<NavbarProps> = (props) => {
                     </div>
                     <div class="menu">
 
-                        <A href="/about-us" classList={{ active: location.pathname === '/about-us'}} onClick={handleNavLinkClick}>
+                        <A href="/home" classList={{ active: location.pathname === '/home'}} onClick={handleNavLinkClick}>
                         <div class="menu-container home">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 36 36" fill="none">
                                 <path d="M12.6667 2H3.77778C2.79594 2 2 2.79594 2 3.77778V16.2222C2 17.2041 2.79594 18 3.77778 18H12.6667C13.6485 18 14.4444 17.2041 14.4444 16.2222V3.77778C14.4444 2.79594 13.6485 2 12.6667 2Z" stroke="black" stroke-opacity="0.7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -120,7 +120,7 @@ const NavbarOut: Component<NavbarProps> = (props) => {
                         </div>
                         </A>
 
-                        <A href="/about-us" classList={{ active: location.pathname === '/about-us'}} onClick={handleNavLinkClick}>
+                        <A href="/dapur_saya" classList={{ active: location.pathname === '/dapur_saya'}} onClick={handleNavLinkClick}>
                         <div class="menu-container">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 35 35" fill="none">
                                 <path d="M13.125 29.1667H15.3125V21.3889C16.224 21.3889 16.9991 21.105 17.6378 20.5372C18.2766 19.9694 18.5952 19.2811 18.5938 18.4722V12.6389H16.4062V18.4722H15.3125V12.6389H13.125V18.4722H12.0312V12.6389H9.84375V18.4722C9.84375 19.2824 10.1631 19.9714 10.8019 20.5392C11.4406 21.1069 12.215 21.3902 13.125 21.3889V29.1667ZM21.875 29.1667H24.0625V12.6389C22.8594 12.6389 21.8291 13.02 20.9716 13.7822C20.1141 14.5444 19.686 15.4596 19.6875 16.5278V22.3611H21.875V29.1667ZM0 35V11.6667L17.5 0L35 11.6667V35H0ZM4.375 31.1111H30.625V13.6111L17.5 4.86111L4.375 13.6111V31.1111Z" fill="black" fill-opacity="0.7"/>

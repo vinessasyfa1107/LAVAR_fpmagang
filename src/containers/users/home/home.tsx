@@ -66,7 +66,7 @@ const Home: Component = () => {
                         <h2>{resep.username}</h2>
                     </div>
                     <div>
-                    {resep.total_ulasan || 0} Ulasan
+                    {resep.total_ulasan} Ulasan
                     </div>
                 </div>
                 </div>

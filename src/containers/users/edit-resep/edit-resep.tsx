@@ -1,9 +1,12 @@
 import { useNavigate } from '@solidjs/router';
-import { createSignal, type Component, onMount } from 'solid-js';
+import { createSignal, type Component, onMount, onCleanup } from 'solid-js';
 import './edit-resep.css'
 import { Icon } from '@iconify-icon/solid';
 import { isiResep, setIsiResep } from '../detail-resep/detail-resep';
 import { DataResep } from '../../../api/resep/dataresep';
+import { resepuser } from '../../../api/resep/dataresepuser';
+import { dataResep } from '../../../store/Resep/ResepData';
+import DeleteResep from './popup-delete-resep';
 
 interface Ingredient {
     id: number;
@@ -39,9 +42,11 @@ const EditResep: Component = () => {
           const parsedData = JSON.parse(storedData);
           await setIsiResep(parsedData);
           setFotoResep(`/api/resep/makanan/${parsedData.nama_foto}`);
-          setNamaResep(isiResep().nama_resep)
-          setKategori(isiResep().kategori)
-          setWaktuMasak(isiResep().waktu_masak)
+          setNamaResep(isiResep().nama_resep);
+          setKategori(isiResep().kategori);
+          setWaktuMasak(isiResep().waktu_masak);
+          setDeleteID(isiResep().id_resep);
+          setDeleteNama(isiResep().nama_resep)
           // Pastikan bahan dan langkah ada sebelum digunakan
           if (parsedData.bahan && parsedData.langkah) {
             setIngredients(
@@ -209,6 +214,38 @@ const EditResep: Component = () => {
             console.log("Gagal", error)
         }
     }
+
+    const [popUpDelete, setPopUpDelete] = createSignal(false);
+
+    // function openPopUpDelete(selectedResep: resepuser) {
+    //     setResep(selectedResep.nama_resep);
+    //     setID(selectedResep.id_resep);
+    //     setPopUpDelete(true);
+    // }
+
+    function closePopUpDelete(){
+        setPopUpDelete(false)
+    } 
+    
+    let trashButtonRef: HTMLElement | null = null;
+
+    const[deleteID, setDeleteID] = createSignal(0)
+    const[deleteNama, setDeleteNama] = createSignal('')
+
+    const openPopUpDelete = (e: any) => {
+        console.log('openPopUpDelete called');
+
+        // Pengecekan untuk melihat apakah event berasal dari tombol "trash"
+        if (e.currentTarget.id === "your-trash-button-id") {
+            console.log('Trash button clicked');
+            setPopUpDelete(true);
+            // Lakukan hal-hal yang diperlukan ketika tombol "trash" diklik
+        }
+    };
+
+    onCleanup(() => {
+        trashButtonRef = null;
+    });
     
   return (
     <div style={{padding: "30px"}}>
@@ -323,10 +360,16 @@ const EditResep: Component = () => {
                 </div>
             </div>
             <div style={{display:"flex"}}>
-                <button class="edit-resep-button hapus-resep">Hapus</button>
+                <button class="edit-resep-button hapus-resep" id="your-trash-button-id"
+                ref={(el) => (trashButtonRef = el)}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    openPopUpDelete(e);
+                }}>Hapus</button>
                 <button onClick={handleSubmit} class="edit-resep-button simpan-resep">Simpan</button>
             </div>
         </div>
+        {popUpDelete() && <DeleteResep onClose={closePopUpDelete} id={deleteID()} nama={deleteNama()}/>}
     </div>
   );
 };

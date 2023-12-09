@@ -244,6 +244,7 @@ const Profile: Component = () => {
                 </div>
             </div>
         </div>
+        {/* <div style={{width:"350px", background:"whitesmoke"}}></div> */}
 
         <div class="profile-my-recipes">
             <div>

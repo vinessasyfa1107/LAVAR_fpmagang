@@ -1,7 +1,7 @@
 import { createSignal, type Component, onMount, createEffect, createMemo, onCleanup } from 'solid-js';
 import './koleksi-resep.css'
 import { Icon } from '@iconify-icon/solid';
-import DeleteResep from './popup-delete-resep';
+import DeleteResep from '../edit-resep/popup-delete-resep';
 import { resepUser } from '../../../store/ResepUser/resep-user-data';
 import { DataResepUSer, resepuser } from '../../../api/resep/dataresepuser';
 import { A, useNavigate } from '@solidjs/router';

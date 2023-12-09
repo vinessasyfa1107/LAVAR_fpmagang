@@ -19,7 +19,7 @@ const Unggah_gambar = lazy(() => import('../containers/unggah_resep/unggah_gamba
 const EditResep = lazy(() => import('../containers/users/edit-resep/edit-resep'));
 
 const getPath = () => {
-    return "/about-us";
+    return "/home";
 }
 
 const RouteData: Component = () => {

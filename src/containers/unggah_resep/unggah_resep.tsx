@@ -35,14 +35,14 @@ const Unggah_resep: Component = () => {
     const [waktuMasak, setWaktuMasak] = createSignal("");
 
     // get data untuk kategori
-    onMount(async () => {
-        try {
-            const data_kategori = await DataKategori("data kategori");
-            setKategoriData(data_kategori);
-        } catch (error) {
-            console.error('Error fetching data from backend:', error);
-        }
-    });
+    // onMount(async () => {
+    //     try {
+    //         const data_kategori = await DataKategori("data kategori");
+    //         setKategoriData(data_kategori);
+    //     } catch (error) {
+    //         console.error('Error fetching data from backend:', error);
+    //     }
+    // });
 
     // function untuk iterasi ingredients
     const handleIngredientChange = (id: number, value: string) => {
@@ -103,11 +103,14 @@ const Unggah_resep: Component = () => {
 
     };
 
+    const submit = async() => {
+        console.log('halo')
+    };
     // function untuk mengirim data ke backend
     const sendUnggahResep = async () => {
-        if (!isFormValid()) {
-            return;
-        }
+        // if (!isFormValid()) {
+        //     return;
+        // }
 
         // Format array bahan menjadi array JSON
         const formattedIngredients = ingredients().map((ingredient) => ingredient.name);
@@ -123,12 +126,15 @@ const Unggah_resep: Component = () => {
             id_resep: 0,
             nama_resep: namaResep(),
             id_akun: dataProfile().id,
+            // id_kategori: selectedKategori(),
             id_kategori: parseInt(selectedKategori(), 10),
             total_bahan: totalBahanValue,
             waktu_masak: parseInt(waktuMasak(), 10),
             bahan_masak: formattedIngredients,
             cara_buat: formattedSteps
         };
+
+        console.log('data', data)
 
         try {
             const response = await fetch('api/resep/ins', {
@@ -140,6 +146,9 @@ const Unggah_resep: Component = () => {
             });
 
             if (response.ok) {
+                console.log('Navigating to /unggah_gambar...');
+                alert("bisa")
+                console.log('bisa')
                 // Navigate to the next page
                 navigate('/unggah_gambar', { replace: true });
             } else {
@@ -174,7 +183,7 @@ const Unggah_resep: Component = () => {
                     <h2>Unggah Resep</h2>
                 </div>
                 <div class="unggah-resep-input">
-                    <form>
+                    {/* <form> */}
                         <label>Nama Resep Anda</label>
                         <br />
                         <input style={{ "margin-left": "18px" }} type="text" placeholder="Masukkan nama masakan"
@@ -195,13 +204,20 @@ const Unggah_resep: Component = () => {
                             <div>
                                 <label>Pilih Kategori</label>
                                 <br />
-                                <select name="kategori" id="kategori" value={selectedKategori()} onInput={(e) => setSelectedKategori(e.currentTarget.value)} style={{"width":"25rem"}}>
-                                    <option value="">Pilih Kategori</option>
+                                <select value={selectedKategori()} onInput={(e) => setSelectedKategori(e.currentTarget.value)} style={{"width":"25rem"}}>
+                                    {/* <option value="">Pilih Kategori</option>
                                     {kategoriData().map((kategori) => (
                                         <option value={kategori.id_kategori}>
                                             {kategori.nama_kategori}
                                         </option>
-                                    ))}
+                                    ))} */}
+
+  <option value="1">Sayur - Sayuran</option>
+  <option value="2">Daging</option>
+  <option value="3">Bahan Kue</option>
+  <option value="4">Kacang dan Biji - bijian</option>
+  <option value="5">Karbohidrat</option>
+
                                 </select>
                             </div>
 
@@ -265,7 +281,7 @@ const Unggah_resep: Component = () => {
                             </button>
                         </div>
 
-                    </form>
+                    {/* </form> */}
                 </div>
             </div>
         </div>
@@ -273,4 +289,3 @@ const Unggah_resep: Component = () => {
 };
 
 export default Unggah_resep;
-

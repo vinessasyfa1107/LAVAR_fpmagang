@@ -5,7 +5,7 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.3); /* Warna latar belakang semi-transparan */
-    z-index: 2; /* Z-index lebih tinggi dari form popup */
+    z-index: 3; /* Z-index lebih tinggi dari form popup */
 }
 
 .delete-resep-popup {

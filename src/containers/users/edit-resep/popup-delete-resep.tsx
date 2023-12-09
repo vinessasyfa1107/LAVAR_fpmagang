@@ -1,5 +1,6 @@
 import type { Component } from 'solid-js';
 import './popup-delete-resep.css'
+import { useNavigate } from '@solidjs/router';
 
 interface DeleteResepProps{
     onClose: () => void;
@@ -8,6 +9,7 @@ interface DeleteResepProps{
 }
 
 const DeleteResep: Component<DeleteResepProps> = (props) => {
+  const navigate = useNavigate();
   const DeleteRecipe = async () => {
       try {
         const response =  await fetch(`/api/resep/${props.id}`, {
@@ -17,7 +19,9 @@ const DeleteResep: Component<DeleteResepProps> = (props) => {
           }
         });
         if (response.ok) {
-          alert("Resep Berhasil Dihapus")
+          alert("Resep Berhasil Dihapus");
+          props.onClose();
+          navigate(-1)
       } else {
           throw new Error('Failed to login');
       }

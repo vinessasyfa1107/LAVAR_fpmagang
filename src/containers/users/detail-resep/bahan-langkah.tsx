@@ -14,8 +14,6 @@ const BahanLangkah: Component = () => {
       <div class="bahan-langkah-container">
         <div class="bahan-langkah-box">
 
-          {sessionStore.sessionData?
-          <div>
           <div>
             <h5>Bahan-bahan</h5>
             <ul>
@@ -33,12 +31,6 @@ const BahanLangkah: Component = () => {
             ))}
             </ol>
           </div>
-          </div>
-          :
-          <div>
-            login dl bang
-          </div>
-          }
 
         </div>
       </div>
