@@ -51,9 +51,9 @@ const Unggah_gambar: Component = () => {
     };
 
     // function agar user memasukkan foto (wajib)
-    // const isFormValid = () => {
-    //     return !!selectedFile();
-    // };
+    const isInputValid = () => {
+        return !!selectedFile();
+    };
 
     // function untuk kondisi form submit
     const handleSubmit = async () => {
@@ -100,17 +100,44 @@ const Unggah_gambar: Component = () => {
         navigate('/unggah_resep', { replace: true }); // Navigate to the home page when cancel button is clicked
     };
 
+    // fungsi untuk menampilkan dan menyembunyikan pop up
+    const [showConfirmPopup, setShowConfirmPopup] = createSignal(false);
+
+    const openConfirmPopup = () => {
+        if (!isInputValid()) {
+            alert("Anda wajib mencantumkan gambar untuk resep Anda!")
+            return;
+        } else {
+            // Jika data valid, tampilkan pop-up konfirmasi
+            setShowConfirmPopup(true);
+        }
+    };
+
+    const closeConfirmPopup = () => {
+        setShowConfirmPopup(false);
+    };
+
+    const handleConfirm = () => {
+        handleSubmit(); // Panggil fungsi sendUnggahResep setelah konfirmasi
+        navigate('/unggah_gambar');
+    };
+
+    const handleCancelConfirm = () => {
+        closeConfirmPopup();
+        // Tambahkan logika lain jika diperlukan setelah membatalkan konfirmasi
+    };
+
+
 
     return (
         <div>
             <div class="unggah-resep-container">
                 <div class="unggah-resep-title">
-                    <Icon icon="ion:chevron-back" color="black" width="38" height="38" />
-                    <h2>Unggah Resep</h2>
+                    <h2>Unggah Gambar Resep</h2>
                 </div>
 
                 <div class="unggah-resep-input">
-                    {/* <form> */}
+                    <div class="form">
                         <div class="unggah-resep-input2">
                             <div class="unggah-foto">
                                 <input
@@ -130,16 +157,22 @@ const Unggah_gambar: Component = () => {
                         </div>
 
                         <div class="button-bawah">
-                            <button class="button-unggah" onClick={handleSubmit}>
+                            <button class="button-unggah" onClick={() => openConfirmPopup()}>
                                 Unggah Resep
                             </button>
-
-                            <button class="button-cancel" onClick={handleCancel}>
-                                Kembali
-                            </button>
                         </div>
+                    </div>
+                </div>
 
-                    {/* </form> */}
+                <div class="overlay-popup-confirm" style={{ display: showConfirmPopup() ? 'block' : 'none' }}>
+                    <div class="col-popup-confirm">
+                        <p>Anda tidak akan bisa kembali ke halaman ini</p>
+                        <p>Apakah Anda sudah yakin dengan resep yang Anda buat?</p>
+                        <div class="button-confirm">
+                            <button class="confirm" onClick={handleConfirm}>Yakin</button>
+                            <button class="cancel" onClick={handleCancelConfirm}>Kembali</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

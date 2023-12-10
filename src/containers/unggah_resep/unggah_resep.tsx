@@ -89,7 +89,7 @@ const Unggah_resep: Component = () => {
     };
 
     // function untuk mengecek user minimal memasukkan 1 bahan atau langkah
-    const isFormValid = () => {
+    const isInputValid = () => {
         // Check if at least one ingredient and one step are entered
         const isIngredientsValid = ingredients().some((ingredient) => ingredient.name.trim() !== '');
         const isStepsValid = steps().some((step) => step.desc.trim() !== '');
@@ -108,9 +108,9 @@ const Unggah_resep: Component = () => {
     };
     // function untuk mengirim data ke backend
     const sendUnggahResep = async () => {
-        // if (!isFormValid()) {
-        //     return;
-        // }
+        if (!isInputValid()) {
+            return;
+        }
 
         // Format array bahan menjadi array JSON
         const formattedIngredients = ingredients().map((ingredient) => ingredient.name);
@@ -170,20 +170,45 @@ const Unggah_resep: Component = () => {
     //     }
     // };
 
-    const handleCancel = () => {
+    const backToHome = () => {
         navigate('/home', { replace: true }); // Navigate to the home page when cancel button is clicked
     };
 
+    // fungsi untuk menampilkan dan menyembunyikan pop up
+    const [showConfirmPopup, setShowConfirmPopup] = createSignal(false);
+
+    const openConfirmPopup = () => {
+        if (!isInputValid()) {
+            return;
+          } else {
+            // Jika data valid, tampilkan pop-up konfirmasi
+            setShowConfirmPopup(true);
+          }
+    };
+
+    const closeConfirmPopup = () => {
+        setShowConfirmPopup(false);
+    };
+
+    const handleConfirm = () => {
+        sendUnggahResep(); // Panggil fungsi sendUnggahResep setelah konfirmasi
+        navigate('/unggah_gambar');
+    };
+
+    const handleCancelConfirm = () => {
+        closeConfirmPopup();
+        // Tambahkan logika lain jika diperlukan setelah membatalkan konfirmasi
+    };
 
     return (
         <div>
             <div class="unggah-resep-container">
                 <div class="unggah-resep-title">
-                    <Icon icon="ion:chevron-back" color="black" width="38" height="38" />
+                    <Icon icon="ion:chevron-back" color="black" width="38" height="38" onClick={backToHome} style={{"cursor":"pointer"}}/>
                     <h2>Unggah Resep</h2>
                 </div>
                 <div class="unggah-resep-input">
-                    <form>
+                    <div class="form">
                         <label>Nama Resep Anda</label>
                         <br />
                         <input style={{ "margin-left": "18px" }} type="text" placeholder="Masukkan nama masakan"
@@ -192,11 +217,11 @@ const Unggah_resep: Component = () => {
 
                         <br />
 
-                        <div style={{ "display": "flex", "flex-direction": "row", "justify-content": "space-between", "margin-right": "3.6rem" }}>
+                        <div style={{ "display": "flex", "flex-direction": "row", "justify-content": "space-between", "margin-right": "12.6rem" }}>
                             <div>
                                 <label>Waktu Masak</label>
                                 <br />
-                                <input style={{ "margin-left": "18px", "width": "25rem" }} type="number" placeholder="Masukkan waktu masak" value={waktuMasak()}
+                                <input style={{ "margin-left": "18px", "width": "18rem" }} type="number" placeholder="Masukkan waktu masak" value={waktuMasak()}
                                     onInput={(e) => setWaktuMasak(e.currentTarget.value)} />
                                 <span style={{ "font-family": "Poppins-Light" }}> menit</span>
                             </div>
@@ -204,7 +229,7 @@ const Unggah_resep: Component = () => {
                             <div>
                                 <label>Pilih Kategori</label>
                                 <br />
-                                <select name="kategori" id="kategori" value={selectedKategori()} onInput={(e) => setSelectedKategori(e.currentTarget.value)} style={{ "width": "25rem" }}>
+                                <select name="kategori" id="kategori" value={selectedKategori()} onInput={(e) => setSelectedKategori(e.currentTarget.value)} style={{ "width": "18rem" }}>
                                     <option value="">Pilih Kategori</option>
                                     {kategoriData().map((kategori) => (
                                         <option value={kategori.id_kategori}>
@@ -272,16 +297,22 @@ const Unggah_resep: Component = () => {
                         </div>
 
                         <div class="button-bawah">
-                            <button class="button-unggah" onClick={sendUnggahResep}>
+                            <button class="button-unggah" onClick={() => openConfirmPopup()}>
                                 Lanjut
                             </button>
-
-                            <button class="button-cancel" onClick={handleCancel}>
-                                Batal
-                            </button>
                         </div>
+                    </div>
+                </div>
 
-                    </form>
+                <div class="overlay-popup-confirm" style={{ display: showConfirmPopup() ? 'block' : 'none' }}>
+                    <div class="col-popup-confirm">
+                        <p>Anda tidak akan bisa kembali ke halaman ini</p>
+                        <p>Apakah Anda sudah yakin dengan resep yang Anda buat?</p>
+                        <div class="button-confirm">
+                            <button class="confirm" onClick={handleConfirm}>Yakin</button>
+                            <button class="cancel" onClick={handleCancelConfirm}>Kembali</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
