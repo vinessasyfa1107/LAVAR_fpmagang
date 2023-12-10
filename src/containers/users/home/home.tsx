@@ -6,6 +6,7 @@ import { DataResep, resultresep } from '../../../api/resep/dataresep';
 import { useNavigate } from '@solidjs/router';
 import { updateDataResep } from '../../../store/Resep/ResepData';
 import { useStore } from '../../../store';
+import { showModal } from '../../login/login';
 
 
 export type BahanType = 'gula' | 'garam' | 'tomat' | 'bawang putih' | 'biji-bijian' | 'minyak zaitun' | 'susu' | 'tepung' | 'kacang' | 'kayu manis' | 'jagung' ;
@@ -87,10 +88,10 @@ const Home: Component = () => {
       );
 
       console.log('bahan yang dipilih', clickedFilters())
-        if(clickedFilters().length > 0) {
+        if(clickedFilters().length > 0 && filteredResep.length > 0) {
         return (
             <div>
-            <h2>resep terkait</h2>
+            <h2>resep terkait ({filteredResep.length} resep ditemukan)</h2>
             <div class="box-home-3">
             {filteredResep.map((resep, index) => (
                 <div class="home-rcp" onClick={() => detailResep(resep)}>
@@ -110,11 +111,19 @@ const Home: Component = () => {
             </div>
             </div>
         );
-        }
+        // } 
 
-        // } else {
-        //     return <p>Tidak ada hasil pencarian.</p>;
-        // }
+        } else if (clickedFilters().length > 0 && filteredResep.length < 1) {
+            // console.log("weeey")
+            return (
+                <div>
+                <h2>resep terkait</h2>
+                <div class="box-home-3">
+                    <p>Tidak ditemukan resep terkait.</p>
+                </div>
+                </div>            
+            );
+        }
     };
 
     const renderbahanItems = () => {
@@ -155,9 +164,16 @@ const Home: Component = () => {
     const clearFilters = () => {
         setClickedFilters([]);
     };
+    
+    // const [{ sessionStore }] = useStore();
+    const userDataString = sessionStore.sessionData as unknown as string;
 
     const handleButtonUnggahResep = () => {
-        navigate('/unggah_resep'); // Replace '/path-to-unggah-resep' with the actual path
+        if (userDataString) {
+            navigate('/unggah_resep');
+        } else {
+            showModal();
+        }
       };
 
     const [searchValue, setSearchValue] = createSignal('');

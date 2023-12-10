@@ -83,6 +83,7 @@
     width: 45px;
     height: 45px;
     border-radius: 20px;
+    cursor: pointer;
 }
 
 .edit-resep-box label {
@@ -160,6 +161,7 @@
     color: white;
     font-family: 'Poppins';
     margin-top: 20px;
+    /* cursor: pointer; */
     /* margin: auto; */
 }
 

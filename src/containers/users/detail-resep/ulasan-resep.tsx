@@ -137,7 +137,12 @@ const UlasanResep: Component = () => {
 
 
 
-                {tambahUlasan() && !userDataString && <div>Login</div>}
+                {tambahUlasan() && !userDataString && 
+                <div class="login-ulasan">
+                    <p>Silakan masuk untuk memberi alasan</p>
+                    <button>Masuk</button>
+                </div>
+                }
             </div>
         </div>
     </div>

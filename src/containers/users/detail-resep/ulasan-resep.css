@@ -60,3 +60,25 @@
     float: right;
     margin-top: 24px;
 }
+
+.login-ulasan {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.login-ulasan p {
+    font-family: 'Poppins-Medium';
+}
+
+.login-ulasan button {
+    width: 160px;
+    height: 38px;
+    border-radius: 20px;
+    background-color: #FFBE1A;
+    color: white;
+    font-family: 'Poppins';
+    /* float: right; */
+    margin-top: 13px;
+}

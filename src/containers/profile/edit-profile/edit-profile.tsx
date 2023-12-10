@@ -6,6 +6,7 @@ import { DataAccount } from '../../../api/account';
 import { A, useNavigate } from '@solidjs/router';
 import { profilePic } from '../../../store/profile/ProfileStore';
 import ProfilePicture from './profile-picture';
+import PasswordVerif from './password-verif';
 
 const EditProfile: Component = () => {
     const navigate = useNavigate()
@@ -70,7 +71,34 @@ const EditProfile: Component = () => {
         setFileProfile(null);
     };
 
+    const [verifPass, setVerifPass] = createSignal(false);
+
+    function showVerifPass(){
+        setVerifPass(true)
+    }
+
+    function closeVerifPass(){
+        setVerifPass(false)
+    }
+
+    const [confirmPass, setConfirmPass] = createSignal('')
+
+    const handlePasswordChange = (newPassword: string) => {
+        // Do something with the new password value
+        console.log('New password:', newPassword);
+        setPassword(newPassword)
+      };
+
     const SendEdit = async () => {
+
+        if (password() === '') {
+            showVerifPass();
+            console.log("sip");
+            // setPassword(confirmPass());
+            console.log("ppppp", password());
+            return;
+        }
+
         const editedData = {
             id_akun: id(),
             username: username(),
@@ -93,28 +121,28 @@ const EditProfile: Component = () => {
         }
         console.log('Edit Akun ', editedData);
 
-        try {
-            const response = await fetch('/api/account/update', {
-                method: 'PUT',
-                // headers: {
-                //     'Content-Type': 'application/json'
-                // },
-                body: edited,
-            });
+        // try {
+        //     const response = await fetch('/api/account/update', {
+        //         method: 'PUT',
+        //         // headers: {
+        //         //     'Content-Type': 'application/json'
+        //         // },
+        //         body: edited,
+        //     });
 
-            if(response.ok){
-                alert("Data berhasil diubah");
-                // window.location.reload();
-                sessionStorage.setItem('userData', JSON.stringify(editedData));
-                navigate('/profile');
-            } else {
-                const errorMessage = await response.text();
-                alert(`Gagal mengubah data. Pesan kesalahan: ${errorMessage}`);
-                console.error('Gagal mengubah data:', errorMessage);
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
+        //     if(response.ok){
+        //         alert("Data berhasil diubah");
+        //         // window.location.reload();
+        //         sessionStorage.setItem('userData', JSON.stringify(editedData));
+        //         navigate('/profile');
+        //     } else {
+        //         const errorMessage = await response.text();
+        //         alert(`Gagal mengubah data. Pesan kesalahan: ${errorMessage}`);
+        //         console.error('Gagal mengubah data:', errorMessage);
+        //     }
+        // } catch (error) {
+        //     console.error('Error:', error);
+        // }
     };
 
 
@@ -210,6 +238,7 @@ const EditProfile: Component = () => {
 
             </div>
         </div>
+        {verifPass() && <PasswordVerif onPasswordChange={handlePasswordChange} onClose={closeVerifPass}/>}
     </div>
   );
 };

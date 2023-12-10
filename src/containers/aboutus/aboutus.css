@@ -59,6 +59,7 @@
 .about-us-page .info-card .info-card-1 img {
     width: 300px;
     height: 220px;
+    /* height: 250px; */
     flex-shrink: 0;
     border-radius: 20px 0px;
     /* background: url('/src/assets/img/aboutus1.jpg'), lightgray 50% / cover no-repeat; */

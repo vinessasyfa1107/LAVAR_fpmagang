@@ -9,6 +9,8 @@ import { DataUlasan, resultulasan } from '../../../api/ulasan';
 import TambahRencanaMasak from './popup/tambah-rencana-masak';
 import { dataProfile } from '../../../store/profile/ProfileStore';
 import { A, useLocation } from '@solidjs/router';
+import { useStore } from '../../../store';
+import { showModal } from '../../login/login';
 
 export const [isiResep, setIsiResep] = createSignal({
   id_resep: 0,
@@ -57,9 +59,17 @@ const DetailResep: Component = () => {
   console.log("id", isiResep().id_resep)
   const [popUpMeal, setPopUpMeal] = createSignal(false);
 
+  const [{ sessionStore }] = useStore();
+  const userDataString = sessionStore.sessionData as unknown as string;
+
   function showPopUpMeal() {
-    setPopUpMeal(!popUpMeal());
-    console.log(dataProfile().id)
+    if (userDataString) {
+      setPopUpMeal(!popUpMeal());
+      console.log(dataProfile().id)
+    } else {
+      showModal();
+    }
+
   }
 
   function closePopUpMeal() {

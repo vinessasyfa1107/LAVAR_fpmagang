@@ -131,7 +131,8 @@ const Unggah_resep: Component = () => {
             total_bahan: totalBahanValue,
             waktu_masak: parseInt(waktuMasak(), 10),
             bahan_masak: formattedIngredients,
-            cara_buat: formattedSteps
+            cara_buat: formattedSteps,
+            total_ulasan: 0
         };
 
         console.log('data', data)

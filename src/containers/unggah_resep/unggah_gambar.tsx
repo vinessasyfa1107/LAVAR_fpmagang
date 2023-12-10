@@ -66,7 +66,7 @@ const Unggah_gambar: Component = () => {
         unggah.append('id_foto', '0');
 
         if (selectedFile()) {
-            unggah.append('foto resep', selectedFile()!);
+            unggah.append('nama_foto', selectedFile()!);
         }
 
         console.log("??", selectedFile())

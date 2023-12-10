@@ -2,31 +2,37 @@ import { createSignal, type Component, onMount } from 'solid-js';
 import './aboutus.css'
 import Logout from '../logout/logout';
 import { DataUlasan } from '../../api/ulasan';
+import { DataResep, resultresep } from '../../api/resep/dataresep';
 
 const AboutUs: Component = () => {
-
-  const [resepUser, setResepUser] = createSignal([{}])
-  const [jumlahUlasan, setJumlahUlasan] = createSignal(0)
-
+  const [resepData, setResepData] = createSignal<resultresep[]>([]);
+  const [resepLength, setResepLength] = createSignal(0)
+  const [sumAccount, setSumAccount] = createSignal(0)
+  // const [fotoResep, setFotoResep] = createSignal('/api/resep/makanan/')
   onMount(async () => {
-      const resepsaya = await DataUlasan("ULASAAAN");
-      console.log("rea, ", resepsaya)
-      setResepUser(resepsaya)
-      setJumlahUlasan(resepsaya.length)
+      const data_resep = await DataResep("resep")
+      setResepData(data_resep);
+      setResepLength(data_resep.length);
+
+      try {
+        const response = await fetch(`/api/sumacc/`);
+  
+        if (response.ok) {
+          const data = await response.json();
+          setSumAccount(data); // Assuming that the response is a single value, update accordingly
+        } else {
+          // Handle the error if needed
+          console.error('Failed to fetch sumacc data');
+        }
+      } catch (error) {
+        // Handle other errors
+        console.error('Error fetching sumacc data:', error);
+      }
   })
 
-  const [logout, setLogout] = createSignal(false);
-
-  function showLogout(){
-    setLogout(true);
-  };
-  function closeLogout(){
-    setLogout(true);
-  };
   
   return (
     <div class="about-us-page">
-      {jumlahUlasan()}
         <div class="title">
             <h1>Tentang Kami</h1>
             <p>Kami adalah tim yang bersemangat dalam mengembangkan solusi untuk memudahkan kehidupan sehari-hari, 
@@ -35,11 +41,11 @@ const AboutUs: Component = () => {
         <div class="info-card">
           <div class="card">
             <h2>Jumlah Pengguna Bergabung dengan Kami</h2>
-            <h1 style={{color:"#4F48ED"}}>2023</h1>
+            <h1 style={{color:"#4F48ED"}}>{sumAccount()}</h1>
           </div>
           <div class="card">
             <h2>Jumlah Resep yang Telah Diunggah</h2>
-            <h1 style={{color:"#FFBE1A"}}>2023</h1>
+            <h1 style={{color:"#FFBE1A"}}>{resepLength()}</h1>
           </div>
         </div>
         <div>

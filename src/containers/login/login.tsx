@@ -7,7 +7,14 @@ import { HOST_URL } from '../../config/app';
 interface LoginProps {
     OnClose?: () => void;
 }
-
+// modalForm.js
+export const showModal = () => {
+    const modal = document.getElementById('form_modal_1') as HTMLDialogElement;
+    if (modal) {
+      modal.showModal();
+    }
+  };
+  
 const Login: Component<LoginProps> = (props) => {
     const [username, setUsername] = createSignal("");
     const [password, setPassword] = createSignal("");
@@ -48,7 +55,12 @@ const Login: Component<LoginProps> = (props) => {
         }
     };
 
-    const ActionLogin1 = async () => {
+    const ActionLogin1 = async (e: { preventDefault: () => void; }) => {
+        e.preventDefault();
+        if (!username() || !password()) {
+            alert('Mohon isi username dan password');
+            return;
+          }
         try {
         const data = await fetchLogin();
         // Cek apakah data login berhasil atau tidak
@@ -110,7 +122,14 @@ const Login: Component<LoginProps> = (props) => {
       setProfileFromFile("/src/assets/img/profile3.png");
     //   console.log("p", profile())
 
-    const SendSignUp = async () => {
+    const SendSignUp = async (e: { preventDefault: () => void; }) => {
+        e.preventDefault();
+
+        if (!username2() || !email() || !password2() || !desc()) {
+            alert('Mohon isi semua kolom');
+            return;
+          }
+          
         const dataSignUp = {
             id_akun: 0,
             username: username2(),
@@ -163,6 +182,7 @@ const Login: Component<LoginProps> = (props) => {
         }
     };
     
+    
   return (
     <div>
         <div>
@@ -204,7 +224,7 @@ const Login: Component<LoginProps> = (props) => {
                             <br />
 
                             <div class="login-btn-masuk">
-                                <button onClick={ActionLogin1}>MASUK</button>
+                                <button onClick={(e) => ActionLogin1(e)}>MASUK</button>
                             </div>
 
                         <div class="buat-akun">
@@ -267,7 +287,7 @@ const Login: Component<LoginProps> = (props) => {
                             </div>
 
                             <div class="login-btn-masuk">
-                                <button onClick={SendSignUp}>BUAT AKUN</button>
+                                <button onClick={(e) => SendSignUp(e)}>BUAT AKUN</button>
                             </div>
 
                             <div class="buat-akun">

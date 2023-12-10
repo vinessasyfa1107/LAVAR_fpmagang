@@ -187,7 +187,7 @@ const RencanaMasak: Component = () => {
             const planDate = new Date(plan.waktu);
             const selectedMonth = new Date().toLocaleString('default', { month: 'short' });
             const selectedYear = new Date().getFullYear();
-
+            
             return (
                 planDate.getDate() === clickedDate() &&
                 planDate.getMonth() === Object.keys(daysInMonthMap).indexOf(selectedMonth) &&
@@ -199,6 +199,9 @@ const RencanaMasak: Component = () => {
         setFilteredPlans(newFilteredPlans);
     };
 
+    const handleSubmit = async () => {
+      
+    }
 
   return (
     <div class="meal-plan-page">
@@ -273,10 +276,12 @@ const RencanaMasak: Component = () => {
                 <h2>Rencana Masak Hari Ini</h2>
                 <div class="meal-reminder">
                     {filteredPlans().length > 0 ? (
-                    filteredPlans().map((plan) => {
+                    filteredPlans().map((plan, index) => {
                       const waktu = new Date(plan.waktu);
 
                       // Mendapatkan bulan dalam format MMM
+                      const day = waktu.getDate();
+
                       const bulan = new Intl.DateTimeFormat('id-ID', { month: 'long' }).format(waktu);
 
                       // Mendapatkan tahun
@@ -288,22 +293,59 @@ const RencanaMasak: Component = () => {
                       const jam = waktu.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
 
                     return (
+                      <div>
+                        {index != 0 ? (
                         <div class="meal-card-ctn">
-                            <div class="meal-reminder-card" onClick={() => navigateDetail(plan.resepDetails)}>
-                                <div style={{width:"6px", height:"100px", "background-color":"#ED4848"}}></div>
+                        <div class="meal-reminder-card" onClick={() => navigateDetail(plan.resepDetails)}>
+                            <div style={{width:"6px", height:"100px", "background-color":"#ED4848"}}></div>
+                            <div style={{"text-align":"center"}}>
+                                <b>{jam}</b> <p>{bulanTahun}</p>
+                            </div>
+                            <img src={fotoResep()} alt="" />
+                            <div style={{width:"60vh"}}>
+                                <h2>{plan.resepDetails?.nama_resep}</h2>
+                                <h4>{plan.resepDetails?.username}</h4>
+                                <h5>{plan.resepDetails?.total_ulasan} Ulasan</h5>
+                            </div>
+                            <div style={{"margin-bottom":"auto",left:"40px"}}>
+                                <Icon icon="pepicons-pencil:dots-y" width="30" />
+                            </div>
+                        </div>
+                    </div>
+                        ):(
+                          <div class="meal-card-ctn">
+                            <div class="meal-card-jam">
+                              <h1>{jam}</h1>
+                            </div>
+
+                            <div class="meal-reminder-card z-2">
+                              <div style={{width:"6px", height:"100px", "background-color":"#ED4848"}}></div>
                                 <div style={{"text-align":"center"}}>
-                                    <b>{jam}</b> <p>{bulanTahun}</p>
+                                  <b>{day}</b> <p>{bulanTahun}</p> 
                                 </div>
                                 <img src={fotoResep()} alt="" />
                                 <div style={{width:"60vh"}}>
-                                    <h2>{plan.resepDetails?.nama_resep}</h2>
-                                    <h4>{plan.resepDetails?.username}</h4>
-                                    <h5>{plan.resepDetails?.total_ulasan} Ulasan</h5>
+                                  <h2>{plan.resepDetails?.nama_resep}</h2>
+                                  <h4>{plan.resepDetails?.username}</h4>
+                                  <h5>{plan.resepDetails?.total_ulasan} Ulasan</h5>
                                 </div>
                                 <div style={{"margin-bottom":"auto",left:"40px"}}>
-                                    <Icon icon="pepicons-pencil:dots-y" width="30" />
+                                  <Icon icon="pepicons-pencil:dots-y" width="30" />
                                 </div>
                             </div>
+      
+                            <div class="meal-card-expand">
+                              <div class="btn-done-cancel">
+                                <Icon icon="mi:close" width="26" />Lewati
+                              </div>
+                              <div class="btn-done-cancel">
+                              <Icon icon="ph:check-bold" width="25"/>Selesai
+                              </div>
+                            </div>
+                    
+                          </div> 
+                        )}
+
                         </div>
                     );
                     })

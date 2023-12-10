@@ -35,7 +35,7 @@ const DeleteResep: Component<DeleteResepProps> = (props) => {
     <div class="overlay">
     <div class="absolute z-10">
     <div class="delete-resep-popup">
-        <p>Apakah anda yakin ingin menghapus <b style={{"font-family":"Poppins"}}>{props.nama}</b> dari koleksi resep?</p>
+        <p>Apakah anda yakin ingin menghapus resep <b style={{"font-family":"Poppins"}}>{props.nama}</b>?</p>
         <div class="btn-confirm-hapus">
             <button class="btn-dlt-confirm tdk-dlt" onClick={props.onClose}>Tidak</button>
             <button class="btn-dlt-confirm iyh-dlt" onClick={DeleteRecipe}>Hapus</button>
