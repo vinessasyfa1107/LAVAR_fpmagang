@@ -7,6 +7,7 @@ import { DataResep } from '../../../api/resep/dataresep';
 import { resepuser } from '../../../api/resep/dataresepuser';
 import { dataResep } from '../../../store/Resep/ResepData';
 import DeleteResep from './popup-delete-resep';
+import { DataKategori, resultkategori } from '../../../api/kategori';
 
 interface Ingredient {
     id: number;
@@ -36,8 +37,13 @@ const EditResep: Component = () => {
         ({ id: index + 1, desc: b})
     ));
 
+    const [kategoriData, setKategoriData] = createSignal<resultkategori[]>([]);
+
+
     onMount(async () => {
         const storedData = localStorage.getItem('dataResep');
+        const data_kategori = await DataKategori("data kategori");
+            setKategoriData(data_kategori);
         if (storedData) {
           const parsedData = JSON.parse(storedData);
           await setIsiResep(parsedData);
@@ -166,7 +172,7 @@ const EditResep: Component = () => {
         const data = {
             id_resep: isiResep().id_resep,
             nama_resep: namaResep(),
-            id_kategori: 3,
+            id_kategori: parseInt(kategori(), 10),
             total_bahan: bahan().length,
             waktu_masak: waktuMasak(),
             bahan_masak: bahan(),
@@ -298,8 +304,20 @@ const EditResep: Component = () => {
                         value={kategori()}
                         onInput={(e) => setKategori(e.currentTarget.value)}
                         >
-                            <option value="">Pilih Kategori</option>
-                        </select>
+                        <option value="">Pilih Kategori</option>
+                        {kategoriData().map((kategori) => (
+                            <option value={kategori.id_kategori}>
+                                {kategori.nama_kategori}
+                            </option>
+                        ))}
+
+                                    {/* <option value="1">Sayur - Sayuran</option>
+                                    <option value="2">Daging</option>
+                                    <option value="3">Bahan Kue</option>
+                                    <option value="4">Kacang dan Biji - bijian</option>
+                                    <option value="5">Karbohidrat</option> */}
+
+                                </select>
                     </div >
 
                     <div class="resep-head-ctn">
