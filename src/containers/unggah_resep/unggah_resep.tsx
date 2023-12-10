@@ -218,7 +218,7 @@ const Unggah_resep: Component = () => {
 
                         <br />
 
-                        <div style={{ "display": "flex", "flex-direction": "row", "justify-content": "space-between", "margin-right": "12.6rem" }}>
+                        <div style={{ "display": "flex", "flex-direction": "row", "justify-content": "space-between", "margin-right": "3.9rem" }}>
                             <div>
                                 <label>Waktu Masak</label>
                                 <br />
@@ -263,7 +263,7 @@ const Unggah_resep: Component = () => {
                                             }
                                         />
 
-                                        <button type="button" onClick={() => removeIngredient(ingredient.id)}>
+                                        <button class="btn-remove-bhn" onClick={() => removeIngredient(ingredient.id)}>
                                             <Icon icon="ep:remove-filled" color="red" width="30" height="30" />
                                         </button>
                                     </div>
@@ -284,7 +284,7 @@ const Unggah_resep: Component = () => {
                                             placeholder="Masukkan langkah masakan" value={steps.desc}
                                             onChange={(e) => handleStepsChange(steps.id, e.target.value)}>
                                         </textarea>
-                                        <button type="button" onClick={() => removeSteps(steps.id)}>
+                                        <button class="btn-remove-bhn" onClick={() => removeSteps(steps.id)}>
                                             <Icon icon="ep:remove-filled" color="red" width="30" height="30" />
                                         </button>
                                     </div>

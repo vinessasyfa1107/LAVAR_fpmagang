@@ -12,9 +12,7 @@
 
 /* css bagian title */
 .unggah-resep-container {
-    margin-left: 6.5vh;
-    margin-top: 3vh;
-    margin-bottom: 7vh;
+    padding: 30px 50px;
 }
 
 .unggah-resep-container .unggah-resep-title {
@@ -31,27 +29,29 @@
 
 /* css bagian kotak .form */
 .unggah-resep-container .unggah-resep-input {
-    width: 1190px;
+    width: 170vh;
     height: fit-content;
     flex-shrink: 0;
     border-radius: 15px;
     background: #FFF;
     box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
 }
 
 /* css bagian .form */
 .unggah-resep-container .unggah-resep-input .form {
     font-weight: 100;
-    margin-left: 6.5vh;
-    margin-top: 5vh;
-    padding-top: 5vh;
-    margin-bottom: 7vh;
+    padding: 40px;
 }
 
 /* css bagian semua label yang ada di .form */
 .unggah-resep-container .unggah-resep-input .form label {
-    font-family: 'Poppins-Light';
-    font-size: 18px;
+    font-family: 'Poppins-Medium';
+    font-weight: 100;
+    font-size: 17px;
 }
 
 /* css bagian semua input yang ada di .form */
@@ -64,6 +64,9 @@
     border-radius: 7px;
     border: 1px solid rgba(0, 0, 0, 0.50);
     background: #FFF;
+    padding: 0 10px;
+    font-family: 'Poppins-Light';
+    font-weight: 600;
 }
 
 /* css bagian semua select yang ada di .form */
@@ -78,6 +81,7 @@
     background: #FFF;
     margin-left: 2.9vh;
     font-family: 'Poppins-Light';
+    font-weight: 600;
 }
 
 /* css bagian semua option yang ada di .form */
@@ -97,24 +101,28 @@
 }
 
 /* css bagian unggah foto untuk upload */
-.unggah-resep-container .unggah-resep-input .unggah-resep-input2 .unggah-foto {
+
+.unggah-resep-container .unggah-resep-input .form .unggah-gambar-input2 {
+    display: flex;
+
+}
+.unggah-resep-container .unggah-resep-input .form .unggah-gambar-input2 label {
     width: 364px;
     height: 319px;
     border-radius: 10px;
     border: 1px dashed rgba(0, 0, 0, 0.50);
     background: rgba(217, 217, 217, 0.71);
     cursor: pointer;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    position: relative;
-    top: 10rem;
-    left: 46.5%;
-    transform: translate(-50%, -50%);
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 /* css bagian label yang ada di unggah foto */
 .unggah-resep-container .unggah-resep-input .unggah-resep-input2 .unggah-foto label {
-    position: absolute;
+    /* position: absolute; */
     top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -157,6 +165,7 @@
     justify-content: center;
     align-items: center;
     padding-bottom: 20px;
+    color: #4F48ED;
 }
 
 /* css untuk bagian langkah masak */
@@ -173,6 +182,10 @@
     border-radius: 7px;
     border: 1px solid rgba(0, 0, 0, 0.50);
     background: #FFF;
+    padding: 5px 12px;
+    font-family: 'Poppins-Light';
+    font-weight: 600;
+    resize: none;
 }
 
 /* css untuk bagian bahan resep button remove bahan*/
@@ -196,6 +209,8 @@
     justify-content: center;
     align-items: center;
     padding-bottom: 20px;
+    color: #4F48ED;
+    width: 63rem;
 }
 
 /* button submit dan cancel .form */
@@ -215,7 +230,7 @@
     background-color: #FFBE1A;
     font-weight: 600;
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
-    margin-right: 5rem;
+    /* margin-right: 5rem; */
     font-weight: 600;
     color: #FFF;
     font-family: 'Poppins';
@@ -317,4 +332,37 @@
 .unggah-resep-container .overlay-popup-confirm .col-popup-confirm .button-confirm button.cancel:hover {
     background-color: #110F36;
     color: white;
+}
+
+.btn-remove-bhn {
+    color: #FFBE1A;
+}
+
+.img-unggah-gambar-page {
+    width: 364px;
+    height: 279px;
+    border-radius: 10px;
+    border: 1px dashed rgba(0, 0, 0, 0.50);
+    margin-bottom: 20px;
+}
+
+.terunggah-gambar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.desc-unggah-gambar {
+    font-family: "Poppins-Light";
+    font-weight: 700;
+}
+
+.gajadi-unggah {
+    height: 40px;
+    margin: 0;
+    padding: 0;   
+}
+
+.gajadi-unggah:hover {
+    background-color: rgba(0, 0, 0, 0.154);
+    border-radius: 5px;
 }

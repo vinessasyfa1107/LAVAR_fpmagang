@@ -50,6 +50,10 @@ const Unggah_gambar: Component = () => {
         }
     };
 
+    const handleCancelFile = () => {
+        setSelectedFile(null)
+        setImageUrl(null)
+    };
     // function agar user memasukkan foto (wajib)
     const isInputValid = () => {
         return !!selectedFile();
@@ -138,23 +142,55 @@ const Unggah_gambar: Component = () => {
 
                 <div class="unggah-resep-input">
                     <div class="form">
-                        <div class="unggah-resep-input2">
-                            <div class="unggah-foto">
-                                <input
+                        <div class="unggah-gambar-input2">
+                            {!imageUrl() ? (
+                            <label for="file-upload">
+                            <Icon icon="icon-park:upload-one" width="68" height="68" style={{opacity:"0.7"}} />
+                            <p style={{ "font-family": "Poppins-Light" }}>Unggah gambar masakan</p>
+                            {/* <input
+                                type="file"
+                                id="file-upload"
+                                accept=".png, .jpg"
+                                style="display: none"
+                                onChange={handleFileChange}
+                            />
+                            <label for="file-upload">{imageUrl() ? (
+                                <img src={imageUrl()!} alt="Selected Image" />
+                            ) : (
+                                <div style={{display:"flex", "flex-direction":"column"}}>
+                                <Icon icon="icon-park:upload-one" width="68" height="68" />
+                                <p style={{ "font-family": "Poppins-Light" }}>Unggah gambar masakan</p>
+                                </div>
+                            )}</label>  */}
+                            </label>
+                            ):(
+                            <div>
+                                <img src={imageUrl()!} alt="Selected Image" class="img-unggah-gambar-page"/>
+                                <div class="terunggah-gambar">
+                                <div class="desc-unggah-gambar">
+                                    <div>    
+                                    <p>{selectedFile()?.name}</p>
+                                    <p>{selectedFile()?.size}</p>
+                                    </div>
+                                </div>
+                                <button onClick={handleCancelFile} class="gajadi-unggah">
+                                    <Icon icon="ph:x-light" width="40" style={{opacity:"0.7"}} />
+                                </button>
+                                </div>
+                            </div>
+                            )}
+
+                            <input
                                     type="file"
                                     id="file-upload"
                                     accept=".png, .jpg"
                                     style="display: none"
                                     onChange={handleFileChange}
-                                />
-                                <label for="file-upload">{imageUrl() ? (
-                                    <img src={imageUrl()!} alt="Selected Image" width="100" height="100" />
-                                ) : (
-                                    <Icon icon="icon-park:upload-one" width="68" height="68" />
-                                )}</label>
-                                <p style={{ "font-family": "Poppins-Light" }}>Unggah gambar masakan</p>
-                            </div>
+                            />
                         </div>
+                   
+
+                        
 
                         <div class="button-bawah">
                             <button class="button-unggah" onClick={() => openConfirmPopup()}>
