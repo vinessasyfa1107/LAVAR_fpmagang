@@ -37,7 +37,7 @@ const Unggah_resep: Component = () => {
     // get data untuk kategori
     // onMount(async () => {
     //     try {
-    //         const data_kategori = await DataKategori("data kategori");
+    //         const data_kategori = await DataKategori("");
     //         setKategoriData(data_kategori);
     //     } catch (error) {
     //         console.error('Error fetching data from backend:', error);
